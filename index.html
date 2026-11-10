@@ -30,7 +30,8 @@ details.surface{padding:18px 22px;margin-top:21px}details summary{cursor:pointer
 .obsd{margin-top:10px}.obsd summary{cursor:pointer;color:var(--copper);font-weight:700;font-size:14px;list-style:none;min-height:30px;display:flex;align-items:center}.obsd summary::-webkit-details-marker{display:none}.obsd textarea,.run-gen textarea{width:100%;margin-top:8px;border:1px solid #d8d5ce;border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;background:#fff;resize:vertical;min-height:70px}.obsr{margin:8px 0 0;padding:8px 10px;background:#faf7f2;border-radius:8px;font-size:14px;white-space:pre-wrap}
 .tla{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.tla .btn{flex:1;min-height:46px}.phs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.ph{position:relative;width:84px;height:84px;border-radius:10px;overflow:hidden;background:#eee}.ph img{width:100%;height:100%;object-fit:cover;display:block}.phx{position:absolute;top:3px;right:3px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.62);color:#fff;font-size:16px;line-height:1;padding:0}
 .run-gen{background:#fff;border:1px solid #e7e2db;border-radius:16px;padding:16px;margin:6px 0 16px}.run-gen h3{margin:0 0 2px;font-size:18px}.run-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}.run-end{display:flex;flex-direction:column;gap:10px}.run-end .btn{min-height:52px}.run-res{padding:12px 14px;border-radius:12px;font-weight:800;margin-bottom:12px}.run-res.ok{background:#e6f4ea;color:#1d6b3a}.run-res.inc{background:#fff4e0;color:#8a5200}
-.rstrip{margin:0 0 10px;padding:8px 12px;border-radius:10px;font-weight:700;font-size:14px}.rstrip.on{background:#e8f0fb;color:#1f4f8f}.rstrip.fin{background:#e6f4ea;color:#1d6b3a}.runopen{width:100%;min-height:48px;margin-bottom:12px}.assign{margin-top:12px}.chip{display:inline-flex;gap:6px;align-items:center;border:1px solid #d8d5ce;border-radius:999px;padding:7px 12px;margin:0 6px 6px 0;background:#fff;font-size:13px;cursor:pointer}.chip input{width:17px;height:17px;accent-color:var(--dark);margin:0}#cn{width:100%;height:44px;border:1px solid #d8d5ce;border-radius:10px;padding:0 12px;background:#fff;color:var(--ink)}.ro #editor,.ro #udet,.ro .add-shortcut,.ro .extras{display:none!important}@media print{.assign{display:none!important}}
+.rstrip{margin:0 0 10px;padding:8px 12px;border-radius:10px;font-weight:700;font-size:14px}.rstrip.on{background:#e8f0fb;color:#1f4f8f}.rstrip.fin{background:#e6f4ea;color:#1d6b3a}.runopen{width:100%;min-height:48px;margin-bottom:12px}.vreq{margin:10px 0 0;padding:8px 10px;border-radius:8px;background:#fdeceb;color:#a33a2a;font-size:13px;font-weight:700}.vreq.okv{background:#e6f4ea;color:#1d6b3a}.tla .btn.full{flex-basis:100%}.btn.dis{opacity:.45}.ph.vd{width:100%;max-width:300px;height:auto;background:#000}.ph.vd video{width:100%;height:auto;max-height:240px;display:block}
+.recwrap{display:none;position:fixed;inset:0;z-index:80;background:#000;flex-direction:column}.recwrap.show{display:flex}.recwrap video{flex:1;width:100%;min-height:0;object-fit:cover;background:#000}.rec-bar{display:flex;align-items:center;gap:12px;padding:16px 16px calc(16px + env(safe-area-inset-bottom));background:#111;color:#fff}.rec-bar span{flex:1;font-variant-numeric:tabular-nums;font-weight:700}.recgo{border:0;border-radius:999px;background:#fff;color:#c0392b;font-weight:800;font-size:16px;padding:14px 20px}.recgo.on{background:#c0392b;color:#fff}.reccan{border:1px solid #555;background:none;color:#fff;border-radius:999px;padding:14px 16px;font-size:15px}.assign{margin-top:12px}.chip{display:inline-flex;gap:6px;align-items:center;border:1px solid #d8d5ce;border-radius:999px;padding:7px 12px;margin:0 6px 6px 0;background:#fff;font-size:13px;cursor:pointer}.chip input{width:17px;height:17px;accent-color:var(--dark);margin:0}#cn{width:100%;height:44px;border:1px solid #d8d5ce;border-radius:10px;padding:0 12px;background:#fff;color:var(--ink)}.ro #editor,.ro #udet,.ro .add-shortcut,.ro .extras{display:none!important}@media print{.assign{display:none!important}}
 
 body.locked main{display:none}
 #login{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px}
@@ -98,6 +99,7 @@ body.locked #login{display:flex}
     <div id="plist"></div>
     <div class="field" style="margin-top:14px"><label for="pt">Paso</label><input id="pt" placeholder="Ej. Baños"></div>
     <div class="field" style="margin-top:10px"><label for="pd">Qué debe hacer la cleaner</label><input id="pd" placeholder="Ej. Sanitario, ducha, espejos y piso"></div>
+    <label class="cirow" for="pv" style="margin-top:12px"><input type="checkbox" id="pv"><span><b>Pide video</b><small>La cleaner no podrá completar este paso sin grabar un video</small></span></label>
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="psave" data-action="psave">Agregar paso</button><button type="button" class="btn" id="pcancel" data-action="pcancel" style="display:none">Cancelar</button></div>
     <p class="meta">Los cambios valen para las limpiezas que se inicien desde ahora. Las que ya empezaron conservan su protocolo.</p>
   </div></details>
@@ -303,7 +305,7 @@ delete:function(){return c0.from("docs").delete().eq("coleccion",c).eq("id",id).
 onSnapshot:function(next,error){(listeners[c]=listeners[c]||[]).push({next:next,error:error});refresh(c,true);ensure();return function(){}}}}}}
 /* ---- Protocolo y ejecución de la limpieza ---- */
 function protoDef(){return[
-{id:"p1",t:"Ingreso y revisión inicial",d:"Revisa cómo está el depto al llegar y avisa de cualquier daño o desorden."},
+{id:"p1",t:"Ingreso y revisión inicial",d:"Al entrar, graba un video del estado en que está el departamento. Avisa de cualquier daño o desorden.",v:true},
 {id:"p2",t:"Dormitorios y camas",d:"Cambia sábanas, haz las camas, aspira y limpia superficies."},
 {id:"p3",t:"Baños",d:"Sanitario, ducha, lavamanos, espejos, piso y toallas."},
 {id:"p4",t:"Cocina",d:"Mesones, loza, refrigerador, microondas y piso."},
@@ -330,13 +332,16 @@ function setEstado(id,v){put("estados",id,{estado:v})}
 function steps(e){return(e&&e.pasosDef)||protoList()}
 function allDone(e){var pa=(e&&e.pasos)||{};return steps(e).every(function(s){return pa[s.id]&&pa[s.id].ok})}
 function nFotos(e){return e&&e.fotos?e.fotos.length:0}
+function isVid(f){return f.k==="v"}
+function hasVid(e,sid){return((e&&e.fotos)||[]).some(function(f){return isVid(f)&&f.s===sid})}
 function nObs(e){var n=0,pa=(e&&e.pasos)||{};Object.keys(pa).forEach(function(k){if(pa[k].o)n++});if(e&&e.og)n++;return n}
 function runStrip(r){var e=ej(r.id),s="",label="";
 if(e&&e.inicio)s='<div class="rstrip '+(e.fin?"fin":"on")+'">'+(e.fin?"✓ Terminó "+hm(e.fin)+" · "+durTxt(new Date(e.fin)-new Date(e.inicio))+(e.res==="incompleta"?" · incompleta":""):"▶ En curso desde "+hm(e.inicio))+"</div>";
 if(isCl())label=e&&e.fin?"Ver mi reporte":(e&&e.inicio?"Continuar limpieza":"Abrir limpieza");else if(e&&e.inicio)label="Ver reporte de la limpieza";
 return s+(label?'<button type="button" class="btn runopen'+(isCl()&&!(e&&e.fin)?" btn-primary":"")+'" data-action="runopen" data-id="'+esc(r.id)+'">'+label+"</button>":"")}
 function photosHTML(list,edit,id){if(!list.length)return"";
-return'<div class="phs">'+list.map(function(f){return'<span class="ph"><img data-ph="'+esc(f.p)+'" alt="Foto">'+(edit?'<button type="button" class="phx" data-action="photodel" data-id="'+esc(id)+'" data-path="'+esc(f.p)+'" aria-label="Quitar foto">×</button>':"")+"</span>"}).join("")+"</div>"}
+return'<div class="phs">'+list.map(function(f){var x=edit?'<button type="button" class="phx" data-action="photodel" data-id="'+esc(id)+'" data-path="'+esc(f.p)+'" aria-label="Quitar">×</button>':"";
+return isVid(f)?'<span class="ph vd"><video data-ph="'+esc(f.p)+'" controls playsinline preload="metadata"></video>'+x+"</span>":'<span class="ph"><img data-ph="'+esc(f.p)+'" alt="Foto">'+x+"</span>"}).join("")+"</div>"}
 function runHTML(r,e,edit){
 var u=st.units[r.unit]||{},ss=steps(e),pa=(e&&e.pasos)||{},started=!!(e&&e.inicio),fin=!!(e&&e.fin),cur=-1,lastDone=-1,i,doneN=0,id=esc(r.id);
 for(i=0;i<ss.length;i++){var ok=pa[ss[i].id]&&pa[ss[i].id].ok;if(ok){lastDone=i;doneN++}else if(cur<0)cur=i}
@@ -353,7 +358,8 @@ if(ok||isCur){
 h+=photosHTML((e.fotos||[]).filter(function(f){return f.s===s.id}),can,r.id);
 if(can)h+='<details class="obsd" data-os="'+esc(s.id)+'"'+(p.o||openObs[s.id]?" open":"")+"><summary>"+(p.o?"Observación":"+ Observación")+'</summary><textarea data-obs="'+esc(s.id)+'" rows="3" placeholder="Escribe lo que notaste en este paso">'+esc(p.o||"")+"</textarea></details>";
 else if(p.o)h+='<p class="obsr">📝 '+esc(p.o)+"</p>";
-if(can)h+='<div class="tla"><button type="button" class="btn" data-action="runphoto" data-id="'+id+'" data-step="'+esc(s.id)+'">📷 Foto</button>'+(isCur?'<button type="button" class="btn btn-primary" data-action="rundone" data-id="'+id+'" data-step="'+esc(s.id)+'">✓ Tarea completada</button>':(i===lastDone?'<button type="button" class="btn" data-action="runundo" data-id="'+id+'" data-step="'+esc(s.id)+'">Deshacer</button>':""))+"</div>"}
+if(s.v&&(ok||isCur))h+='<p class="vreq'+(hasVid(e,s.id)?" okv":"")+'">'+(hasVid(e,s.id)?"✓ Video grabado":"🎥 Este paso requiere un video")+"</p>";
+if(can)h+='<div class="tla"><button type="button" class="btn" data-action="runphoto" data-id="'+id+'" data-step="'+esc(s.id)+'">📷 Foto</button><button type="button" class="btn" data-action="runvideo" data-id="'+id+'" data-step="'+esc(s.id)+'">🎥 Video</button>'+(isCur?'<button type="button" class="btn btn-primary full'+(s.v&&!hasVid(e,s.id)?" dis":"")+'" data-action="rundone" data-id="'+id+'" data-step="'+esc(s.id)+'">✓ Tarea completada</button>':(i===lastDone?'<button type="button" class="btn full" data-action="runundo" data-id="'+id+'" data-step="'+esc(s.id)+'">Deshacer</button>':""))+"</div>"}
 h+="</div></li>"});
 h+="</ol>";
 if(started){var can2=edit&&!fin;
@@ -363,7 +369,7 @@ else if((e.tags||[]).length)h+='<div class="run-tags">'+e.tags.map(function(t){r
 if(can2)h+='<textarea data-obsg rows="4" placeholder="Escribe aquí los desperfectos, faltantes o daños que encontraste">'+esc(e.og||"")+"</textarea>";
 else if(e.og)h+='<p class="obsr">📝 '+esc(e.og)+"</p>";
 h+=photosHTML((e.fotos||[]).filter(function(f){return f.s==="general"}),can2,r.id);
-if(can2)h+='<div class="tla"><button type="button" class="btn" data-action="runphoto" data-id="'+id+'" data-step="general">📷 Agregar foto</button></div>';
+if(can2)h+='<div class="tla"><button type="button" class="btn" data-action="runphoto" data-id="'+id+'" data-step="general">📷 Foto</button><button type="button" class="btn" data-action="runvideo" data-id="'+id+'" data-step="general">🎥 Video</button></div>';
 h+="</section>"}
 if(edit&&started&&!fin){h+='<div class="run-end">'+(allDone(e)?'<button type="button" class="btn btn-primary" data-action="runfinish" data-id="'+id+'">✔ Finalizar limpieza</button>':'<button type="button" class="btn" data-action="runfinishinc" data-id="'+id+'">'+(incArm?"Toca de nuevo para confirmar":"Finalizar como incompleta")+"</button>")+"</div>"}
 if(!edit&&started)h+='<div class="run-end"><button type="button" class="btn" data-action="runcopy" data-id="'+id+'">Copiar informe</button><button type="button" class="btn btn-primary" data-action="runwa" data-id="'+id+'">Enviar por WhatsApp</button></div>';
@@ -373,9 +379,9 @@ if(!runId){box.classList.remove("show");return}
 var r=recById(runId);if(!r){runId=null;box.classList.remove("show");document.body.style.overflow="";return}
 var a=document.activeElement;if(!force&&a&&box.contains(a)&&/TEXTAREA|INPUT/.test(a.tagName))return;
 var y=box.scrollTop,e=ej(runId);box.innerHTML=runHTML(r,e,isCl());box.scrollTop=y;fillPhotos()}
-function fillPhotos(){if(!sb)return;Array.prototype.forEach.call($("run").querySelectorAll("img[data-ph]"),function(im){var p=im.getAttribute("data-ph");
+function fillPhotos(){if(!sb)return;Array.prototype.forEach.call($("run").querySelectorAll("img[data-ph],video[data-ph]"),function(im){var p=im.getAttribute("data-ph");
 if(sgn[p]){im.src=sgn[p];return}if(sgnP[p])return;sgnP[p]=1;
-sb.storage.from("fotos").createSignedUrl(p,3600).then(function(r){delete sgnP[p];var u=r&&r.data&&r.data.signedUrl;if(u){sgn[p]=u;Array.prototype.forEach.call(document.querySelectorAll('img[data-ph]'),function(x){if(x.getAttribute("data-ph")===p)x.src=u})}},function(){delete sgnP[p]})})}
+sb.storage.from("fotos").createSignedUrl(p,3600).then(function(r){delete sgnP[p];var u=r&&r.data&&r.data.signedUrl;if(u){sgn[p]=u;Array.prototype.forEach.call(document.querySelectorAll('img[data-ph],video[data-ph]'),function(x){if(x.getAttribute("data-ph")===p)x.src=u})}},function(){delete sgnP[p]})})}
 function tickRun(){if(!runId)return;var e=ej(runId),c=$("runclock");if(c&&e&&e.inicio&&!e.fin)c.textContent=clk(Date.now()-new Date(e.inicio))}
 function flushObs(){if(!runId)return;var box=$("run"),e=ej(runId);if(!e||e.fin)return;var ch=[];
 Array.prototype.forEach.call(box.querySelectorAll("textarea[data-obs]"),function(t){var s=t.getAttribute("data-obs"),old=((e.pasos||{})[s]||{}).o||"";if(t.value!==old)ch.push(["s",s,t.value])});
@@ -385,8 +391,8 @@ function repText(id){var r=recById(id),e=ej(id);if(!r||!e)return"";var u=st.unit
 if(u.address)L.push("📍 "+u.address);if(e.por)L.push("👤 Realizada por: "+e.por);
 L.push("▶ Inicio: "+hm(e.inicio));if(e.fin){L.push("⏹ Término: "+hm(e.fin));L.push("⏱ Duración: "+durTxt(new Date(e.fin)-new Date(e.inicio)))}else L.push("⏳ En curso");
 if(e.res==="incompleta")L.push("⚠ Terminada como INCOMPLETA");L.push("");
-steps(e).forEach(function(s){var p=pa[s.id]||{},n=(e.fotos||[]).filter(function(f){return f.s===s.id}).length;
-L.push((p.ok?"✅ ":"⬜ ")+s.t+(p.ok?" ("+hm(p.t)+")":" — pendiente"));if(p.o)L.push("   📝 "+p.o);if(n)L.push("   📷 "+n+(n===1?" foto":" fotos"))});
+steps(e).forEach(function(s){var p=pa[s.id]||{},n=(e.fotos||[]).filter(function(f){return f.s===s.id&&!isVid(f)}).length,nv=(e.fotos||[]).filter(function(f){return f.s===s.id&&isVid(f)}).length;
+L.push((p.ok?"✅ ":"⬜ ")+s.t+(p.ok?" ("+hm(p.t)+")":" — pendiente"));if(p.o)L.push("   📝 "+p.o);if(n)L.push("   📷 "+n+(n===1?" foto":" fotos"));if(nv)L.push("   🎥 "+nv+(nv===1?" video":" videos"))});
 var ng=(e.fotos||[]).filter(function(f){return f.s==="general"}).length;
 if((e.tags||[]).length||e.og||ng){L.push("");L.push("⚠ OBSERVACIONES GENERALES");if((e.tags||[]).length)L.push("Tipo: "+e.tags.join(", "));if(e.og)L.push(e.og);if(ng)L.push("📷 "+ng+(ng===1?" foto":" fotos"))}
 L.push("");L.push("Ver detalle y fotos en la app: "+APP);return L.join("\n")}
@@ -397,10 +403,11 @@ if(a==="photodel"){var p=b.dataset.path;saveEj(id,function(d){d.fotos=(d.fotos||
 if(!/^run/.test(a))return false;
 if(!runId&&a!=="runwa"&&a!=="runcopy")return true;
 flushObs();var e=ej(id)||{};
-if(a==="runstart"&&db&&!e.inicio){var t=iso();saveEj(id,function(d){d.inicio=t;d.por=myName||"";d.pasosDef=protoList().map(function(p){return{id:p.id,t:p.t,d:p.d||""}});d.pasos={};d.tags=[];d.fotos=[]});setEstado(id,"en-curso");toast("Limpieza iniciada: "+hm(t))}
-if(a==="rundone"&&db){var sid=b.dataset.step,t2=iso();saveEj(id,function(d){d.pasos=d.pasos||{};var p=d.pasos[sid]=d.pasos[sid]||{};p.ok=true;p.t=t2});toast("Tarea completada.")}
+if(a==="runstart"&&db&&!e.inicio){var t=iso();saveEj(id,function(d){d.inicio=t;d.por=myName||"";d.pasosDef=protoList().map(function(p){return{id:p.id,t:p.t,d:p.d||"",v:!!p.v}});d.pasos={};d.tags=[];d.fotos=[]});setEstado(id,"en-curso");toast("Limpieza iniciada: "+hm(t))}
+if(a==="rundone"&&db){var sid=b.dataset.step,t2=iso(),sd=steps(e).filter(function(z){return z.id===sid})[0];if(sd&&sd.v&&!hasVid(e,sid)){toast("Este paso requiere un video. Toca 🎥 Video y graba el estado del departamento.");renderRun(true);return true}saveEj(id,function(d){d.pasos=d.pasos||{};var p=d.pasos[sid]=d.pasos[sid]||{};p.ok=true;p.t=t2});toast("Tarea completada.")}
 if(a==="runundo"&&db){var s3=b.dataset.step;saveEj(id,function(d){var p=(d.pasos||{})[s3];if(p){p.ok=false;delete p.t}})}
 if(a==="runphoto"){phStep=b.dataset.step;$("phfile").click();return true}
+if(a==="runvideo"){phStep=b.dataset.step;recOpen();return true}
 if(a==="runfinish"&&db&&allDone(e)){var t3=iso();saveEj(id,function(d){d.fin=t3;d.res="realizada"});setEstado(id,"realizada");toast("Limpieza finalizada. ¡Gracias!")}
 if(a==="runfinishinc"&&db){if(!incArm){incArm=true;if(!(e.og||"").trim())toast("Antes de cerrar, explica en observaciones generales por qué quedó incompleta.");renderRun(true);return true}
 if(!(e.og||"").trim()){toast("Escribe en observaciones generales por qué quedó incompleta.");incArm=false;renderRun(true);return true}
@@ -415,26 +422,53 @@ function onPhoto(inp){var f=inp.files&&inp.files[0];inp.value="";if(!f||!runId||
 shrink(f).then(function(blob){var path=id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,7)+".jpg";
 return sb.storage.from("fotos").upload(path,blob,{contentType:"image/jpeg"}).then(function(r){if(r&&r.error)throw r.error;saveEj(id,function(d){(d.fotos=d.fotos||[]).push({p:path,s:step,t:iso()})});renderRun(true);toast("Foto guardada.")})
 }).catch(function(e){toast("No se pudo subir la foto: "+((e&&e.message)||"intenta de nuevo"))})}
+/* ---- Grabadora de video ---- */
+var recS=null,recM=null,recC=[],recT=null,recStart=0,recMime="",recCancel=false,RECMAX=60;
+function recSupport(){return!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)}
+function recMimeType(){var l=["video/mp4","video/webm;codecs=vp8,opus","video/webm"];for(var i=0;i<l.length;i++){try{if(MediaRecorder.isTypeSupported(l[i]))return l[i]}catch(x){}}return""}
+function recOpen(){
+if(!recSupport()){toast("Este celular no permite grabar dentro de la app. Elige un video ya grabado.");$("vfile").click();return}
+navigator.mediaDevices.getUserMedia({video:{facingMode:"environment",width:{ideal:1280},height:{ideal:720}},audio:true}).then(function(s){
+recS=s;var v=$("recv");v.srcObject=s;v.play&&v.play();$("rec").classList.add("show");$("recgo").textContent="● Grabar";$("recgo").className="recgo";$("rect").textContent="00:00 / 01:00"},
+function(){toast("No se pudo abrir la cámara. Revisa el permiso de cámara y micrófono, o elige un video ya grabado.");$("vfile").click()})}
+function recClose(){clearInterval(recT);if(recS){recS.getTracks().forEach(function(t){t.stop()});recS=null}$("recv").srcObject=null;$("rec").classList.remove("show");recM=null}
+function recAction(a){
+if(a==="reccancel"){recCancel=true;if(recM&&recM.state==="recording"){try{recM.stop()}catch(x){}}else recClose();return}
+if(a==="recgo"){
+if(recM&&recM.state==="recording"){recM.stop();return}
+recC=[];recCancel=false;recMime=recMimeType();var o={videoBitsPerSecond:1500000,audioBitsPerSecond:64000};if(recMime)o.mimeType=recMime;
+try{recM=new MediaRecorder(recS,o)}catch(x){try{recM=new MediaRecorder(recS)}catch(y){toast("No se pudo iniciar la grabación.");recClose();return}}
+recM.ondataavailable=function(e){if(e.data&&e.data.size)recC.push(e.data)};
+recM.onstop=function(){var type=(recM&&recM.mimeType)||recMime||"video/webm";clearInterval(recT);var cancel=recCancel,chunks=recC;recClose();if(cancel||!chunks.length)return;upVideo(new Blob(chunks,{type:type}),type)};
+recM.start(1000);recStart=Date.now();$("recgo").textContent="■ Detener";$("recgo").className="recgo on";
+recT=setInterval(function(){var s=Math.floor((Date.now()-recStart)/1000);$("rect").textContent=("0"+Math.floor(s/60)).slice(-2)+":"+("0"+s%60).slice(-2)+" / 01:00";if(s>=RECMAX&&recM&&recM.state==="recording")recM.stop()},250)}}
+function upVideo(blob,type){var id=runId,step=phStep||"general";if(!id||!sb)return;
+if(blob.size>50*1024*1024){toast("El video pesa "+Math.round(blob.size/1048576)+" MB y el máximo es 50 MB. Graba uno más corto.");return}
+var ext=/mp4/.test(type)?"mp4":/quicktime/.test(type)?"mov":"webm";toast("Subiendo video… no cierres la pantalla");
+var path=id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,7)+"."+ext;
+sb.storage.from("fotos").upload(path,blob,{contentType:type.split(";")[0]}).then(function(r){if(r&&r.error)throw r.error;saveEj(id,function(d){(d.fotos=d.fotos||[]).push({p:path,s:step,t:iso(),k:"v"})});renderRun(true);toast("Video guardado.")}).catch(function(e){toast("No se pudo subir el video: "+((e&&e.message)||"intenta de nuevo"))})}
 /* editor del protocolo (admin) */
 function renderProto(){var el=$("plist");if(!el)return;var l=protoList();
-el.innerHTML=l.map(function(p,i){return'<div class="urow"><div class="grow"><b>'+(i+1)+". "+esc(p.t)+"</b>"+(p.d?'<br><span class="meta">'+esc(p.d)+"</span>":"")+'</div><button type="button" class="text-button" data-action="pup" data-id="'+esc(p.id)+'"'+(i===0?" disabled":"")+' aria-label="Subir">↑</button><button type="button" class="text-button" data-action="pdown" data-id="'+esc(p.id)+'"'+(i===l.length-1?" disabled":"")+' aria-label="Bajar">↓</button><button type="button" class="text-button" data-action="pedit" data-id="'+esc(p.id)+'">Editar</button><button type="button" class="text-button red" data-action="pdel" data-id="'+esc(p.id)+'">'+(armed==="p"+p.id?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")}
+el.innerHTML=l.map(function(p,i){return'<div class="urow"><div class="grow"><b>'+(i+1)+". "+esc(p.t)+"</b>"+(p.v?' <span class="ci-tag" style="margin:0 0 0 6px">🎥 pide video</span>':"")+(p.d?'<br><span class="meta">'+esc(p.d)+"</span>":"")+'</div><button type="button" class="text-button" data-action="pup" data-id="'+esc(p.id)+'"'+(i===0?" disabled":"")+' aria-label="Subir">↑</button><button type="button" class="text-button" data-action="pdown" data-id="'+esc(p.id)+'"'+(i===l.length-1?" disabled":"")+' aria-label="Bajar">↓</button><button type="button" class="text-button" data-action="pedit" data-id="'+esc(p.id)+'">Editar</button><button type="button" class="text-button red" data-action="pdel" data-id="'+esc(p.id)+'">'+(armed==="p"+p.id?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")}
 function saveProto(list){return put("protocolo","main",{pasos:list})}
 function protoAction(a,id){
-var l=protoList().map(function(p){return{id:p.id,t:p.t,d:p.d||""}}),i=l.map(function(p){return p.id}).indexOf(id);
+var l=protoList().map(function(p){return{id:p.id,t:p.t,d:p.d||"",v:!!p.v}}),i=l.map(function(p){return p.id}).indexOf(id);
 if(a==="pup"&&i>0){var x=l[i];l[i]=l[i-1];l[i-1]=x;saveProto(l);return true}
 if(a==="pdown"&&i>=0&&i<l.length-1){var y=l[i];l[i]=l[i+1];l[i+1]=y;saveProto(l);return true}
-if(a==="pedit"&&i>=0){editingP=id;$("pt").value=l[i].t;$("pd").value=l[i].d;$("psave").textContent="Guardar paso";$("pcancel").style.display="inline-flex";return true}
+if(a==="pedit"&&i>=0){editingP=id;$("pt").value=l[i].t;$("pd").value=l[i].d;$("pv").checked=!!l[i].v;$("psave").textContent="Guardar paso";$("pcancel").style.display="inline-flex";return true}
 if(a==="pdel"&&i>=0){if(armed==="p"+id){armed=null;if(l.length<=1)return toast("Debe haber al menos un paso."),true;l.splice(i,1);saveProto(l)}else{armed="p"+id;renderProto()}return true}
-if(a==="pcancel"){editingP=null;$("pt").value="";$("pd").value="";$("psave").textContent="Agregar paso";$("pcancel").style.display="none";return true}
+if(a==="pcancel"){editingP=null;$("pt").value="";$("pd").value="";$("pv").checked=false;$("psave").textContent="Agregar paso";$("pcancel").style.display="none";return true}
 if(a==="psave"){var t=$("pt").value.trim();if(!t)return toast("Escribe el nombre del paso."),true;var d=$("pd").value.trim();
-if(editingP&&i>=0){l[i].t=t;l[i].d=d}else l.push({id:"p"+Date.now(),t:t,d:d});saveProto(l);protoAction("pcancel");toast("Protocolo guardado.");return true}
+var pv=$("pv").checked;if(editingP&&i>=0){l[i].t=t;l[i].d=d;l[i].v=pv}else l.push({id:"p"+Date.now(),t:t,d:d,v:pv});saveProto(l);protoAction("pcancel");toast("Protocolo guardado.");return true}
 return false}
 document.addEventListener("click",function(e){var im=e.target&&e.target.closest?e.target.closest("img[data-ph]"):null;if(im){var u=sgn[im.getAttribute("data-ph")];if(u)window.open(u,"_blank");return}
 var b=e.target&&e.target.closest?e.target.closest("[data-action]"):null;if(!b)return;var a=b.dataset.action;
 if(/^p(up|down|edit|del|cancel|save)$/.test(a)){protoAction(a,b.dataset.id);return}
+if(a==="recgo"||a==="reccancel"){recAction(a);return}
 runAction(a,b.dataset.id,b)});
 document.addEventListener("change",function(e){var t=e.target;if(!t||!t.getAttribute)return;
 if(t.id==="phfile"){onPhoto(t);return}
+if(t.id==="vfile"){var vf=t.files&&t.files[0];t.value="";if(vf)upVideo(vf,vf.type||"video/mp4");return}
 if(t.hasAttribute("data-obs")||t.hasAttribute("data-obsg")){flushObs();return}
 var tg=t.getAttribute("data-tag");if(tg&&runId&&db){saveEj(runId,function(d){var l=d.tags=d.tags||[],i=l.indexOf(tg);if(t.checked&&i<0)l.push(tg);if(!t.checked&&i>=0)l.splice(i,1)})}});
 document.addEventListener("input",function(e){var t=e.target;if(t&&t.hasAttribute&&(t.hasAttribute("data-obs")||t.hasAttribute("data-obsg"))){clearTimeout(obsT);obsT=setTimeout(flushObs,1500)}});
@@ -471,5 +505,7 @@ boot();
 </script>
 <div class="runwrap" id="run" aria-live="polite"></div>
 <input type="file" id="phfile" accept="image/*" hidden>
+<input type="file" id="vfile" accept="video/*" hidden>
+<div class="recwrap" id="rec"><video id="recv" muted playsinline></video><div class="rec-bar"><span id="rect">00:00 / 01:00</span><button type="button" id="recgo" class="recgo" data-action="recgo">● Grabar</button><button type="button" class="reccan" data-action="reccancel">Cancelar</button></div></div>
 </body>
 </html>
