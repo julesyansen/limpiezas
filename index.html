@@ -22,7 +22,7 @@
 details.surface{padding:18px 22px;margin-top:21px}details summary{cursor:pointer;font-weight:750;font-size:17px}details .inner{margin-top:14px}
 .outbox{display:none;margin-top:21px;padding:18px}.outbox.show{display:block}#out{width:100%;min-height:140px;border:1px solid #d8d5ce;border-radius:10px;padding:10px;font:13px/1.4 ui-monospace,Menlo,monospace;color:var(--ink);background:#fff}
 @media print{details.surface,.outbox,.filterrow{display:none!important}}
-.assign{margin-top:12px}.chip{display:inline-flex;gap:6px;align-items:center;border:1px solid #d8d5ce;border-radius:999px;padding:7px 12px;margin:0 6px 6px 0;background:#fff;font-size:13px;cursor:pointer}.chip input{width:17px;height:17px;accent-color:var(--dark);margin:0}#cn{width:100%;height:44px;border:1px solid #d8d5ce;border-radius:10px;padding:0 12px;background:#fff;color:var(--ink)}.ro #editor,.ro #udet,.ro .add-shortcut,.ro .extras{display:none!important}@media print{.assign{display:none!important}}
+.fcl{min-height:44px;padding-top:2px}#cleaner{margin-bottom:6px}.field+.field{margin-top:4px}.kitprev,#kitprev{overflow-wrap:anywhere}.fcl .meta{padding:10px 0}.assign{margin-top:12px}.chip{display:inline-flex;gap:6px;align-items:center;border:1px solid #d8d5ce;border-radius:999px;padding:7px 12px;margin:0 6px 6px 0;background:#fff;font-size:13px;cursor:pointer}.chip input{width:17px;height:17px;accent-color:var(--dark);margin:0}#cn{width:100%;height:44px;border:1px solid #d8d5ce;border-radius:10px;padding:0 12px;background:#fff;color:var(--ink)}.ro #editor,.ro #udet,.ro .add-shortcut,.ro .extras{display:none!important}@media print{.assign{display:none!important}}
 
 body.locked main{display:none}
 #login{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px}
@@ -59,8 +59,9 @@ body.locked #login{display:flex}
   <section class="surface outbox" id="outbox"><label for="out" style="font-weight:700;font-size:12px" id="outlabel">Texto</label><textarea id="out"></textarea></section>
   <section class="surface editor" id="editor">
     <div class="editor-top"><div><h3 id="formTitle">+ Agregar limpieza</h3><p class="editor-desc">Elige departamento y fecha. El número de kit (1 al 4), dirección, clave y bodega se agregan automáticamente.</p></div></div>
-    <div class="formgrid"><div class="field unit"><label for="unit">Departamento</label><select id="unit"></select><button type="button" class="text-button" data-action="newunit" style="text-align:left">+ Agregar un departamento nuevo</button></div><div class="field"><label for="date">Fecha</label><input type="date" id="date"></div><div class="field"><label>Kit asignado</label><div id="kitprev" class="meta" style="height:44px;display:flex;align-items:center">Automático según el mes</div></div></div>
-    <div class="secondary-grid"><div class="field"><label for="hora">Disponible desde</label><input type="time" id="hora" value="11:00"></div><div class="field"><label for="cleaner">Cleaner (opcional)</label><input id="cleaner" list="cl" placeholder="Nombre"><datalist id="cl"></datalist></div></div>
+    <div class="formgrid"><div class="field unit"><label for="unit">Departamento</label><select id="unit"></select><button type="button" class="text-button" data-action="newunit" style="text-align:left">+ Agregar un departamento nuevo</button></div><div class="field"><label for="date">Fecha</label><input type="date" id="date"></div><div class="field"><label>Kit asignado</label><div id="kitprev" class="meta" style="min-height:44px;display:flex;align-items:center;line-height:1.3">Automático según el mes</div></div></div>
+    <div class="secondary-grid"><div class="field"><label for="hora">Disponible desde</label><input type="time" id="hora" value="11:00"></div></div>
+    <div class="field"><label>Cleaner</label><div id="cleaner" class="fcl"></div></div>
     <div class="warn" id="warning" role="alert"></div>
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="saveBtn" data-action="save">+ Agregar al reporte</button><button type="button" class="btn" id="cancelEdit" data-action="cancel" style="display:none">Cancelar edición</button></div>
     <div class="notice" id="savedNotice" role="status"></div>
@@ -144,6 +145,9 @@ h+='<div class="calc'+(ds===ts?" today":"")+(admin?" clk":"")+'"'+(admin?' data-
 return'<button type="button" class="cchip'+(n?"":" un")+'" data-action="goentry" data-id="'+esc(r.id)+'">'+esc(r.unit)+"<span class=\"kk\"><span class=\"dot\"> · </span>K"+kit(r)+"</span><small>"+(n?esc(n):"sin asignar")+"</small><em class=\"ini\">"+(n?esc(split(names(r)).map(function(x){return x.charAt(0).toUpperCase()}).join("")):"—")+"</em></button>"}).join("")+"</div>"}
 $("calgrid").innerHTML=h;
 var un=list.filter(function(r){return !names(r)}).length;$("calcount").textContent=list.length+" limpiezas"+(un?" · "+un+" sin asignar":"")}
+function selCl(){return Array.prototype.map.call($("cleaner").querySelectorAll("input:checked"),function(x){return x.getAttribute("data-n")})}
+function fillCl(sel){var all=cnames();sel.forEach(function(n){if(all.indexOf(n)<0)all.push(n)});all.sort();
+$("cleaner").innerHTML=all.length?all.map(function(n){return'<label class="chip"><input type="checkbox" data-n="'+esc(n)+'"'+(sel.indexOf(n)>=0?" checked":"")+"> "+esc(n)+"</label>"}).join(""):'<div class="meta">Primero agrega cleaners en la sección Cleaners.</div>'}
 function render(){
 pend=false;KM=kitMap();var list=current();renderCal(list);$("month").value=st.month;$("monthTitle").textContent=mlabel(st.month);$("count").textContent=list.length+(list.length===1?" limpieza":" limpiezas");
 var box=$("entries");box.innerHTML="";
@@ -155,7 +159,7 @@ box.appendChild(c)});
 var cl=cnames();Object.keys(st.asg).forEach(function(k){split(st.asg[k]).forEach(function(n){if(cl.indexOf(n)<0)cl.push(n)})});cl.sort();
 $("clist").innerHTML=Object.keys(st.cleaners).sort(function(a,b){return(st.cleaners[a].name||"")<(st.cleaners[b].name||"")?-1:1}).map(function(k){return'<div class="urow"><div class="grow"><b>'+esc(st.cleaners[k].name)+'</b></div><button type="button" class="text-button" data-action="cedit" data-id="'+esc(k)+'">Editar</button><button type="button" class="text-button red" data-action="cremove" data-id="'+esc(k)+'">'+(armed==="c"+k?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")||'<div class="empty">Aún no hay cleaners.</div>';
 $("flt").innerHTML='<option value="">Todas</option>'+cl.map(function(c){return'<option value="'+esc(c)+'"'+(c===st.filt?" selected":"")+">"+esc(c)+"</option>"}).join("");
-$("cl").innerHTML=cl.map(function(c){return'<option value="'+esc(c)+'">'}).join("");
+fillCl(selCl());
 var cur=$("unit").value;$("unit").innerHTML='<option value="">Selecciona un departamento</option>'+unitKeys().map(function(k){return'<option value="'+esc(k)+'">'+esc(k)+" · "+esc(st.units[k].address)+"</option>"}).join("");$("unit").value=cur;
 $("units").innerHTML=unitKeys().map(function(k){var u=st.units[k];return'<div class="urow"><div class="grow"><b>'+esc(k)+"</b> · "+esc(u.address)+'<br><span class="meta">desde '+esc(fhora(u.hora))+" · 🔑 "+esc(fcode(u.code))+" · 📦 "+esc(u.storage)+" · kits: "+esc(grp(u,k))+'</span></div><button type="button" class="text-button" data-action="uedit" data-id="'+esc(k)+'">Editar</button><button type="button" class="text-button red" data-action="uremove" data-id="'+esc(k)+'">'+(armed==="u"+k?"¿Seguro?":"Eliminar")+"</button></div>"}).join("");
 var any=list.length>0;$("copyReport").disabled=!any;
@@ -168,7 +172,7 @@ db.collection("limpiezas").onSnapshot(function(s){st.records=s.docs.map(function
 db.collection("cleaners").onSnapshot(function(s){st.cleaners={};s.docs.forEach(function(d){st.cleaners[d.id]=d.data()});again()},fail);
 db.collection("asignaciones").onSnapshot(function(s){st.asg={};s.docs.forEach(function(d){st.asg[d.id]=(d.data()||{}).names||""});again()},fail)}
 function defDate(){var d=new Date(),t=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);return t.slice(0,7)===st.month?t:st.month+"-01"}
-function resetForm(){editing=null;$("unit").value="";$("date").value=defDate();$("hora").value="11:00";$("cleaner").value="";
+function resetForm(){editing=null;$("unit").value="";$("date").value=defDate();$("hora").value="11:00";fillCl([]);
 $("formTitle").textContent="+ Agregar limpieza";$("saveBtn").textContent="+ Agregar al reporte";$("cancelEdit").style.display="none";$("warning").classList.remove("show")}
 function resetUnit(){editingUnit=null;["ud","ua","uk","ub","ug"].forEach(function(i){$(i).value=""});$("uh").value="11:00";$("usave").textContent="Agregar departamento";$("ucancel").style.display="none"}
 function prevKit(){var e=$("kitprev");if(!e)return;var un=$("unit").value,d=$("date").value;if(!st.units[un]||!/^\d{4}-\d{2}-\d{2}$/.test(d)){e.textContent="Automático según el mes";return}
@@ -185,7 +189,7 @@ if(!validDate(date))return err("Selecciona una fecha válida.");
 if(date.slice(0,7)!==st.month)return err("La fecha debe corresponder al mes del reporte: "+mlabel(st.month)+".");
 var dup=st.records.filter(function(r){return r.unit===unit&&r.date===date&&r.id!==editing})[0];
 if(dup)return err("Ya existe una limpieza del depto "+unit+" en esa fecha. Usa «Editar».");
-var id=editing||"l"+Date.now()+Math.floor(Math.random()*1000),was=!!editing,n=$("cleaner").value.trim();
+var id=editing||"l"+Date.now()+Math.floor(Math.random()*1000),was=!!editing,n=selCl().join(", ");
 put("limpiezas",id,{date:date,unit:unit,hora:$("hora").value||st.units[unit].hora});
 if(n)put("asignaciones",id,{names:n});else if(was&&st.asg[id])rm("asignaciones",id);
 hl=id;resetForm();$("savedNotice").textContent="✓ "+(was?"Limpieza actualizada.":"Limpieza agregada.")+" Ya aparece en el reporte.";$("savedNotice").classList.add("show");go("report");toast("Limpieza guardada.")}
@@ -215,7 +219,7 @@ if(a==="share"){var sx=reportText();if(sx&&navigator.share){navigator.share({tex
 if(a==="save")saveRecord();
 if(a==="cancel")resetForm();
 if(a==="asg"&&db){var w=$("asgw-"+id),n=Array.prototype.map.call(w.querySelectorAll("input:checked"),function(x){return x.getAttribute("data-n")}).join(", ");(n?put("asignaciones",id,{names:n}):rm("asignaciones",id)).then(function(){toast("Encargadas guardadas.")});if(pend)render()}
-if(a==="edit"){var r=st.records.filter(function(q){return q.id===id})[0];if(r){editing=id;$("unit").value=r.unit;$("date").value=r.date;$("hora").value=r.hora||"11:00";$("cleaner").value=names(r);
+if(a==="edit"){var r=st.records.filter(function(q){return q.id===id})[0];if(r){editing=id;$("unit").value=r.unit;$("date").value=r.date;$("hora").value=r.hora||"11:00";fillCl(split(names(r)));
 $("formTitle").textContent="Editar limpieza · Depto "+r.unit;$("saveBtn").textContent="Guardar cambios";$("cancelEdit").style.display="inline-flex";$("savedNotice").classList.remove("show");go("editor")}}
 if(a==="remove"){if(armed===id){rm("limpiezas",id);if(st.asg[id])rm("asignaciones",id);if(editing===id)resetForm();armed=null;hl=null;toast("Limpieza eliminada.")}else{armed=id;render()}}
 if(a==="goentry"){var ce=document.getElementById("e-"+id);if(ce){try{ce.scrollIntoView({behavior:"smooth",block:"center"})}catch(x3){}hl=id;ce.classList.add("added")}}
