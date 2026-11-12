@@ -48,7 +48,7 @@ body.locked #login{display:flex}
 .inv-i{border:1px solid #e7e2db;border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff}.inv-i.s-ok{background:#f3faf5;border-color:#b9ddc4}.inv-i.s-mal,.inv-i.s-falta{background:#fff6ee;border-color:#f0c48a}.inv-n{font-weight:700;margin-bottom:8px;overflow-wrap:anywhere}
 .inv-b{display:grid;grid-template-columns:1.4fr 1.2fr .8fr;gap:6px}.inv-bt{min-height:44px;border:1px solid #d8d5ce;border-radius:10px;background:#fff;font-size:13px;font-weight:700;color:var(--ink);padding:0 6px}.inv-bt.b-ok.on{background:#2f7d4f;border-color:#2f7d4f;color:#fff}.inv-bt.b-mal.on,.inv-bt.b-falta.on{background:#c0392b;border-color:#c0392b;color:#fff}
 .inv-i textarea{width:100%;margin-top:8px;border:1px solid #d8d5ce;border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;background:#fff;resize:vertical;min-height:56px}.inv-r{font-size:13px;font-weight:800}.inv-r.r-ok{color:#1d6b3a}.inv-r.r-mal,.inv-r.r-falta{color:#a33a2a}
-.ro .adm{display:none!important}body:not(.bk) #bdet,body:not(.bk) #ldet,body:not(.bk) #vtabs{display:none!important}body:not(.vbod) #bdet{display:none!important}body:not(.vlav) #ldet{display:none!important}.lv #vtabs{display:none!important}.ob .intro,.ob #pendbox,.ob #cal,.ob #report,.ob #outbox,.ob #editor,.ob #cdet,.ob #udet,.ob #idet,.ob #pdet,.ob .extras{display:none!important}.lv #bmv,.lv #bhi{display:none!important}
+.ro .adm{display:none!important}body:not(.bk) #bdet,body:not(.bk) #ldet{display:none!important}body:not(.hub) #home,body:not(.hub) #hubbar,.hub.v-home #hubbar,.lv #hubbar{display:none!important}.hub:not(.v-home) #home{display:none!important}.hub:not(.v-limp) .vw-limp,.hub:not(.v-prop) .vw-prop,.hub:not(.v-lav) .vw-lav,.hub:not(.v-bod) .vw-bod{display:none!important}.lv #bmv,.lv #bhi{display:none!important}
 #bdet select,#bdet input:not([type=number]){width:100%;background:#fff;color:var(--ink);border:1px solid #d8d5ce;border-radius:10px;height:44px;padding:0 12px;font-size:16px}#bdet .field select{width:100%}
 .bt-w{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e7e2db;border-radius:12px;background:#fff}.bt{border-collapse:collapse;width:100%;font-size:13px}.bt th{font-size:11px;font-weight:800;color:var(--mute);text-align:center;padding:8px 6px;border-bottom:1px solid #ece8e1;white-space:nowrap}.bt th:first-child,.bt td:first-child{text-align:left;position:sticky;left:0;background:#fff;min-width:128px;padding-left:10px}.bt td{padding:8px 6px;text-align:center;border-bottom:1px solid #f3efe9;font-weight:700}.bt tr:last-child td{border-bottom:0}.bt td.z{color:#c4beb4;font-weight:400}.bt td.neg{color:#c0392b}
 .bwarn{background:#fff4e6;border:1px solid #f0c48a;color:#7a4a10;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;line-height:1.5}
@@ -56,6 +56,8 @@ body.locked #login{display:flex}
 .g-i{border:1px solid #e7e2db;border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff}.g-i.g-pend{border-color:#f0c48a;background:#fffaf1}.g-i.g-ok{border-color:#b9ddc4;background:#f6fbf7}.g-i.g-dif{border-color:#e3a79f;background:#fdf3f1}.g-h{display:flex;flex-direction:column;gap:2px}.g-l{margin-top:6px;font-size:14px}.g-s{margin-top:6px;font-size:13px;font-weight:800}.g-d{font-size:13px;color:#a33a2a;margin-top:3px}.g-rec{margin-top:6px}
 .vtabs{display:flex;gap:6px;margin:0 0 16px}.vtabs button{flex:1;min-height:46px;border:1px solid #d8d5ce;background:#fff;border-radius:12px;font-weight:700;font-size:14px;color:var(--ink);padding:0 8px}.vtabs button.on{background:var(--dark);border-color:var(--dark);color:#fff}
 .lcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:10px}.lcard{border:1px solid #e7e2db;border-radius:12px;background:#fff;padding:10px 12px;display:flex;flex-direction:column;gap:2px}.lcard b{font-size:24px;letter-spacing:-.5px}.lcard span{font-size:12px;color:var(--mute);font-weight:700}.lcard.lc-bad{background:#fdf3f1;border-color:#e3a79f}.lcard.lc-bad b{color:#a33a2a}
+.hubgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 20px}.tile{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;min-height:158px;padding:18px 16px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);color:var(--ink)}.tile:active{transform:scale(.98)}.tile .tic{display:grid;place-items:center;width:50px;height:50px;border-radius:14px;background:#28372f;color:#fff;margin-bottom:auto}.tile .tic svg{width:27px;height:27px}.tile b{font-size:17px;letter-spacing:-.2px}.tile small{font-size:12.5px;color:var(--mute);line-height:1.35}
+#hubbar{display:flex;align-items:center;gap:12px;margin:0 0 16px}.hubback{border:1px solid #d8d5ce;background:#fff;border-radius:10px;min-height:42px;padding:0 14px;font-weight:700;color:var(--copper);font-size:14px}#hubtitle{font-size:19px;letter-spacing:-.3px}
 </style>
 </head>
 <body class="locked">
@@ -69,19 +71,20 @@ body.locked #login{display:flex}
 <main class="wrap">
   <div class="nosc" id="banner" style="display:none"></div>
   <header class="brand"><div class="symbol">JR</div><div><h1>Jules Residences</h1><small>Gestión de limpiezas</small></div><button type="button" class="text-button" id="logout">Salir</button></header>
-  <section class="intro"><div><p class="eyebrow">Programación mensual</p><h2>Reporte de limpiezas</h2><p class="hint">Cada limpieza que agregues queda en un recuadro, ordenada por fecha.</p></div><div class="monthcontrol"><label for="month">Mes del reporte</label><input type="month" id="month"></div></section>
-  <nav class="vtabs" id="vtabs"></nav>
-  <div class="pendbox" id="pendbox"></div>
-  <section class="surface cal" id="cal"><header class="report-head"><div><h3 class="report-title">Calendario del mes</h3><p class="report-subtitle">Toca una limpieza para ir a su detalle</p></div><span class="count" id="calcount"></span></header><div class="calgrid" id="calgrid"></div><div class="legend"><span><i class="sw ok"></i>Asignada</span><span><i class="sw un"></i>Sin asignar</span><span><i class="sw ci"></i>Check-in 3 PM</span><span><b>K</b> Kit</span></div></section>
-  <section class="surface report" id="report">
+  <section class="intro vw-limp"><div><p class="eyebrow">Programación mensual</p><h2>Reporte de limpiezas</h2><p class="hint">Cada limpieza que agregues queda en un recuadro, ordenada por fecha.</p></div><div class="monthcontrol"><label for="month">Mes del reporte</label><input type="month" id="month"></div></section>
+  <section id="home" class="hubhome"><div class="hubgrid" id="hubgrid"></div></section>
+  <div id="hubbar"><button type="button" class="hubback" data-action="view" data-v="home">← Inicio</button><b id="hubtitle"></b></div>
+  <div class="pendbox vw-limp" id="pendbox"></div>
+  <section class="surface cal vw-limp" id="cal"><header class="report-head"><div><h3 class="report-title">Calendario del mes</h3><p class="report-subtitle">Toca una limpieza para ir a su detalle</p></div><span class="count" id="calcount"></span></header><div class="calgrid" id="calgrid"></div><div class="legend"><span><i class="sw ok"></i>Asignada</span><span><i class="sw un"></i>Sin asignar</span><span><i class="sw ci"></i>Check-in 3 PM</span><span><b>K</b> Kit</span></div></section>
+  <section class="surface report vw-limp" id="report">
     <header class="report-head"><div><h3 class="report-title" id="monthTitle"></h3><p class="report-subtitle" id="rsub">Reporte listo para enviar a las cleaners</p></div><span class="count" id="count"></span></header>
     <div class="filterrow"><label for="flt">Cleaner</label><select id="flt"></select></div>
     <div class="entries" id="entries"></div>
     <button type="button" class="add-shortcut" data-action="addother">+ Agregar otra limpieza</button>
     <footer class="report-footer"><span class="footer-helper">Cuando termines, comparte <b>todo el reporte en un solo mensaje</b>.</span><div class="footer-buttons"><button type="button" class="btn btn-outline" id="copyReport" data-action="copy">Copiar reporte</button><button type="button" class="btn btn-outline" id="shareNative" data-action="share" style="display:none">Compartir…</button><a class="btn btn-wa" id="shareReport" aria-disabled="true" target="_blank" rel="noopener noreferrer">Enviar por WhatsApp</a></div></footer>
   </section>
-  <section class="surface outbox" id="outbox"><label for="out" style="font-weight:700;font-size:12px" id="outlabel">Texto</label><textarea id="out"></textarea></section>
-  <section class="surface editor" id="editor">
+  <section class="surface outbox vw-limp" id="outbox"><label for="out" style="font-weight:700;font-size:12px" id="outlabel">Texto</label><textarea id="out"></textarea></section>
+  <section class="surface editor vw-limp" id="editor">
     <div class="editor-top"><div><span class="editbadge">MODO EDICIÓN</span><h3 id="formTitle">Crear nueva limpieza</h3><p class="editor-desc" id="formDesc">Selecciona el departamento y la fecha. El kit, la dirección, la clave y la bodega se completan solos.</p></div></div>
     <div class="formgrid"><div class="field unit"><label for="unit">Departamento</label><select id="unit" required></select><button type="button" class="text-button" data-action="newunit" style="text-align:left">+ Agregar un departamento nuevo</button></div><div class="field"><label for="date">Fecha</label><input type="date" id="date"></div><div class="field"><label>Kit asignado</label><div id="kitprev" class="meta" style="min-height:44px;display:flex;align-items:center;line-height:1.3">Automático según el mes</div></div></div>
     <div class="secondary-grid"><div class="field"><label for="hora">Disponible desde</label><input type="time" id="hora" value="11:00"></div></div>
@@ -92,7 +95,7 @@ body.locked #login{display:flex}
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="saveBtn" data-action="save">+ Agregar al reporte</button><button type="button" class="btn" id="cancelEdit" data-action="cancel" style="display:none">Cancelar edición</button></div>
     <div class="notice" id="savedNotice" role="status"></div>
   </section>
-  <details class="surface" id="bdet"><summary id="bdsum">Bodegas</summary><div class="inner">
+  <details class="surface vw-bod" id="bdet"><summary id="bdsum">Bodegas</summary><div class="inner">
     <p class="meta" style="margin:0 0 10px">Inventario de compras, kits y reposición. Aquí se cargan las compras y se arman los kits de respaldo.</p>
     <div id="bsum"></div>
     <details class="dd" id="bmv" style="margin-top:14px"><summary>Registrar movimiento</summary><div class="ddp" id="bmvf">
@@ -111,7 +114,7 @@ body.locked #login{display:flex}
       <p class="meta">Los textiles se cuentan por pieza. El mínimo avisa cuando la bodega de preparación queda bajo ese número.</p>
     </div></details>
   </div></details>
-  <details class="surface" id="ldet"><summary>Lavandería</summary><div class="inner">
+  <details class="surface vw-lav" id="ldet"><summary>Lavandería</summary><div class="inner">
     <p class="meta" style="margin:0 0 10px">Ropa sucia que sale, ropa limpia que vuelve y diferencias de conteo. Se conecta con el stock de las bodegas.</p>
     <div id="lsum"></div>
     <details class="dd" id="bgn" style="margin-top:14px"><summary id="bgsum">Guías de lavandería</summary><div class="ddp">
@@ -126,13 +129,13 @@ body.locked #login{display:flex}
       </div></details>
     </div></details>
   </div></details>
-  <details class="surface" id="cdet" open><summary>Cleaners (nombres)</summary><div class="inner">
+  <details class="surface vw-limp" id="cdet" open><summary>Cleaners (nombres)</summary><div class="inner">
     <div id="clist"></div>
     <div class="field" style="margin-top:14px"><label for="cn">Nombre</label><input id="cn" placeholder="Ej. María González"></div>
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="csave" data-action="csave">Agregar cleaner</button><button type="button" class="btn" id="ccancel" data-action="ccancel" style="display:none">Cancelar</button></div>
     <p class="meta">Los nombres quedan guardados en la base de datos compartida y aparecen para asignar en cada limpieza.</p>
   </div></details>
-  <details class="surface" id="udet" open><summary>Departamentos (agregar y editar)</summary><div class="inner">
+  <details class="surface vw-prop" id="udet" open><summary>Departamentos (agregar y editar)</summary><div class="inner">
     <div id="units"></div>
     <div class="formgrid" style="margin-top:14px;grid-template-columns:1fr 1fr">
       <div class="field"><label for="ud">Depto</label><input id="ud" placeholder="605"></div><div class="field"><label for="uh">Disponible desde</label><input id="uh" type="time" value="11:00"></div>
@@ -142,7 +145,7 @@ body.locked #login{display:flex}
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="usave" data-action="usave">Agregar departamento</button><button type="button" class="btn" id="ucancel" data-action="ucancel" style="display:none">Cancelar</button></div>
     <p class="meta">Una clave sin # ni 🔒 se muestra como 🔒 clave 🔒.</p>
   </div></details>
-  <details class="surface" id="idet"><summary>Inventario por departamento</summary><div class="inner">
+  <details class="surface vw-prop" id="idet"><summary>Inventario por departamento</summary><div class="inner">
     <p class="meta" style="margin-top:0">Lista lo que hay en cada departamento. Las cleaners lo revisan como segundo paso de la limpieza.</p>
     <div class="field"><label for="iu">Departamento</label><select id="iu"><option value="">Selecciona el departamento</option></select></div>
     <div class="field" style="margin-top:12px"><label for="it">Elementos (uno por línea)</label><textarea id="it" rows="12" placeholder="# Living&#10;Televisor 55&quot;&#10;Control remoto&#10;# Cocina&#10;Microondas&#10;Hervidor eléctrico"></textarea></div>
@@ -150,7 +153,7 @@ body.locked #login{display:flex}
     <div class="form-buttons"><button type="button" class="btn btn-primary" data-action="isave">Guardar inventario</button></div>
     <p class="meta">Escribe un elemento por línea. Una línea que empieza con # es un título de sección (Living, Cocina…) y no se revisa. Puedes pegar la lista completa de una vez.</p>
   </div></details>
-  <details class="surface" id="pdet"><summary>Protocolo de limpieza (pasos)</summary><div class="inner">
+  <details class="surface vw-limp" id="pdet"><summary>Protocolo de limpieza (pasos)</summary><div class="inner">
     <p class="meta" style="margin-top:0">Son los pasos que verá cada cleaner en su línea de tiempo, siempre en este orden.</p>
     <div id="plist"></div>
     <div class="field" style="margin-top:14px"><label for="pt">Paso</label><input id="pt" placeholder="Ej. Baños"></div>
@@ -159,7 +162,7 @@ body.locked #login{display:flex}
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="psave" data-action="psave">Agregar paso</button><button type="button" class="btn" id="pcancel" data-action="pcancel" style="display:none">Cancelar</button></div>
     <p class="meta">Los cambios valen para las limpiezas que se inicien desde ahora. Las que ya empezaron conservan su protocolo.</p>
   </div></details>
-  <section class="extras"><span>Jules Residences · Datos guardados en la nube de Jules Residences.</span><div><button type="button" data-action="print">Imprimir / PDF</button></div></section>
+  <section class="extras vw-limp"><span>Jules Residences · Datos guardados en la nube de Jules Residences.</span><div><button type="button" data-action="print">Imprimir / PDF</button></div></section>
 </main><div id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>window.APP_CONFIG={SUPABASE_URL: "https://lymwevvzdtkntfdgdueq.supabase.co",SUPABASE_ANON_KEY: "sb_publishable_aU_bXq2JYZf3eiYrnmiOUg_PeIVCWn5"};</script>
@@ -254,7 +257,7 @@ var TR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 var acts=admin?'<div class="iacts"><button type="button" class="ibtn" data-action="edit" data-id="'+esc(r.id)+'" aria-label="Editar limpieza" title="Editar">•••</button><button type="button" class="ibtn red'+(armed===r.id?" arm":"")+'" data-action="remove" data-id="'+esc(r.id)+'" aria-label="Eliminar limpieza" title="Eliminar">'+TR+(armed===r.id?"¿Seguro?":"")+"</button></div>":"";
 c.innerHTML='<div class="entry-top"><p class="entry-number">LIMPIEZA '+(i+1)+'</p>'+acts+'</div><header class="entry-head"><div class="entry-heading"><span class="entry-when">'+esc(fdate(r.date))+"</span> Depto "+esc(r.unit)+(r.checkin?'<span class="ci-tag">🔔 CHECK-IN 3 PM</span>':"")+'</div></header><div class="estado-row">'+estSel(r)+'</div>'+runStrip(r)+'<div class="entry-body">'+lines(r).slice(2).map(lineHTML).join("")+'</div><div class="assign" id="asgw-'+esc(r.id)+'"><div class="meta" style="margin-bottom:6px">Encargada(s)</div>'+chips(r)+'<div style="margin-top:6px"><button type="button" class="btn" data-action="asg" data-id="'+esc(r.id)+'">Guardar encargadas</button></div></div>';
 box.appendChild(c)});
-renderProto();renderInv();renderBod();var rs=$("rsub");if(rs)rs.textContent=isCl()?"Tus limpiezas asignadas":"Reporte listo para enviar a las cleaners";
+renderProto();renderInv();renderBod();renderHub();var rs=$("rsub");if(rs)rs.textContent=isCl()?"Tus limpiezas asignadas":"Reporte listo para enviar a las cleaners";
 var cl=cnames();Object.keys(st.asg).forEach(function(k){split(st.asg[k]).forEach(function(n){if(cl.indexOf(n)<0)cl.push(n)})});cl.sort();
 $("clist").innerHTML=Object.keys(st.cleaners).sort(function(a,b){return(st.cleaners[a].name||"")<(st.cleaners[b].name||"")?-1:1}).map(function(k){return'<div class="urow"><div class="grow"><b>'+esc(st.cleaners[k].name)+'</b></div><button type="button" class="text-button" data-action="cedit" data-id="'+esc(k)+'">Editar</button><button type="button" class="text-button red" data-action="cremove" data-id="'+esc(k)+'">'+(armed==="c"+k?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")||'<div class="empty">Aún no hay cleaners.</div>';
 $("flt").innerHTML='<option value="">Todas</option>'+cl.map(function(c){return'<option value="'+esc(c)+'"'+(c===st.filt?" selected":"")+">"+esc(c)+"</option>"}).join("");
@@ -336,7 +339,7 @@ if(a==="csave")saveCleaner();
 if(a==="ccancel")resetCl();
 if(a==="cedit"&&st.cleaners[id]){editingCl=id;$("cn").value=st.cleaners[id].name;$("csave").textContent="Guardar cambios";$("ccancel").style.display="inline-flex";$("cn").focus()}
 if(a==="cremove"){if(armed==="c"+id){armed=null;rm("cleaners",id);toast("Cleaner eliminada de la lista.")}else{armed="c"+id;render()}}
-if(a==="newunit"){resetUnit();$("udet").open=true;go("udet");setTimeout(function(){$("ud").focus()},300)}
+if(a==="newunit"){setView("prop");resetUnit();$("udet").open=true;go("udet");setTimeout(function(){$("ud").focus()},300)}
 if(a==="usave")saveUnit();
 if(a==="isave")invSave();
 if(a==="ucancel")resetUnit();
@@ -376,7 +379,7 @@ onSnapshot:function(next,error){(listeners[c]=listeners[c]||[]).push({next:next,
 var LOC={prep:"Bodega de preparación",cl:"Bodega de cleaners",dep:"Departamentos",suc:"Sucio por enviar",lav:"Lavandería",tran:"En tránsito"};
 var LSH={prep:"Prep.",cl:"Cleaners",dep:"Deptos",suc:"Sucio",lav:"Lavand.",tran:"Tránsito",por:"Por recibir"};
 var MT={compra:{t:"Compra o ingreso a preparación",a:"prep"},cl:{t:"Pasar de preparación a bodega de cleaners",de:"prep",a:"cl"},dep:{t:"Reponer en departamentos",de:"cl",a:"dep"},suc:{t:"Retirar sucios de departamentos",de:"dep",a:"suc"},armado:{t:"Armar kits (en preparación)"},baja:{t:"Baja (pérdida o daño)"},conteo:{t:"Conteo físico (ajustar a lo contado)"}};
-var gRec=null,editingA=null,bodSig="";
+var gRec=null,editingA=null,bodSig="",hubN={bod:0};
 function artDef(){return[{id:"a1",n:"Sábana bajera king",t:"textil"},{id:"a2",n:"Sábana superior king",t:"textil"},{id:"a3",n:"Funda de almohada",t:"textil"},{id:"a4",n:"Cubreplumón king",t:"textil"},{id:"a5",n:"Cubrecolchón",t:"textil"},{id:"a6",n:"Toalla de cuerpo",t:"textil"},{id:"a7",n:"Toalla de rostro",t:"textil"},{id:"a8",n:"Toalla de piso",t:"textil"},{id:"a9",n:"Paño de cocina",t:"textil"}]}
 function artList(){return st.art&&st.art.length?st.art:artDef()}
 function artName(id){var l=artList();for(var i=0;i<l.length;i++)if(l[i].id===id)return l[i].n;return"(artículo eliminado)"}
@@ -412,24 +415,26 @@ if(t==="armado"){var kits=artList().filter(function(a){return a.t==="kit"});h='<
 else h='<p class="meta" style="margin:10px 0 4px">'+hint+'</p>'+qrows("l",["textil","consumible","kit"],t==="conteo"?"—":"0");
 box.innerHTML=h}
 function gdirChg(){var d=$("gdir").value;$("gorf").style.display=d==="ida"?"flex":"none"}
-var view="limp";
+var view="home",ICONS={"prop": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 21V6l8-3 8 3v15\"/><path d=\"M9 21v-4h6v4M8 9h2M14 9h2M8 13h2M14 13h2\"/></svg>", "limp": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z\"/><path d=\"M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8zM5 15l.6 1.4L7 17l-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z\"/></svg>", "lav": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\"/><circle cx=\"12\" cy=\"13.5\" r=\"4.2\"/><path d=\"M7.5 6.5h.01M10.5 6.5h3M9.8 13.5c1.2-1 2.6 1 4.4 0\"/></svg>", "bod": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 8l-9-5-9 5v8l9 5 9-5z\"/><path d=\"M3 8l9 5 9-5M12 13v8\"/></svg>"},VTIT={home:"Inicio",prop:"Propiedades",limp:"Limpiezas",lav:"Lavandería",bod:"Bodegas"};
+function hubViews(){return admin?["prop","limp","lav","bod"]:isBod()?["lav","bod"]:isLav()?["lav"]:[]}
 function setView(v){
-if(!bodUI())return;
-if(isLav())v="lav";else if(isBod()&&v==="limp")v="bod";
-if(v!=="limp"&&v!=="bod"&&v!=="lav")v="limp";
-view=v;var c=document.body.classList;c.toggle("vbod",v==="bod");c.toggle("vlav",v==="lav");c.toggle("ob",v!=="limp");
-Array.prototype.forEach.call(document.querySelectorAll("#vtabs button"),function(x){x.classList.toggle("on",x.getAttribute("data-v")===v)});
-try{localStorage.setItem("jr_view",v)}catch(e){}
+if(!bodUI())return;var ok=hubViews();
+if(isLav())v="lav";else if(v!=="home"&&ok.indexOf(v)<0)v="home";
+view=v;var c=document.body.classList;["home","prop","limp","lav","bod"].forEach(function(x){c.toggle("v-"+x,v===x)});
+$("hubtitle").textContent=VTIT[v]||"";
 try{window.scrollTo(0,0)}catch(e){}}
-function initView(){var tabs=[];if(admin)tabs.push(["limp","Limpiezas"]);if(admin||isBod())tabs.push(["bod","Bodegas"]);if(admin||isBod())tabs.push(["lav","Lavandería"]);
-$("vtabs").innerHTML=tabs.map(function(t){return'<button type="button" data-action="view" data-v="'+t[0]+'">'+t[1]+"</button>"}).join("");
-var v=isLav()?"lav":isBod()?"bod":"limp";if(admin){try{v=localStorage.getItem("jr_view")||"limp"}catch(e){}}setView(v)}
+function renderHub(){var g=$("hubgrid");if(!g||!bodUI())return;
+var today=new Date(),pend=Object.keys(st.guias).filter(function(k){return!st.guias[k].rec}).length,mes=st.records.filter(function(r){return(r.date||"").slice(0,7)===st.month}).length;
+var nu=Object.keys(st.units).length,subs={prop:nu+(nu===1?" departamento":" departamentos"),limp:mes+(mes===1?" limpieza":" limpiezas")+" este mes",lav:pend?pend+(pend===1?" guía por recibir":" guías por recibir"):"Todo al día",bod:hubN.bod?hubN.bod+(hubN.bod===1?" alerta":" alertas"):"Sin alertas"};
+g.innerHTML=hubViews().map(function(k){return'<button type="button" class="tile" data-action="view" data-v="'+k+'"><span class="tic">'+ICONS[k]+'</span><b>'+VTIT[k]+'</b><small>'+esc(subs[k])+"</small></button>"}).join("")}
+function initView(){document.body.classList.add("hub");renderHub();setView(isLav()?"lav":"home")}
 function totLoc(bal,l){var n=0,k;for(k in bal[l])n+=bal[l][k];return n}
 function renderBod(force){
 if(!bodUI()||!$("bsum"))return;renderBodForm();var bal=bodStock(),al=artList(),lv=isLav(),h="",warn=[];
 /* ---- Bodegas ---- */
 al.forEach(function(a){if(a.m>0&&(bal.prep[a.id]||0)<a.m)warn.push("⚠ "+esc(a.n)+": quedan "+(bal.prep[a.id]||0)+" en preparación (mínimo "+a.m+")")});
 ["prep","cl","dep","suc"].forEach(function(l){al.forEach(function(a){if((bal[l][a.id]||0)<0)warn.push("❗ Revisa: "+esc(a.n)+" figura en negativo en «"+LOC[l]+"» ("+bal[l][a.id]+"). Falta registrar un movimiento.")})});
+hubN.bod=warn.length;
 if(warn.length)h+='<div class="bwarn">'+warn.join("<br>")+"</div>";
 var bc=["prep","cl","dep","suc"];
 h+='<div class="bt-w"><table class="bt"><thead><tr><th>Artículo</th>'+bc.map(function(c){return"<th>"+LSH[c]+"</th>"}).join("")+"</tr></thead><tbody>"+al.map(function(a){return"<tr><td>"+esc(a.n)+"</td>"+bc.map(function(c){var v=(bal[c]||{})[a.id]||0;return'<td class="'+(v<0?"neg":v===0?"z":"")+'">'+v+"</td>"}).join("")+"</tr>"}).join("")+"</tbody></table></div>";
@@ -451,7 +456,7 @@ if(!lv)lh+='<p class="meta" style="margin:6px 2px 0">«Sucio por enviar» sale d
 var loss={},any=false;gs.forEach(function(g){gDiff(g).forEach(function(d){loss[d.a]=(loss[d.a]||0)+(d.e-d.r)})});
 var lk=Object.keys(loss).filter(function(k){return loss[k]!==0});
 if(lk.length){any=true;lh+='<div class="bwarn" style="margin-top:12px"><b>Diferencias acumuladas en guías</b><br>'+lk.map(function(k){return esc(artName(k))+": "+(loss[k]>0?"faltan "+loss[k]:"sobran "+(-loss[k]))}).join("<br>")+"</div>"}
-$("lsum").innerHTML=lh;
+$("lsum").innerHTML=lh;renderHub();
 $("bgsum").textContent="Guías"+(pend?" ("+pend+" por recibir)":"");
 var box=$("bglist"),act=document.activeElement;
 if(force||!(act&&box.contains(act)&&/INPUT|TEXTAREA/.test(act.tagName))){
