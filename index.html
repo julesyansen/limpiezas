@@ -182,7 +182,7 @@ body::before{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%
     <p class="meta" style="margin:0 0 10px">Se leen de los calendarios de Airbnb y Booking. Cada salida crea sola la limpieza del departamento.</p>
     <div id="rsum"></div>
     <div class="footer-buttons" style="margin:14px 0"><button type="button" class="btn btn-primary" id="rsy" data-action="res_sync">Sincronizar ahora</button><button type="button" class="btn" data-action="res_gen">Crear limpiezas</button></div>
-    <h3 class="rh">Próximos 14 días</h3><div id="ragenda"></div>
+    <div id="rrng" class="chips"></div><h3 class="rh" id="rrh" style="margin-top:12px"></h3><div id="ragenda"></div>
     <details class="dd" style="margin-top:16px"><summary>Calendarios (enlaces iCal)</summary><div class="ddp" id="rcal"></div></details>
   </div></details>
   <details class="surface vw-man" id="mdet" open><summary id="mdsum">Mantención</summary><div class="inner">
@@ -566,12 +566,14 @@ b.innerHTML='<div class="hoyh"><h2>Hoy</h2><span class="meta">'+dias[now.getDay(
 function initView(){document.body.classList.add("hub");renderHub();setView(isLav()?"lav":"home")}
 function totLoc(bal,l){var n=0,k;for(k in bal[l])n+=bal[l][k];return n}
 /* ================= Reservas (calendarios iCal) ================= */
-var syncing=false,autoSynced=false;
+var syncing=false,autoSynced=false,resRng="30";
+function endNextMonth(){var d=new Date();return dkey(new Date(d.getFullYear(),d.getMonth()+2,0))}
+function resRange(){var d=new Date(),t0=dkey(d);if(resRng==="mes")return[t0,dkey(new Date(d.getFullYear(),d.getMonth()+1,0)),"Lo que queda de este mes"];if(resRng==="sig")return[dkey(new Date(d.getFullYear(),d.getMonth()+1,1)),endNextMonth(),"Mes siguiente completo"];return[t0,addDays(t0,30),"Próximos 30 días"]}
 function addDays(s,n){var d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return dkey(d)}
 function resItems(){var o=[];Object.keys(st.resv).forEach(function(u){((st.resv[u]||{}).items||[]).forEach(function(x){if(x.k==="res")o.push({unit:u,a:x.a,b:x.b,s:x.s,u:x.u})})});return o}
 function resAlerts(){if(!admin)return[];var R=resItems(),t0=dkey(new Date()),al=[];
 st.records.forEach(function(r){if(!r.res||r.date<t0)return;if(!R.some(function(x){return x.unit===r.unit&&x.b===r.date}))al.push(r)});return al}
-function genLimp(quiet){var R=resItems(),t0=dkey(new Date()),t1=addDays(t0,45),n=0;
+function genLimp(quiet){var R=resItems(),t0=dkey(new Date()),t1=endNextMonth(),n=0;
 R.forEach(function(x){if(x.b<t0||x.b>t1||!st.units[x.unit])return;
 if(st.records.some(function(r){return r.unit===x.unit&&r.date===x.b}))return;
 var ci=R.some(function(y){return y.unit===x.unit&&y.a===x.b}),d={date:x.b,unit:x.unit,hora:st.units[x.unit].hora,res:1};if(ci)d.checkin=true;
@@ -582,23 +584,25 @@ sb.functions.invoke("ical-sync",{body:{}}).then(function(r){syncing=false;if(r.e
 reload().then(function(){genLimp(!manual);renderRes();if(manual)toast("Calendarios sincronizados.")})},function(){syncing=false;if(manual)toast("No se pudo sincronizar.");renderRes()})}
 function ago(ts){if(!ts)return"nunca";var m=Math.round((Date.now()-new Date(ts))/60000);return m<2?"hace un momento":m<60?"hace "+m+" min":m<1440?"hace "+Math.round(m/60)+" h":"hace "+Math.round(m/1440)+" días"}
 function renderRes(){var box=$("rsum");if(!box||!admin)return;
-var R=resItems(),t0=dkey(new Date()),t14=addDays(t0,14),units=Object.keys(st.units).sort();
+var R=resItems(),t0=dkey(new Date()),rg=resRange(),t14=rg[1],tA=rg[0],units=Object.keys(st.units).sort();
 var outs=R.filter(function(x){return x.b===t0}).length,ins=R.filter(function(x){return x.a===t0}).length;
 var tr=R.filter(function(x){return x.b>=t0&&x.b<=addDays(t0,7)&&R.some(function(y){return y.unit===x.unit&&y.a===x.b})}).length;
 var sinUrl=units.filter(function(u){return!(st.ical[u]&&st.ical[u].url)}).length,al=resAlerts();
 box.innerHTML='<div class="lcards">'+[["Salidas hoy",outs],["Llegadas hoy",ins],["Recambios mismo día (7 d)",tr],["Deptos sin calendario",sinUrl]].map(function(c){return'<div class="lcard"><b>'+c[1]+"</b><span>"+c[0]+"</span></div>"}).join("")+"</div>"+
 (al.length?'<div class="bwarn" style="margin-top:12px">'+al.map(function(r){return'⚠ La limpieza de '+esc(r.unit)+" del "+fdt(r.date+"T12:00:00")+" ya no tiene reserva (¿cancelada?) "+'<button type="button" class="text-button" data-action="res_rm" data-id="'+esc(r.id)+'">'+(armed==="rr"+r.id?"¿Seguro?":"Quitar limpieza")+"</button>"}).join("<br>")+"</div>":"");
-var days={};R.forEach(function(x){if(x.b>=t0&&x.b<=t14)(days[x.b]=days[x.b]||[]).push({t:"out",x:x});if(x.a>=t0&&x.a<=t14)(days[x.a]=days[x.a]||[]).push({t:"in",x:x})});
+var days={};R.forEach(function(x){if(x.b>=tA&&x.b<=t14)(days[x.b]=days[x.b]||[]).push({t:"out",x:x});if(x.a>=tA&&x.a<=t14)(days[x.a]=days[x.a]||[]).push({t:"in",x:x})});
+$("rrng").innerHTML=[["30","Próx. 30 días"],["mes","Este mes"],["sig","Mes siguiente"]].map(function(o){return'<button type="button" class="chip'+(resRng===o[0]?" on":"")+'" data-action="res_rng" data-id="'+o[0]+'">'+o[1]+"</button>"}).join("");$("rrh").textContent=rg[2];
 var dn=["dom","lun","mar","mié","jue","vie","sáb"],ks=Object.keys(days).sort();
 $("ragenda").innerHTML=ks.length?ks.map(function(k){var d=new Date(k+"T12:00:00"),L=days[k].sort(function(p,q){return p.t==="out"?-1:1});
 return'<div class="rday"><div class="rdh">'+dn[d.getDay()]+" "+d.getDate()+"/"+(d.getMonth()+1)+(k===t0?" · hoy":"")+"</div>"+L.map(function(e){var tur=R.some(function(y){return y.unit===e.x.unit&&(e.t==="out"?y.a===k:y.b===k)});
-return'<div class="rrow"><span class="rt '+e.t+'">'+(e.t==="out"?"Salida":"Llegada")+"</span><b>"+esc(e.x.unit)+"</b>"+(tur?'<span class="rtur">⚡ recambio mismo día</span>':"")+"</div>"}).join("")+"</div>"}).join(""):'<p class="meta">'+(Object.keys(st.resv).length?"No hay salidas ni llegadas en los próximos 14 días.":"Aún no hay reservas. Pega los enlaces iCal abajo y toca Sincronizar.")+"</p>";
+return'<div class="rrow"><span class="rt '+e.t+'">'+(e.t==="out"?"Salida":"Llegada")+"</span><b>"+esc(e.x.unit)+"</b>"+(tur?'<span class="rtur">⚡ recambio mismo día</span>':"")+"</div>"}).join("")+"</div>"}).join(""):'<p class="meta">'+(Object.keys(st.resv).length?"No hay salidas ni llegadas en este período.":"Aún no hay reservas. Pega los enlaces iCal abajo y toca Sincronizar.")+"</p>";
 var fo=document.activeElement&&document.activeElement.closest&&document.activeElement.closest("#rcal");if(fo)return;
 $("rcal").innerHTML=units.map(function(u,i){var rv=st.resv[u]||{},ic=st.ical[u]||{};
 return'<div class="rcal"><label for="ic'+i+'"><b>'+esc(u)+'</b></label><textarea id="ic'+i+'" rows="2" data-u="'+esc(u)+'" placeholder="Enlace iCal de Airbnb (y de Booking, uno por línea)">'+esc(ic.url||"")+'</textarea><div class="meta">'+(ic.url?(rv.ts?(rv.ok===false?"⚠ "+esc(rv.err||"error")+" · ":"✓ ")+"Sincronizado "+ago(rv.ts)+" · "+(rv.items||[]).filter(function(x){return x.k==="res"}).length+" reservas":"Sin sincronizar aún"):"Sin calendario conectado")+"</div></div>"}).join("")+(units.length?'<button type="button" class="btn" data-action="res_save" style="margin-top:6px">Guardar enlaces</button>':'<p class="meta">Primero agrega los departamentos en Propiedades.</p>');
 var sb2=$("rsy");if(sb2&&!syncing)sb2.textContent="Sincronizar ahora"}
 function resAction(a,b){var id=b&&b.dataset?b.dataset.id:"";
 if(a==="res_save"){var n=0;document.querySelectorAll("#rcal textarea[data-u]").forEach(function(t){var u=t.dataset.u,v=t.value.trim().replace(/\s*\n\s*/g,"\n"),cur=(st.ical[u]||{}).url||"";if(v===cur)return;n++;if(v)put("ical",u,{url:v});else rm("ical",u)});toast(n?"Enlaces guardados. Toca «Sincronizar ahora».":"No hay cambios.");return}
+if(a==="res_rng"){resRng=id;renderRes();return}
 if(a==="res_sync"){syncIcal(true);return}
 if(a==="res_gen"){genLimp(false);return}
 if(a==="res_rm"){if(armed==="rr"+id){armed=null;rm("limpiezas",id);toast("Limpieza quitada.")}else{armed="rr"+id;renderRes()}return}}
