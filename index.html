@@ -48,12 +48,14 @@ body.locked #login{display:flex}
 .inv-i{border:1px solid #e7e2db;border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff}.inv-i.s-ok{background:#f3faf5;border-color:#b9ddc4}.inv-i.s-mal,.inv-i.s-falta{background:#fff6ee;border-color:#f0c48a}.inv-n{font-weight:700;margin-bottom:8px;overflow-wrap:anywhere}
 .inv-b{display:grid;grid-template-columns:1.4fr 1.2fr .8fr;gap:6px}.inv-bt{min-height:44px;border:1px solid #d8d5ce;border-radius:10px;background:#fff;font-size:13px;font-weight:700;color:var(--ink);padding:0 6px}.inv-bt.b-ok.on{background:#2f7d4f;border-color:#2f7d4f;color:#fff}.inv-bt.b-mal.on,.inv-bt.b-falta.on{background:#c0392b;border-color:#c0392b;color:#fff}
 .inv-i textarea{width:100%;margin-top:8px;border:1px solid #d8d5ce;border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;background:#fff;resize:vertical;min-height:56px}.inv-r{font-size:13px;font-weight:800}.inv-r.r-ok{color:#1d6b3a}.inv-r.r-mal,.inv-r.r-falta{color:#a33a2a}
-.ro .adm{display:none!important}body:not(.bk) #bdet{display:none!important}.ob .intro,.ob #pendbox,.ob #cal,.ob #report,.ob #outbox,.ob #editor,.ob #cdet,.ob #udet,.ob #idet,.ob #pdet,.ob .extras{display:none!important}.lv #bmv,.lv #bhi{display:none!important}
+.ro .adm{display:none!important}body:not(.bk) #bdet,body:not(.bk) #ldet,body:not(.bk) #vtabs{display:none!important}body:not(.vbod) #bdet{display:none!important}body:not(.vlav) #ldet{display:none!important}.lv #vtabs{display:none!important}.ob .intro,.ob #pendbox,.ob #cal,.ob #report,.ob #outbox,.ob #editor,.ob #cdet,.ob #udet,.ob #idet,.ob #pdet,.ob .extras{display:none!important}.lv #bmv,.lv #bhi{display:none!important}
 #bdet select,#bdet input:not([type=number]){width:100%;background:#fff;color:var(--ink);border:1px solid #d8d5ce;border-radius:10px;height:44px;padding:0 12px;font-size:16px}#bdet .field select{width:100%}
 .bt-w{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e7e2db;border-radius:12px;background:#fff}.bt{border-collapse:collapse;width:100%;font-size:13px}.bt th{font-size:11px;font-weight:800;color:var(--mute);text-align:center;padding:8px 6px;border-bottom:1px solid #ece8e1;white-space:nowrap}.bt th:first-child,.bt td:first-child{text-align:left;position:sticky;left:0;background:#fff;min-width:128px;padding-left:10px}.bt td{padding:8px 6px;text-align:center;border-bottom:1px solid #f3efe9;font-weight:700}.bt tr:last-child td{border-bottom:0}.bt td.z{color:#c4beb4;font-weight:400}.bt td.neg{color:#c0392b}
 .bwarn{background:#fff4e6;border:1px solid #f0c48a;color:#7a4a10;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;line-height:1.5}
 .qrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid #f1eee8}.qrow span{flex:1;min-width:0;font-size:15px}.qrow input{width:84px!important;flex:none;height:44px;text-align:center;border:1px solid #d8d5ce;border-radius:10px;font-size:16px;background:#fff}
 .g-i{border:1px solid #e7e2db;border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff}.g-i.g-pend{border-color:#f0c48a;background:#fffaf1}.g-i.g-ok{border-color:#b9ddc4;background:#f6fbf7}.g-i.g-dif{border-color:#e3a79f;background:#fdf3f1}.g-h{display:flex;flex-direction:column;gap:2px}.g-l{margin-top:6px;font-size:14px}.g-s{margin-top:6px;font-size:13px;font-weight:800}.g-d{font-size:13px;color:#a33a2a;margin-top:3px}.g-rec{margin-top:6px}
+.vtabs{display:flex;gap:6px;margin:0 0 16px}.vtabs button{flex:1;min-height:46px;border:1px solid #d8d5ce;background:#fff;border-radius:12px;font-weight:700;font-size:14px;color:var(--ink);padding:0 8px}.vtabs button.on{background:var(--dark);border-color:var(--dark);color:#fff}
+.lcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:10px}.lcard{border:1px solid #e7e2db;border-radius:12px;background:#fff;padding:10px 12px;display:flex;flex-direction:column;gap:2px}.lcard b{font-size:24px;letter-spacing:-.5px}.lcard span{font-size:12px;color:var(--mute);font-weight:700}.lcard.lc-bad{background:#fdf3f1;border-color:#e3a79f}.lcard.lc-bad b{color:#a33a2a}
 </style>
 </head>
 <body class="locked">
@@ -68,6 +70,7 @@ body.locked #login{display:flex}
   <div class="nosc" id="banner" style="display:none"></div>
   <header class="brand"><div class="symbol">JR</div><div><h1>Jules Residences</h1><small>Gestión de limpiezas</small></div><button type="button" class="text-button" id="logout">Salir</button></header>
   <section class="intro"><div><p class="eyebrow">Programación mensual</p><h2>Reporte de limpiezas</h2><p class="hint">Cada limpieza que agregues queda en un recuadro, ordenada por fecha.</p></div><div class="monthcontrol"><label for="month">Mes del reporte</label><input type="month" id="month"></div></section>
+  <nav class="vtabs" id="vtabs"></nav>
   <div class="pendbox" id="pendbox"></div>
   <section class="surface cal" id="cal"><header class="report-head"><div><h3 class="report-title">Calendario del mes</h3><p class="report-subtitle">Toca una limpieza para ir a su detalle</p></div><span class="count" id="calcount"></span></header><div class="calgrid" id="calgrid"></div><div class="legend"><span><i class="sw ok"></i>Asignada</span><span><i class="sw un"></i>Sin asignar</span><span><i class="sw ci"></i>Check-in 3 PM</span><span><b>K</b> Kit</span></div></section>
   <section class="surface report" id="report">
@@ -89,16 +92,29 @@ body.locked #login{display:flex}
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="saveBtn" data-action="save">+ Agregar al reporte</button><button type="button" class="btn" id="cancelEdit" data-action="cancel" style="display:none">Cancelar edición</button></div>
     <div class="notice" id="savedNotice" role="status"></div>
   </section>
-  <details class="surface" id="bdet"><summary id="bdsum">Bodega y kits</summary><div class="inner">
+  <details class="surface" id="bdet"><summary id="bdsum">Bodegas</summary><div class="inner">
+    <p class="meta" style="margin:0 0 10px">Inventario de compras, kits y reposición. Aquí se cargan las compras y se arman los kits de respaldo.</p>
     <div id="bsum"></div>
     <details class="dd" id="bmv" style="margin-top:14px"><summary>Registrar movimiento</summary><div class="ddp" id="bmvf">
       <div class="field"><label for="mt">Tipo de movimiento</label><select id="mt"></select></div>
-      <div class="field" id="mlocf" style="display:none;margin-top:10px"><label for="mloc">Lugar</label><select id="mloc"><option value="prep">Bodega de preparación</option><option value="cl">Bodega de cleaners</option><option value="dep">Departamentos</option><option value="suc">Sucio por enviar</option><option value="lav">Lavandería</option></select></div>
+      <div class="field" id="mlocf" style="display:none;margin-top:10px"><label for="mloc">Lugar</label><select id="mloc"><option value="prep">Bodega de preparación</option><option value="cl">Bodega de cleaners</option><option value="dep">Departamentos</option><option value="suc">Sucio por enviar</option></select></div>
       <div id="mlines"></div>
       <div class="field" style="margin-top:12px"><label for="mn">Nota (opcional)</label><input id="mn" placeholder="Ej. compra Sodimac, factura 123"></div>
       <div class="form-buttons"><button type="button" class="btn btn-primary" data-action="bd_msave">Registrar movimiento</button></div>
     </div></details>
-    <details class="dd" id="bgn"><summary id="bgsum">Guías de lavandería</summary><div class="ddp">
+    <details class="dd" id="bhi"><summary>Historial de movimientos</summary><div class="ddp"><div id="bhlist"></div></div></details>
+    <details class="dd adm" id="bart"><summary>Artículos (lista y mínimos)</summary><div class="ddp">
+      <div id="alist"></div>
+      <div class="field" style="margin-top:12px"><label for="an">Nombre</label><input id="an" placeholder="Ej. Kit amenities, Shampoo, Sábana bajera queen"></div>
+      <div class="formgrid" style="grid-template-columns:1fr 1fr;margin-top:10px"><div class="field"><label for="at">Tipo</label><select id="at"><option value="textil">Textil (vuelve de lavandería)</option><option value="consumible">Consumible (se gasta)</option><option value="kit">Kit armado</option></select></div><div class="field"><label for="am">Mínimo en preparación</label><input id="am" type="number" inputmode="numeric" min="0" placeholder="Opcional"></div></div>
+      <div class="form-buttons"><button type="button" class="btn btn-primary" id="asave" data-action="bd_asave">Agregar artículo</button><button type="button" class="btn" id="acancel" data-action="bd_acancel" style="display:none">Cancelar</button></div>
+      <p class="meta">Los textiles se cuentan por pieza. El mínimo avisa cuando la bodega de preparación queda bajo ese número.</p>
+    </div></details>
+  </div></details>
+  <details class="surface" id="ldet"><summary>Lavandería</summary><div class="inner">
+    <p class="meta" style="margin:0 0 10px">Ropa sucia que sale, ropa limpia que vuelve y diferencias de conteo. Se conecta con el stock de las bodegas.</p>
+    <div id="lsum"></div>
+    <details class="dd" id="bgn" style="margin-top:14px"><summary id="bgsum">Guías de lavandería</summary><div class="ddp">
       <div id="bglist"></div>
       <details class="dd" style="margin-top:12px"><summary>+ Nueva guía</summary><div class="ddp" id="bgform">
         <div class="field"><label for="gdir">Tipo de guía</label><select id="gdir"></select></div>
@@ -108,14 +124,6 @@ body.locked #login{display:flex}
         <div class="field" style="margin-top:10px"><label for="gnt">Nota (opcional)</label><input id="gnt"></div>
         <div class="form-buttons"><button type="button" class="btn btn-primary" data-action="bd_gsave">Crear guía</button></div>
       </div></details>
-    </div></details>
-    <details class="dd" id="bhi"><summary>Historial de movimientos</summary><div class="ddp"><div id="bhlist"></div></div></details>
-    <details class="dd adm" id="bart"><summary>Artículos (lista y mínimos)</summary><div class="ddp">
-      <div id="alist"></div>
-      <div class="field" style="margin-top:12px"><label for="an">Nombre</label><input id="an" placeholder="Ej. Kit amenities, Shampoo, Sábana bajera queen"></div>
-      <div class="formgrid" style="grid-template-columns:1fr 1fr;margin-top:10px"><div class="field"><label for="at">Tipo</label><select id="at"><option value="textil">Textil (vuelve de lavandería)</option><option value="consumible">Consumible (se gasta)</option><option value="kit">Kit armado</option></select></div><div class="field"><label for="am">Mínimo en preparación</label><input id="am" type="number" inputmode="numeric" min="0" placeholder="Opcional"></div></div>
-      <div class="form-buttons"><button type="button" class="btn btn-primary" id="asave" data-action="bd_asave">Agregar artículo</button><button type="button" class="btn" id="acancel" data-action="bd_acancel" style="display:none">Cancelar</button></div>
-      <p class="meta">Los textiles se cuentan por pieza. El mínimo avisa cuando la bodega de preparación queda bajo ese número.</p>
     </div></details>
   </div></details>
   <details class="surface" id="cdet" open><summary>Cleaners (nombres)</summary><div class="inner">
@@ -395,7 +403,7 @@ function qget(box,g,zero){var o={};Array.prototype.forEach.call(box.querySelecto
 function qclear(box){Array.prototype.forEach.call(box.querySelectorAll("input[data-g]"),function(i){i.value=""})}
 function renderBodForm(){var mt=$("mt");if(!mt)return;var sig=role+"|"+artList().map(function(a){return a.id+a.n+a.t}).join(",");if(sig===bodSig)return;bodSig=sig;
 mt.innerHTML=Object.keys(MT).map(function(k){return'<option value="'+k+'">'+esc(MT[k].t)+"</option>"}).join("");mlinesBuild();
-$("gl").innerHTML=qrows("g",["textil","consumible","kit"]);
+$("gl").innerHTML=qrows("g",["textil"]);
 var gd=$("gdir");gd.innerHTML=(admin||isBod()?'<option value="ida">Envío a lavandería</option>':"")+(admin||isLav()?'<option value="vuelta">Devolución desde la lavandería</option>':"");gdirChg()}
 function mlinesBuild(){var t=$("mt").value,h="",M=MT[t],box=$("mlines");
 $("mlocf").style.display=t==="baja"||t==="conteo"?"flex":"none";
@@ -404,19 +412,47 @@ if(t==="armado"){var kits=artList().filter(function(a){return a.t==="kit"});h='<
 else h='<p class="meta" style="margin:10px 0 4px">'+hint+'</p>'+qrows("l",["textil","consumible","kit"],t==="conteo"?"—":"0");
 box.innerHTML=h}
 function gdirChg(){var d=$("gdir").value;$("gorf").style.display=d==="ida"?"flex":"none"}
+var view="limp";
+function setView(v){
+if(!bodUI())return;
+if(isLav())v="lav";else if(isBod()&&v==="limp")v="bod";
+if(v!=="limp"&&v!=="bod"&&v!=="lav")v="limp";
+view=v;var c=document.body.classList;c.toggle("vbod",v==="bod");c.toggle("vlav",v==="lav");c.toggle("ob",v!=="limp");
+Array.prototype.forEach.call(document.querySelectorAll("#vtabs button"),function(x){x.classList.toggle("on",x.getAttribute("data-v")===v)});
+try{localStorage.setItem("jr_view",v)}catch(e){}
+try{window.scrollTo(0,0)}catch(e){}}
+function initView(){var tabs=[];if(admin)tabs.push(["limp","Limpiezas"]);if(admin||isBod())tabs.push(["bod","Bodegas"]);if(admin||isBod())tabs.push(["lav","Lavandería"]);
+$("vtabs").innerHTML=tabs.map(function(t){return'<button type="button" data-action="view" data-v="'+t[0]+'">'+t[1]+"</button>"}).join("");
+var v=isLav()?"lav":isBod()?"bod":"limp";if(admin){try{v=localStorage.getItem("jr_view")||"limp"}catch(e){}}setView(v)}
+function totLoc(bal,l){var n=0,k;for(k in bal[l])n+=bal[l][k];return n}
 function renderBod(force){
-if(!bodUI()||!$("bsum"))return;renderBodForm();var bal=bodStock(),al=artList(),h="",lv=isLav();
-var cols=lv?["lav","por"]:["prep","cl","dep","suc","lav","tran"];
-if(!lv){var warn=[];al.forEach(function(a){if(a.m>0&&(bal.prep[a.id]||0)<a.m)warn.push("⚠ "+esc(a.n)+": quedan "+(bal.prep[a.id]||0)+" en preparación (mínimo "+a.m+")")});
-Object.keys(LOC).forEach(function(l){al.forEach(function(a){if((bal[l][a.id]||0)<0)warn.push("❗ Revisa: "+esc(a.n)+" figura en negativo en «"+LOC[l]+"» ("+bal[l][a.id]+"). Falta registrar un movimiento.")})});
-var pend=Object.keys(st.guias).filter(function(k){return!st.guias[k].rec}).length,dif=Object.keys(st.guias).filter(function(k){return gDiff(st.guias[k]).length}).length;
-if(pend)warn.push("⏳ "+pend+(pend===1?" guía por recibir":" guías por recibir"));if(dif)warn.push("⚠ "+dif+(dif===1?" guía con diferencias":" guías con diferencias"));
-if(warn.length)h+='<div class="bwarn">'+warn.join("<br>")+"</div>"}
-h+='<div class="bt-w"><table class="bt"><thead><tr><th>Artículo</th>'+cols.map(function(c){return"<th>"+LSH[c]+"</th>"}).join("")+"</tr></thead><tbody>"+al.map(function(a){return"<tr><td>"+esc(a.n)+"</td>"+cols.map(function(c){var v=(bal[c]||{})[a.id]||0;return'<td class="'+(v<0?"neg":v===0?"z":"")+'">'+v+"</td>"}).join("")+"</tr>"}).join("")+"</tbody></table></div>";
-if(!lv)h+='<p class="meta" style="margin:6px 2px 0">Cada número sale de los movimientos registrados. «Tránsito» son guías enviadas que aún no se reciben.</p>';
+if(!bodUI()||!$("bsum"))return;renderBodForm();var bal=bodStock(),al=artList(),lv=isLav(),h="",warn=[];
+/* ---- Bodegas ---- */
+al.forEach(function(a){if(a.m>0&&(bal.prep[a.id]||0)<a.m)warn.push("⚠ "+esc(a.n)+": quedan "+(bal.prep[a.id]||0)+" en preparación (mínimo "+a.m+")")});
+["prep","cl","dep","suc"].forEach(function(l){al.forEach(function(a){if((bal[l][a.id]||0)<0)warn.push("❗ Revisa: "+esc(a.n)+" figura en negativo en «"+LOC[l]+"» ("+bal[l][a.id]+"). Falta registrar un movimiento.")})});
+if(warn.length)h+='<div class="bwarn">'+warn.join("<br>")+"</div>";
+var bc=["prep","cl","dep","suc"];
+h+='<div class="bt-w"><table class="bt"><thead><tr><th>Artículo</th>'+bc.map(function(c){return"<th>"+LSH[c]+"</th>"}).join("")+"</tr></thead><tbody>"+al.map(function(a){return"<tr><td>"+esc(a.n)+"</td>"+bc.map(function(c){var v=(bal[c]||{})[a.id]||0;return'<td class="'+(v<0?"neg":v===0?"z":"")+'">'+v+"</td>"}).join("")+"</tr>"}).join("")+"</tbody></table></div>";
+h+='<p class="meta" style="margin:6px 2px 0">Cada número sale de los movimientos registrados. Lo que está en la lavandería se ve en la pestaña Lavandería.</p>';
 $("bsum").innerHTML=h;
+var ms=Object.keys(st.movs).map(function(k){var m=st.movs[k];m.id=k;return m}).sort(function(x,y){return x.ts<y.ts?1:-1}).slice(0,25);
+$("bhlist").innerHTML=ms.length?ms.map(function(m){var l=m.tipo==="armado"?"Kits: "+lineTxt(m.l)+" · usó: "+lineTxt(m.usa||{}):lineTxt(m.l);
+return'<div class="g-i"><div class="g-h"><b>'+esc(MT[m.tipo]?MT[m.tipo].t:m.tipo)+(m.loc?" · "+esc(LOC[m.loc]):"")+(m.tipo==="baja"&&m.de?" · "+esc(LOC[m.de]):"")+'</b><span class="meta">'+fts(m.ts)+(m.por?" · "+esc(m.por):"")+"</span></div><div class='g-l'>"+l+"</div>"+(m.nota?'<p class="meta" style="margin:4px 0 0">📝 '+esc(m.nota)+"</p>":"")+(admin?'<button type="button" class="text-button red" data-action="bd_mdel" data-id="'+esc(m.id)+'">'+(armed==="bm"+m.id?"¿Seguro? Se anula":"Anular")+"</button>":"")+"</div>"}).join(""):'<p class="meta">Todavía no hay movimientos.</p>';
+if(admin){$("alist").innerHTML=artList().map(function(a){return'<div class="urow"><div class="grow"><b>'+esc(a.n)+'</b> <span class="ci-tag" style="margin:0 0 0 6px">'+esc(a.t)+"</span>"+(a.m?' <span class="meta">mín. '+a.m+"</span>":"")+'</div><button type="button" class="text-button" data-action="bd_aedit" data-id="'+esc(a.id)+'">Editar</button><button type="button" class="text-button red" data-action="bd_adel" data-id="'+esc(a.id)+'">'+(armed==="ba"+a.id?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")}
+/* ---- Lavandería ---- */
 var gs=Object.keys(st.guias).map(function(k){var g=st.guias[k];g.id=k;return g}).sort(function(x,y){return x.ts<y.ts?1:-1});
-$("bgsum").textContent="Guías de lavandería"+(gs.filter(function(g){return!g.rec}).length?" ("+gs.filter(function(g){return!g.rec}).length+" por recibir)":"");
+var pend=gs.filter(function(g){return!g.rec}).length,dif=gs.filter(function(g){return gDiff(g).length}).length;
+var cards=lv?[["En mi poder",totLoc(bal,"lav")],["Por recibir",pend],["Con diferencias",dif]]:[["Sucio por enviar",totLoc(bal,"suc")],["En tránsito",totLoc(bal,"tran")],["En lavandería",totLoc(bal,"lav")],["Con diferencias",dif]];
+var lh='<div class="lcards">'+cards.map(function(c){return'<div class="lcard'+(c[0]==="Con diferencias"&&c[1]?" lc-bad":"")+'"><b>'+c[1]+"</b><span>"+c[0]+"</span></div>"}).join("")+"</div>";
+if(!lv&&pend)lh+='<div class="bwarn">⏳ '+pend+(pend===1?" guía por recibir":" guías por recibir")+"</div>";
+var lc=lv?["lav","por"]:["suc","tran","lav"];
+lh+='<div class="bt-w"><table class="bt"><thead><tr><th>Artículo</th>'+lc.map(function(c){return"<th>"+LSH[c]+"</th>"}).join("")+"</tr></thead><tbody>"+al.filter(function(a){return a.t==="textil"}).map(function(a){return"<tr><td>"+esc(a.n)+"</td>"+lc.map(function(c){var v=(bal[c]||{})[a.id]||0;return'<td class="'+(v<0?"neg":v===0?"z":"")+'">'+v+"</td>"}).join("")+"</tr>"}).join("")+"</tbody></table></div>";
+if(!lv)lh+='<p class="meta" style="margin:6px 2px 0">«Sucio por enviar» sale de la bodega (Bodegas → Retirar sucios) y se descuenta al crear una guía de envío. Lo devuelto entra a la bodega de preparación.</p>';
+var loss={},any=false;gs.forEach(function(g){gDiff(g).forEach(function(d){loss[d.a]=(loss[d.a]||0)+(d.e-d.r)})});
+var lk=Object.keys(loss).filter(function(k){return loss[k]!==0});
+if(lk.length){any=true;lh+='<div class="bwarn" style="margin-top:12px"><b>Diferencias acumuladas en guías</b><br>'+lk.map(function(k){return esc(artName(k))+": "+(loss[k]>0?"faltan "+loss[k]:"sobran "+(-loss[k]))}).join("<br>")+"</div>"}
+$("lsum").innerHTML=lh;
+$("bgsum").textContent="Guías"+(pend?" ("+pend+" por recibir)":"");
 var box=$("bglist"),act=document.activeElement;
 if(force||!(act&&box.contains(act)&&/INPUT|TEXTAREA/.test(act.tagName))){
 box.innerHTML=gs.length?gs.map(function(g){var df=gDiff(g),cls=!g.rec?"g-pend":df.length?"g-dif":"g-ok",i=esc(g.id);
@@ -427,11 +463,7 @@ else if(canRecv(g))s+='<div class="tla"><button type="button" class="btn btn-pri
 else{s+='<div class="g-s">'+(df.length?"⚠ Recibida con diferencias":"✓ Recibida sin diferencias")+" · "+fts(g.rec.ts)+(g.rec.por?" · "+esc(g.rec.por):"")+"</div>";
 df.forEach(function(d){s+='<div class="g-d">'+esc(artName(d.a))+": enviadas "+d.e+", recibidas "+d.r+" ("+(d.e>d.r?"faltan "+(d.e-d.r):"sobran "+(d.r-d.e))+")</div>"})}
 if(admin)s+='<button type="button" class="text-button red" data-action="bd_gdel" data-id="'+i+'">'+(armed==="bg"+g.id?"¿Seguro? Se anula":"Anular guía")+"</button>";
-return s+"</div>"}).join(""):'<p class="meta">Todavía no hay guías.</p>'}
-var ms=Object.keys(st.movs).map(function(k){var m=st.movs[k];m.id=k;return m}).sort(function(x,y){return x.ts<y.ts?1:-1}).slice(0,25);
-$("bhlist").innerHTML=ms.length?ms.map(function(m){var l=m.tipo==="armado"?"Kits: "+lineTxt(m.l)+" · usó: "+lineTxt(m.usa||{}):lineTxt(m.l);
-return'<div class="g-i"><div class="g-h"><b>'+esc(MT[m.tipo]?MT[m.tipo].t:m.tipo)+(m.loc?" · "+esc(LOC[m.loc]):"")+(m.tipo==="baja"&&m.de?" · "+esc(LOC[m.de]):"")+'</b><span class="meta">'+fts(m.ts)+(m.por?" · "+esc(m.por):"")+"</span></div><div class='g-l'>"+l+"</div>"+(m.nota?'<p class="meta" style="margin:4px 0 0">📝 '+esc(m.nota)+"</p>":"")+(admin?'<button type="button" class="text-button red" data-action="bd_mdel" data-id="'+esc(m.id)+'">'+(armed==="bm"+m.id?"¿Seguro? Se anula":"Anular")+"</button>":"")+"</div>"}).join(""):'<p class="meta">Todavía no hay movimientos.</p>';
-if(admin){$("alist").innerHTML=artList().map(function(a){return'<div class="urow"><div class="grow"><b>'+esc(a.n)+'</b> <span class="ci-tag" style="margin:0 0 0 6px">'+esc(a.t)+"</span>"+(a.m?' <span class="meta">mín. '+a.m+"</span>":"")+'</div><button type="button" class="text-button" data-action="bd_aedit" data-id="'+esc(a.id)+'">Editar</button><button type="button" class="text-button red" data-action="bd_adel" data-id="'+esc(a.id)+'">'+(armed==="ba"+a.id?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")}}
+return s+"</div>"}).join(""):'<p class="meta">Todavía no hay guías.</p>'}}
 function bodAction(a,b){var id=b&&b.dataset?b.dataset.id:"",t;
 if(a==="bd_msave"){t=$("mt").value;var M=MT[t],mov={ts:iso(),tipo:t,por:myWho()},nt=$("mn").value.trim(),box=$("bmvf");if(nt)mov.nota=nt;
 if(t==="armado"){mov.usa=qget(box,"u");mov.l=qget(box,"k");mov.a="prep";if(!Object.keys(mov.l).length)return toast("Escribe cuántos kits armaste."),true}
@@ -660,6 +692,7 @@ document.addEventListener("click",function(e){var im=e.target&&e.target.closest?
 var b=e.target&&e.target.closest?e.target.closest("[data-action]"):null;if(!b)return;var a=b.dataset.action;
 if(/^p(up|down|edit|del|cancel|save)$/.test(a)){protoAction(a,b.dataset.id);return}
 if(/^bd_/.test(a)){bodAction(a,b);return}
+if(a==="view"){setView(b.dataset.v);return}
 if(a==="recgo"||a==="reccancel"){recAction(a);return}
 runAction(a,b.dataset.id,b)});
 document.addEventListener("change",function(e){var t=e.target;if(!t||!t.getAttribute)return;
@@ -680,9 +713,9 @@ function enter(){
 sb.from("perfiles").select("rol,nombre").maybeSingle().then(function(r){
 if(r.error||!r.data||["admin","coord","lector","cleaner","bodega","lavanderia"].indexOf(r.data.rol)<0||(r.data.rol==="cleaner"&&!r.data.nombre)){
 sb.auth.signOut();lock();lmsg("Tu usuario todavía no tiene permisos en la app. Pídele a Jules que te los asigne.");return}
-role=r.data.rol;admin=role==="admin";myName=(r.data.nombre||"").trim();document.body.classList.toggle("cl",role==="cleaner");document.body.classList.toggle("ob",role==="bodega"||role==="lavanderia");document.body.classList.toggle("lv",role==="lavanderia");document.body.classList.toggle("bk",admin||role==="bodega"||role==="lavanderia");
+role=r.data.rol;admin=role==="admin";myName=(r.data.nombre||"").trim();document.body.classList.toggle("cl",role==="cleaner");document.body.classList.toggle("lv",role==="lavanderia");document.body.classList.toggle("bk",admin||role==="bodega"||role==="lavanderia");
 document.body.classList.toggle("ro",!admin);document.body.classList.toggle("rd",role==="lector");
-if(bodUI()){$("bdet").open=role!=="coord"&&(role==="bodega"||role==="lavanderia");$("bdsum").textContent=role==="lavanderia"?"Guías de la lavandería":"Bodega y kits";if(role==="lavanderia")$("bgn").open=true}db=makeDb(sb);document.body.classList.remove("locked");lmsg("");sub()
+if(bodUI()){$("bdet").open=true;$("ldet").open=true;$("bgn").open=true}db=makeDb(sb);document.body.classList.remove("locked");lmsg("");sub();if(bodUI())initView()
 },function(){lock();lmsg("No se pudo conectar. Revisa tu internet e intenta de nuevo.")})}
 function doLogin(){
 var e=$("le").value.trim(),p=$("lp").value;if(!e||!p)return lmsg("Escribe tu correo y tu clave.");
