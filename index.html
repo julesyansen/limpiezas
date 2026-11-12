@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#EFE9E1">
@@ -113,6 +113,8 @@ html,body{max-width:100%;overflow-x:hidden}
 .hoyh{flex-wrap:wrap;gap:2px 10px}.hoyh .meta{white-space:normal}
 .hubgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-width:0}.tile b,.tile small{overflow-wrap:anywhere}
 .hal,.hrow{min-width:0;overflow-wrap:anywhere}.hrow b{min-width:0}
+/* iOS hace zoom al enfocar campos con letra menor a 16px (pasa con autorrellenar) */
+input,select,textarea{font-size:16px!important}
 </style>
 </head>
 <body class="locked">
@@ -791,7 +793,8 @@ document.addEventListener("toggle",function(e){var d=e.target;if(d&&d.getAttribu
 /* ---- Acceso ---- */
 function lmsg(t){var m=$("lmsg");m.textContent=t||"";m.classList.toggle("show",!!t)}
 function lock(){document.body.classList.add("locked")}
-function enter(){
+function resetVista(){try{var ae=document.activeElement;if(ae&&ae.blur)ae.blur();var m=document.querySelector('meta[name=viewport]');if(m){var c=m.getAttribute("content");m.setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover");setTimeout(function(){m.setAttribute("content",c)},350)}window.scrollTo(0,0);setTimeout(function(){window.scrollTo(0,0)},120)}catch(x){}}
+function enter(){resetVista();
 sb.from("perfiles").select("rol,nombre").maybeSingle().then(function(r){
 if(r.error||!r.data||["admin","coord","lector","cleaner","bodega","lavanderia"].indexOf(r.data.rol)<0||(r.data.rol==="cleaner"&&!r.data.nombre)){
 sb.auth.signOut();lock();lmsg("Tu usuario todavía no tiene permisos en la app. Pídele a Jules que te los asigne.");return}
