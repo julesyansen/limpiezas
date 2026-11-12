@@ -49,7 +49,7 @@ body.locked #login{display:flex}
 .inv-i{border:1px solid #E2D9CC;border-radius:12px;padding:10px 12px;margin-top:8px;background:var(--white)}.inv-i.s-ok{background:#f3faf5;border-color:#b9ddc4}.inv-i.s-mal,.inv-i.s-falta{background:#fff6ee;border-color:#f0c48a}.inv-n{font-weight:500;margin-bottom:8px;overflow-wrap:anywhere}
 .inv-b{display:grid;grid-template-columns:1.4fr 1.2fr .8fr;gap:6px}.inv-bt{min-height:44px;border:1px solid #DDD3C6;border-radius:10px;background:var(--white);font-size:13px;font-weight:500;color:var(--ink);padding:0 6px}.inv-bt.b-ok.on{background:#2f7d4f;border-color:#2f7d4f;color:#fff}.inv-bt.b-mal.on,.inv-bt.b-falta.on{background:#c0392b;border-color:#c0392b;color:#fff}
 .inv-i textarea{width:100%;margin-top:8px;border:1px solid #DDD3C6;border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;background:var(--white);resize:vertical;min-height:56px}.inv-r{font-size:13px;font-weight:500}.inv-r.r-ok{color:#1d6b3a}.inv-r.r-mal,.inv-r.r-falta{color:#a33a2a}
-.ro .adm{display:none!important}body:not(.bk) #bdet,body:not(.bk) #ldet{display:none!important}body:not(.hub) #home,body:not(.hub) #hubbar,.hub.v-home #hubbar,.lv #hubbar{display:none!important}.hub:not(.v-home) #home{display:none!important}.hub:not(.v-res) .vw-res,.hub:not(.v-man) .vw-man,.hub:not(.v-cos) .vw-cos,.hub:not(.v-limp) .vw-limp,.hub:not(.v-prop) .vw-prop,.hub:not(.v-lav) .vw-lav,.hub:not(.v-bod) .vw-bod{display:none!important}.lv #bmv,.lv #bhi{display:none!important}
+.ro .adm{display:none!important}body:not(.bk) #bdet,body:not(.bk) #ldet{display:none!important}body:not(.hub) #home,body:not(.hub) #hubbar,.hub.v-home #hubbar,.lv #hubbar{display:none!important}.hub:not(.v-home) #home{display:none!important}.hub:not(.v-res) .vw-res,.hub:not(.v-man) .vw-man,.hub:not(.v-fin) .vw-fin,.hub:not(.v-limp) .vw-limp,.hub:not(.v-prop) .vw-prop,.hub:not(.v-lav) .vw-lav,.hub:not(.v-bod) .vw-bod{display:none!important}.lv #bmv,.lv #bhi{display:none!important}
 #bdet select,#bdet input:not([type=number]){width:100%;background:var(--white);color:var(--ink);border:1px solid #DDD3C6;border-radius:10px;height:44px;padding:0 12px;font-size:16px}#bdet .field select{width:100%}
 .bt-w{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #E2D9CC;border-radius:12px;background:var(--white)}.bt{border-collapse:collapse;width:100%;font-size:13px}.bt th{font-size:11px;font-weight:500;color:var(--mute);text-align:center;padding:8px 6px;border-bottom:1px solid #EAE3D9;white-space:nowrap}.bt th:first-child,.bt td:first-child{text-align:left;position:sticky;left:0;background:var(--white);min-width:128px;padding-left:10px}.bt td{padding:8px 6px;text-align:center;border-bottom:1px solid #f3efe9;font-weight:500}.bt tr:last-child td{border-bottom:0}.bt td.z{color:#c4beb4;font-weight:400}.bt td.neg{color:#c0392b}
 .bwarn{background:#fff4e6;border:1px solid #f0c48a;color:#7a4a10;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;line-height:1.5}
@@ -142,7 +142,7 @@ body::before{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%
 .runwrap{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%,#F6F0E6 92%,#F6F0E6 100%)!important}
 #rsum .lcards{grid-template-columns:repeat(2,minmax(0,1fr))}
 </style>
-<style>.cosmes{display:flex;align-items:center;gap:12px;margin:0 0 12px}.cosm{font-weight:600;text-transform:capitalize;min-width:140px;text-align:center}.cosrow{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.cosrow:last-child{border-bottom:0}.cosrow b{flex:1}.cosrow span{color:#6b6257;font-size:13px}.cosrow em{font-style:normal;font-weight:600;min-width:84px;text-align:right}</style>
+<style>.cosmes{display:flex;align-items:center;gap:12px;margin:0 0 12px}.cosm{font-weight:600;text-transform:capitalize;min-width:140px;text-align:center}.cosrow{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.cosrow:last-child{border-bottom:0}.cosrow b{flex:1}.cosrow span{color:#6b6257;font-size:13px}.cosrow em{font-style:normal;font-weight:600;min-width:84px;text-align:right}.tarrow{display:flex;gap:8px;align-items:center;margin-bottom:8px}.tarrow b{flex:1;min-width:0}.tarrow input{width:110px;flex:none}.xed{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}.xed input{flex:1 1 100%}.cosd{border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}.cosd .cosrow{border:0;padding-bottom:2px}.cosgo{width:100%;background:none;border:0;border-bottom:1px solid var(--line);font:inherit;text-align:left;cursor:pointer}</style>
 </head>
 <body class="locked">
 <div id="login"><form class="surface loginbox" id="loginform" novalidate>
@@ -186,11 +186,9 @@ body::before{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%
     <div id="rrng" class="chips"></div><h3 class="rh" id="rrh" style="margin-top:12px"></h3><div id="ragenda"></div>
     <details class="dd" style="margin-top:16px"><summary>Calendarios (enlaces iCal)</summary><div class="ddp" id="rcal"></div></details>
   </div></details>
-  <details class="surface vw-cos" id="cosdet" open><summary>Costos de limpieza</summary><div class="inner">
-    <p class="meta" style="margin:0 0 10px">Lo que cuesta cada limpieza según la tarifa del departamento (con recargos por check-in y fin de semana). Úsalo para el reporte mensual a la empresa de limpieza.</p>
-    <div id="cosmes" class="cosmes"></div><div id="cossum"></div>
-    <details class="dd" open style="margin-top:14px"><summary>Por departamento</summary><div class="ddp" id="cosdep"></div></details>
-    <details class="dd" open style="margin-top:10px"><summary>Por cleaner</summary><div class="ddp" id="coscl"></div></details>
+  <details class="surface vw-fin" id="findet" open><summary>Finanzas</summary><div class="inner">
+    <p class="meta" style="margin:0 0 10px">Todo lo que hay que pagar en el mes, reunido por categoría. Toca una categoría para ver su detalle y definir sus tarifas.</p>
+    <div id="finmes" class="cosmes"></div><div id="finsum"></div>
     <div class="footer-buttons" style="margin-top:14px"><button type="button" class="btn btn-primary" data-action="cos_copy">Copiar resumen del mes</button></div>
   </div></details>
   <details class="surface vw-man" id="mdet" open><summary id="mdsum">Mantención</summary><div class="inner">
@@ -231,6 +229,11 @@ body::before{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%
   <details class="surface vw-lav" id="ldet"><summary>Lavandería</summary><div class="inner">
     <p class="meta" style="margin:0 0 10px">Ropa sucia que sale, ropa limpia que vuelve y diferencias de conteo. Se conecta con el stock de las bodegas.</p>
     <div id="lsum"></div>
+    <details class="dd" id="lvcost" style="margin-top:14px"><summary>Costos de lavandería</summary><div class="ddp">
+      <div id="lvmes" class="cosmes"></div><div id="lvsum"></div>
+      <details class="dd" style="margin-top:12px"><summary>Tarifario por prenda</summary><div class="ddp" id="lvtar"></div></details>
+      <details class="dd" style="margin-top:10px"><summary>Guías del mes y tratamientos especiales</summary><div class="ddp" id="lvrows"></div></details>
+    </div></details>
     <details class="dd" id="bgn" style="margin-top:14px"><summary id="bgsum">Guías de lavandería</summary><div class="ddp">
       <div id="bglist"></div>
       <details class="dd" style="margin-top:12px"><summary>+ Nueva guía</summary><div class="ddp" id="bgform">
@@ -243,6 +246,15 @@ body::before{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%
       </div></details>
     </div></details>
   </div></details>
+  <details class="surface vw-limp" id="lcdet"><summary>Costos de limpieza</summary><div class="inner">
+    <p class="meta" style="margin:0 0 10px">Valor fijo por departamento, con recargo en domingos y festivos, y cobros extra cuando una limpieza exige más trabajo.</p>
+    <div id="lcmes" class="cosmes"></div><div id="lcsum"></div>
+    <details class="dd" style="margin-top:14px"><summary>Tarifas por departamento</summary><div class="ddp" id="lctar"></div></details>
+    <details class="dd" style="margin-top:10px"><summary>Por departamento</summary><div class="ddp" id="lcdep"></div></details>
+    <details class="dd" style="margin-top:10px"><summary>Por cleaner</summary><div class="ddp" id="lccl"></div></details>
+    <details class="dd" style="margin-top:10px"><summary>Detalle y cobros extra</summary><div class="ddp" id="lcrows"></div></details>
+    <div class="footer-buttons" style="margin-top:14px"><button type="button" class="btn btn-primary" data-action="cos_copyl">Copiar reporte para la empresa</button></div>
+  </div></details>
   <details class="surface vw-limp" id="cdet" open><summary>Cleaners (nombres)</summary><div class="inner">
     <div id="clist"></div>
     <div class="field" style="margin-top:14px"><label for="cn">Nombre</label><input id="cn" placeholder="Ej. María González"></div>
@@ -254,8 +266,7 @@ body::before{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%
     <div class="formgrid" style="margin-top:14px;grid-template-columns:1fr 1fr">
       <div class="field"><label for="ud">Depto</label><input id="ud" placeholder="605"></div><div class="field"><label for="uh">Disponible desde</label><input id="uh" type="time" value="11:00"></div>
       <div class="field" style="grid-column:1/-1"><label for="ua">Dirección</label><input id="ua" placeholder="Apoquindo 6797"></div>
-      <div class="field"><label for="uk">Clave</label><input id="uk" placeholder="211321 o 41199784#"></div><div class="field"><label for="ub">Bodega</label><input id="ub" placeholder="bodega 49, piso -2"></div><div class="field" style="grid-column:1/-1"><label for="ut">Valor por limpieza ($)</label><input id="ut" type="number" inputmode="numeric" placeholder="25000"></div><div class="field"><label for="ue1">Recargo check-in ($)</label><input id="ue1" type="number" inputmode="numeric" placeholder="0"></div><div class="field"><label for="ue2">Recargo fin de semana ($)</label><input id="ue2" type="number" inputmode="numeric" placeholder="0"></div>
-      <div class="field" style="grid-column:1/-1"><label for="ug">Grupo de kits (los deptos con el mismo grupo comparten los kits 1 al 4)</label><input id="ug" placeholder="Ej. las-condes (vacío = kits propios)"></div>
+      <div class="field"><label for="uk">Clave</label><input id="uk" placeholder="211321 o 41199784#"></div><div class="field"><label for="ub">Bodega</label><input id="ub" placeholder="bodega 49, piso -2"></div><div class="field" style="grid-column:1/-1"><label for="ug">Grupo de kits (los deptos con el mismo grupo comparten los kits 1 al 4)</label><input id="ug" placeholder="Ej. las-condes (vacío = kits propios)"></div>
     </div>
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="usave" data-action="usave">Agregar departamento</button><button type="button" class="btn" id="ucancel" data-action="ucancel" style="display:none">Cancelar</button></div>
     <p class="meta">Una clave sin # ni 🔒 se muestra como 🔒 clave 🔒.</p>
@@ -405,7 +416,7 @@ db.collection("protocolo").onSnapshot(function(s){st.proto=(s.docs[0]&&(s.docs[0
 function defDate(){var d=new Date(),t=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);return t.slice(0,7)===st.month?t:st.month+"-01"}
 function resetForm(){editing=null;$("unit").value="";$("date").value=defDate();$("hora").value="11:00";fillCl([]);$("nota").value="";$("ci").checked=false;
 $("formTitle").textContent="Crear nueva limpieza";$("editor").classList.remove("editing");$("saveBtn").textContent="+ Agregar al reporte";$("cancelEdit").style.display="none";$("warning").classList.remove("show")}
-function resetUnit(){editingUnit=null;["ud","ua","uk","ub","ug","ut","ue1","ue2"].forEach(function(i){$(i).value=""});$("uh").value="11:00";$("usave").textContent="Agregar departamento";$("ucancel").style.display="none"}
+function resetUnit(){editingUnit=null;["ud","ua","uk","ub","ug"].forEach(function(i){$(i).value=""});$("uh").value="11:00";$("usave").textContent="Agregar departamento";$("ucancel").style.display="none"}
 function prevKit(){var e=$("kitprev");if(!e)return;var un=$("unit").value,d=$("date").value;if(!st.units[un]||!/^\d{4}-\d{2}-\d{2}$/.test(d)){e.textContent="Automático según el mes";return}
 var id=editing||"__new",saved=st.records,tmp=st.records.filter(function(r){return r.id!==editing});tmp.push({id:"__new",date:d,unit:un,hora:$("hora").value||st.units[un].hora});st.records=tmp;var m=kitMap();st.records=saved;e.textContent="Kit "+(m["__new"]||1)+" (automático)"}
 function go(id){try{$(id).scrollIntoView({behavior:"smooth",block:"start"})}catch(e){}}
@@ -421,7 +432,7 @@ if(date.slice(0,7)!==st.month)return err("La fecha debe corresponder al mes del 
 var dup=st.records.filter(function(r){return r.unit===unit&&r.date===date&&r.id!==editing})[0];
 if(dup)return err("Ya existe una limpieza del depto "+unit+" en esa fecha. Usa «Editar».");
 var id=editing||"l"+Date.now()+Math.floor(Math.random()*1000),was=!!editing,n=selCl().join(", ");
-var doc={date:date,unit:unit,hora:$("hora").value||st.units[unit].hora};var nt=$("nota").value.trim();if(nt)doc.nota=nt;if($("ci").checked)doc.checkin=true;put("limpiezas",id,doc);
+var doc={date:date,unit:unit,hora:$("hora").value||st.units[unit].hora};var nt=$("nota").value.trim();if(nt)doc.nota=nt;if($("ci").checked)doc.checkin=true;var o0=editing&&recById(editing);if(o0&&o0.xtra){doc.xtra=o0.xtra;if(o0.xnt)doc.xnt=o0.xnt}put("limpiezas",id,doc);
 if(n)put("asignaciones",id,{names:n});else if(was&&st.asg[id])rm("asignaciones",id);
 hl=id;resetForm();$("savedNotice").textContent="✓ "+(was?"Limpieza actualizada.":"Limpieza agregada.")+" Ya aparece en el reporte.";$("savedNotice").classList.add("show");go("report");toast("Limpieza guardada.")}
 function resetCl(){editingCl=null;$("cn").value="";$("csave").textContent="Agregar cleaner";$("ccancel").style.display="none"}
@@ -438,8 +449,8 @@ var k=$("ud").value.trim(),a=$("ua").value.trim();if(!k||!a)return toast("Comple
 if(!/^[A-Za-z0-9_-]+$/.test(k))return toast("El depto solo puede tener letras y números.");
 if(!editingUnit&&st.units[k])return toast("Ese departamento ya existe. Usa «Editar».");
 if(editingUnit&&k!==editingUnit&&st.units[k])return toast("Ya existe un depto con ese número.");
-put("deptos",k,{address:a,hora:$("uh").value||"11:00",code:$("uk").value.trim(),storage:$("ub").value.trim(),group:$("ug").value.trim(),t:+$("ut").value||0,e1:+$("ue1").value||0,e2:+$("ue2").value||0});
-if(editingUnit&&k!==editingUnit){rm("deptos",editingUnit);st.records.forEach(function(r){if(r.unit===editingUnit)(function(d){if(r.nota)d.nota=r.nota;if(r.checkin)d.checkin=true;put("limpiezas",r.id,d)})({date:r.date,unit:k,hora:r.hora})})}
+put("deptos",k,{address:a,hora:$("uh").value||"11:00",code:$("uk").value.trim(),storage:$("ub").value.trim(),group:$("ug").value.trim(),t:+(st.units[editingUnit||k]||{}).t||0,e2:+(st.units[editingUnit||k]||{}).e2||0});
+if(editingUnit&&k!==editingUnit){rm("deptos",editingUnit);st.records.forEach(function(r){if(r.unit===editingUnit)(function(d){if(r.nota)d.nota=r.nota;if(r.checkin)d.checkin=true;if(r.xtra){d.xtra=r.xtra;if(r.xnt)d.xnt=r.xnt}put("limpiezas",r.id,d)})({date:r.date,unit:k,hora:r.hora})})}
 resetUnit();toast("Departamento guardado.")}
 document.addEventListener("click",function(e){
 var t=e.target,b=t&&t.closest?t.closest("[data-action]"):null;if(!b)return;var a=b.dataset.action,id=b.dataset.id;
@@ -463,7 +474,7 @@ if(a==="newunit"){setView("prop");resetUnit();$("udet").open=true;go("udet");set
 if(a==="usave")saveUnit();
 if(a==="isave")invSave();
 if(a==="ucancel")resetUnit();
-if(a==="uedit"&&st.units[id]){var u=st.units[id];editingUnit=id;$("ud").value=id;$("ua").value=u.address;$("uh").value=u.hora;$("uk").value=u.code;$("ub").value=u.storage;$("ug").value=u.group||"";$("ut").value=u.t||"";$("ue1").value=u.e1||"";$("ue2").value=u.e2||"";$("usave").textContent="Guardar cambios";$("ucancel").style.display="inline-flex"}
+if(a==="uedit"&&st.units[id]){var u=st.units[id];editingUnit=id;$("ud").value=id;$("ua").value=u.address;$("uh").value=u.hora;$("uk").value=u.code;$("ub").value=u.storage;$("ug").value=u.group||"";$("usave").textContent="Guardar cambios";$("ucancel").style.display="inline-flex"}
 if(a==="uremove"){if(armed==="u"+id){armed=null;if(st.records.some(function(q){return q.unit===id}))toast("No se puede eliminar: tiene limpiezas en el reporte.");else rm("deptos",id)}else{armed="u"+id;render()}}
 if(a==="print"){try{window.print()}catch(x2){}}
 });
@@ -536,19 +547,19 @@ else h='<p class="meta" style="margin:10px 0 4px">'+hint+'</p>'+qrows("l",["text
 box.innerHTML=h}
 function gdirChg(){var d=$("gdir").value;$("gorf").style.display=d==="ida"?"flex":"none"}
 document.addEventListener("touchstart",function(){},{passive:true});
-var view="home",ICONS={"cos": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M14.8 9.2c-.5-.9-1.5-1.4-2.8-1.4-1.6 0-2.7.8-2.7 2s1 1.7 2.7 2.1 2.9.8 2.9 2.1-1.2 2-2.9 2c-1.4 0-2.5-.6-3-1.6M12 6v1.8M12 16.2V18\"/></svg>","res": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3.5\" y=\"5\" width=\"17\" height=\"15\" rx=\"2.5\"/><path d=\"M3.5 10h17M8 3v4M16 3v4M8 14h2M14 14h2M8 17h2\"/></svg>","man": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14.7 6.3a4 4 0 0 0-5.4 5.4L3.5 17.5a1.8 1.8 0 0 0 2.5 2.5l5.8-5.8a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.2-.5-.5-2.2z\"/></svg>","prop": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 21V6l8-3 8 3v15\"/><path d=\"M9 21v-4h6v4M8 9h2M14 9h2M8 13h2M14 13h2\"/></svg>", "limp": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z\"/><path d=\"M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8zM5 15l.6 1.4L7 17l-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z\"/></svg>", "lav": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\"/><circle cx=\"12\" cy=\"13.5\" r=\"4.2\"/><path d=\"M7.5 6.5h.01M10.5 6.5h3M9.8 13.5c1.2-1 2.6 1 4.4 0\"/></svg>", "bod": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 8l-9-5-9 5v8l9 5 9-5z\"/><path d=\"M3 8l9 5 9-5M12 13v8\"/></svg>"},VTIT={home:"Inicio",prop:"Propiedades",limp:"Limpiezas",man:"Mantención",cos:"Costos",res:"Reservas",lav:"Lavandería",bod:"Bodegas"};
-function hubViews(){return admin?["prop","res","limp","man","cos","lav","bod"]:isBod()?["lav","bod"]:isLav()?["lav"]:[]}
+var view="home",ICONS={"fin": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M14.8 9.2c-.5-.9-1.5-1.4-2.8-1.4-1.6 0-2.7.8-2.7 2s1 1.7 2.7 2.1 2.9.8 2.9 2.1-1.2 2-2.9 2c-1.4 0-2.5-.6-3-1.6M12 6v1.8M12 16.2V18\"/></svg>","res": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3.5\" y=\"5\" width=\"17\" height=\"15\" rx=\"2.5\"/><path d=\"M3.5 10h17M8 3v4M16 3v4M8 14h2M14 14h2M8 17h2\"/></svg>","man": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14.7 6.3a4 4 0 0 0-5.4 5.4L3.5 17.5a1.8 1.8 0 0 0 2.5 2.5l5.8-5.8a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.2-.5-.5-2.2z\"/></svg>","prop": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 21V6l8-3 8 3v15\"/><path d=\"M9 21v-4h6v4M8 9h2M14 9h2M8 13h2M14 13h2\"/></svg>", "limp": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z\"/><path d=\"M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8zM5 15l.6 1.4L7 17l-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z\"/></svg>", "lav": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2.5\"/><circle cx=\"12\" cy=\"13.5\" r=\"4.2\"/><path d=\"M7.5 6.5h.01M10.5 6.5h3M9.8 13.5c1.2-1 2.6 1 4.4 0\"/></svg>", "bod": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 8l-9-5-9 5v8l9 5 9-5z\"/><path d=\"M3 8l9 5 9-5M12 13v8\"/></svg>"},VTIT={home:"Inicio",prop:"Propiedades",limp:"Limpiezas",man:"Mantención",fin:"Finanzas",res:"Reservas",lav:"Lavandería",bod:"Bodegas"};
+function hubViews(){return admin?["prop","res","limp","man","lav","bod","fin"]:isBod()?["lav","bod"]:isLav()?["lav"]:[]}
 function setView(v){
 if(!bodUI())return;var ok=hubViews();
 if(isLav())v="lav";else if(v!=="home"&&ok.indexOf(v)<0)v="home";
-view=v;var c=document.body.classList;["home","prop","res","limp","man","cos","lav","bod"].forEach(function(x){c.toggle("v-"+x,v===x)});
+view=v;var c=document.body.classList;["home","prop","res","limp","man","lav","bod","fin"].forEach(function(x){c.toggle("v-"+x,v===x)});
 $("hubtitle").textContent=VTIT[v]||"";
 try{window.scrollTo(0,0)}catch(e){}}
 function renderHub(){var g=$("hubgrid");if(!g||!bodUI())return;
 var today=new Date(),pend=Object.keys(st.guias).filter(function(k){return!st.guias[k].rec}).length,mes=st.records.filter(function(r){return(r.date||"").slice(0,7)===st.month}).length;
-var nu=Object.keys(st.units).length,subs={prop:nu+(nu===1?" departamento":" departamentos"),limp:mes+(mes===1?" limpieza":" limpiezas")+" este mes",lav:pend?pend+(pend===1?" guía por recibir":" guías por recibir"):"Todo al día",bod:hubN.bod?hubN.bod+(hubN.bod===1?" alerta":" alertas"):"Sin alertas",cos:"$"+cosCalc(dkey(new Date()).slice(0,7)).tot.toLocaleString("es-CL")+" este mes"};
+var nu=Object.keys(st.units).length,subs={prop:nu+(nu===1?" departamento":" departamentos"),limp:mes+(mes===1?" limpieza":" limpiezas")+" este mes",lav:pend?pend+(pend===1?" guía por recibir":" guías por recibir"):"Todo al día",bod:hubN.bod?hubN.bod+(hubN.bod===1?" alerta":" alertas"):"Sin alertas",fin:money(finCalc(dkey(new Date()).slice(0,7)).tot)+" este mes"};
 var H=hoyData();
-g.innerHTML=hubViews().map(function(k){var n=k==="limp"?H.sinAsg.length:k==="prop"?H.inc.length:k==="lav"?pend:k==="bod"?hubN.bod:k==="man"?H.tixAb.length:k==="cos"?cosN():k==="res"?resAlerts().length:0;return'<button type="button" class="tile" data-action="view" data-v="'+k+'"><span class="tic">'+ICONS[k]+'</span>'+(n?'<i class="bdg">'+n+"</i>":"")+'<b>'+VTIT[k]+'</b><small>'+esc(subs[k])+"</small></button>"}).join("");
+g.innerHTML=hubViews().map(function(k){var n=k==="limp"?H.sinAsg.length:k==="prop"?H.inc.length:k==="lav"?pend:k==="bod"?hubN.bod:k==="man"?H.tixAb.length:k==="fin"?cosN():k==="res"?resAlerts().length:0;return'<button type="button" class="tile" data-action="view" data-v="'+k+'"><span class="tic">'+ICONS[k]+'</span>'+(n?'<i class="bdg">'+n+"</i>":"")+'<b>'+VTIT[k]+'</b><small>'+esc(subs[k])+"</small></button>"}).join("");
 renderHoy(H)}
 function dkey(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
 function hoyData(){var now=new Date(),t0=dkey(now),e7=new Date(now.getTime()+6*864e5),t1=dkey(e7),y=new Date(now.getTime()-3*864e5),tb=dkey(y);
@@ -619,12 +630,17 @@ if(a==="res_rm"){if(armed==="rr"+id){armed=null;rm("limpiezas",id);toast("Limpie
 var PRIO={urgente:["Urgente",0],alta:["Alta",1],media:["Media",2],baja:["Baja",3]},MEST={abierto:"Abierto",curso:"En curso",resuelto:"Resuelto"},editingT=null,tixF="act";
 function tixList(){return Object.keys(st.tix).map(function(k){var x=st.tix[k];x.id=k;return x})}
 function fdt(s){if(!s)return"";var d=new Date(s);return d.getDate()+"/"+(d.getMonth()+1)}
-var cosM=null;
+var cosM=null,cosX=null,lvX=null;
 function cosMes(){return cosM||dkey(new Date()).slice(0,7)}
 function cosShift(m,n){var y=+m.slice(0,4),k=+m.slice(5,7)-1+n;y+=Math.floor(k/12);k=((k%12)+12)%12;return y+"-"+("0"+(k+1)).slice(-2)}
 var MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-function cosTarifa(r){var u=st.units[r.unit]||{},t=+u.t||0,d=new Date(r.date+"T12:00:00"),wk=d.getDay()===0||d.getDay()===6,x=0;
-if(r.checkin)x+=+u.e1||0;if(wk)x+=+u.e2||0;return{base:t,extra:x,tot:t+x,sin:!t}}
+var FESTIVOS=["2026-01-01","2026-04-03","2026-04-04","2026-05-01","2026-05-21","2026-06-21","2026-06-29","2026-07-16","2026-08-15","2026-09-18","2026-09-19","2026-10-12","2026-10-31","2026-11-01","2026-12-08","2026-12-25","2027-01-01","2027-03-26","2027-03-27","2027-05-01","2027-05-21","2027-06-21","2027-06-28","2027-07-16","2027-08-15","2027-09-17","2027-09-18","2027-09-19","2027-10-11","2027-10-31","2027-11-01","2027-12-08","2027-12-25"];
+function esFest(d){return FESTIVOS.indexOf(d)>=0||new Date(d+"T12:00:00").getDay()===0}
+function money(n){return"$"+Math.round(n).toLocaleString("es-CL")}
+function setH(el,h){if(el&&el._h!==h){el._h=h;el.innerHTML=h}}
+function navMes(){var m=cosMes();return'<button type="button" class="chip" data-action="cos_prev">‹</button><span class="cosm">'+MESES[+m.slice(5,7)-1]+" "+m.slice(0,4)+'</span><button type="button" class="chip" data-action="cos_next">›</button>'}
+function cardsH(l){return'<div class="lcards">'+l.map(function(c){return'<div class="lcard"><b>'+c[1]+"</b><span>"+c[0]+"</span></div>"}).join("")+"</div>"}
+function cosTarifa(r){var u=st.units[r.unit]||{},t=+u.t||0,f=esFest(r.date)?+u.e2||0:0,x=+r.xtra||0;return{base:t,fest:f,xtra:x,tot:t+f+x,sin:!t}}
 function cosCalc(mes){var R=st.records.filter(function(r){return(r.date||"").slice(0,7)===mes&&estOf(r)!=="cancelada"}).sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0}),
 o={tot:0,hecho:0,pend:0,n:R.length,sin:0,dep:{},cl:{},rows:[]};
 R.forEach(function(r){var c=cosTarifa(r),done=estOf(r)==="realizada"||estOf(r)==="incompleta";o.tot+=c.tot;if(done)o.hecho+=c.tot;else o.pend+=c.tot;if(c.sin)o.sin++;
@@ -632,19 +648,53 @@ var d=o.dep[r.unit]||(o.dep[r.unit]={n:0,tot:0});d.n++;d.tot+=c.tot;
 var l=split(names(r));if(!l.length)l=["Sin asignar"];l.forEach(function(nm){var q=o.cl[nm]||(o.cl[nm]={n:0,tot:0});q.n+=1/l.length;q.tot+=c.tot/l.length});
 o.rows.push({r:r,c:c,done:done})});
 return o}
-function cosN(){return cosCalc(dkey(new Date()).slice(0,7)).sin}
-function money(n){return"$"+Math.round(n).toLocaleString("es-CL")}
+function artPrice(id){var l=artList();for(var i=0;i<l.length;i++)if(l[i].id===id)return+l[i].p||0;return 0}
+function layCalc(mes){var G=Object.keys(st.guias).map(function(k){var g=st.guias[k];g.id=k;return g}).filter(function(g){return g.dir==="ida"&&g.ts&&dkey(new Date(g.ts)).slice(0,7)===mes}).sort(function(x,y){return x.ts<y.ts?-1:1}),
+o={tot:0,lav:0,ext:0,n:G.length,sin:0,rows:[]};
+G.forEach(function(g){var q=(g.rec&&g.rec.l)||g.l||{},w=0,u=0;Object.keys(q).forEach(function(id){var c=+q[id]||0;u+=c;var p=artPrice(id);if(!p&&c)o.sin++;w+=c*p});var e=+g.tv||0;o.lav+=w;o.ext+=e;o.tot+=w+e;o.rows.push({g:g,u:u,w:w,e:e,rec:!!g.rec})});
+return o}
+function manCalc(mes){var h=0,p=0;tixList().forEach(function(x){var c=+x.costo||0;if(!c)return;if(x.est==="resuelto"){if((x.res||"").slice(0,7)===mes)h+=c}else p+=c});return{hecho:h,pend:p,tot:h+p}}
+function finCalc(mes){var l=cosCalc(mes),v=layCalc(mes),m=manCalc(mes);return{l:l,v:v,m:m,tot:l.tot+v.tot+m.tot,real:l.hecho+v.tot+m.hecho,pend:l.pend+m.pend}}
+function cosN(){var m=dkey(new Date()).slice(0,7);return cosCalc(m).sin+layCalc(m).sin}
 function cosText(mes,o){var t="Resumen de limpiezas — "+MESES[+mes.slice(5,7)-1]+" "+mes.slice(0,4)+"\n\n";
-o.rows.forEach(function(x){t+=fdate(x.r.date)+" · Depto "+x.r.unit+(x.r.checkin?" · check-in":"")+" · "+(names(x.r)||"sin asignar")+" · "+money(x.c.tot)+"\n"});
+o.rows.forEach(function(x){t+=fdate(x.r.date)+" · Depto "+x.r.unit+(x.c.fest?" · festivo/domingo":"")+(x.c.xtra?" · extra"+(x.r.xnt?" ("+x.r.xnt+")":""):"")+" · "+(names(x.r)||"sin asignar")+" · "+money(x.c.tot)+"\n"});
 t+="\nTotal: "+money(o.tot)+" ("+o.n+" limpiezas)";return t}
-function renderCos(){var box=$("cossum");if(!box||!admin)return;var mes=cosMes(),o=cosCalc(mes);
-$("cosmes").innerHTML='<button type="button" class="chip" data-action="cos_prev">‹</button><span class="cosm">'+MESES[+mes.slice(5,7)-1]+" "+mes.slice(0,4)+'</span><button type="button" class="chip" data-action="cos_next">›</button>';
-box.innerHTML='<div class="lcards">'+[["Total del mes",money(o.tot)],["Limpiezas",o.n],["Ya hechas",money(o.hecho)],["Por hacer",money(o.pend)]].map(function(c){return'<div class="lcard"><b>'+c[1]+"</b><span>"+c[0]+"</span></div>"}).join("")+"</div>"+
-(o.sin?'<p class="meta" style="margin:10px 0 0;color:#9C5520">⚠ '+o.sin+(o.sin===1?" limpieza sin tarifa":" limpiezas sin tarifa")+": define el valor en Propiedades > editar departamento.</p>":"")+(o.n?"":'<p class="meta" style="margin:10px 0 0">No hay limpiezas este mes.</p>');
-var dk=Object.keys(o.dep).sort();$("cosdep").innerHTML=dk.map(function(k){return'<div class="cosrow"><b>Depto '+esc(k)+'</b><span>'+o.dep[k].n+(o.dep[k].n===1?" limpieza":" limpiezas")+'</span><em>'+money(o.dep[k].tot)+"</em></div>"}).join("")||'<p class="meta">—</p>';
-var ck=Object.keys(o.cl).sort();$("coscl").innerHTML=ck.map(function(k){var q=o.cl[k],n=Math.round(q.n*10)/10;return'<div class="cosrow"><b>'+esc(k)+'</b><span>'+n+(n===1?" limpieza":" limpiezas")+'</span><em>'+money(q.tot)+"</em></div>"}).join("")||'<p class="meta">—</p>'}
-function cosAction(a){if(a==="cos_prev"){cosM=cosShift(cosMes(),-1);renderCos()}else if(a==="cos_next"){cosM=cosShift(cosMes(),1);renderCos()}
-else if(a==="cos_copy"){var m=cosMes();copy(cosText(m,cosCalc(m)),"Resumen copiado.")}}
+function finText(mes,f){var t="Finanzas — "+MESES[+mes.slice(5,7)-1]+" "+mes.slice(0,4)+"\n\nLimpieza: "+money(f.l.tot)+"\nLavandería: "+money(f.v.tot)+"\nMantención: "+money(f.m.tot)+"\n\nTotal: "+money(f.tot);return t}
+function rowsH(arr){return arr.length?arr.map(function(x){return'<div class="cosrow"><b>'+x[0]+'</b><span>'+x[1]+'</span><em>'+x[2]+"</em></div>"}).join(""):'<p class="meta">—</p>'}
+function renderCos(){
+var lw=$("lcdet"),vw=$("lvcost");if(!admin){if(lw)lw.style.display="none";if(vw)vw.style.display="none";return}
+if(lw)lw.style.display="";if(vw)vw.style.display="";
+var mes=cosMes(),o=cosCalc(mes),v=layCalc(mes),f=finCalc(mes);
+setH($("lcmes"),navMes());
+setH($("lcsum"),cardsH([["Total del mes",money(o.tot)],["Limpiezas",o.n],["Ya hechas",money(o.hecho)],["Por hacer",money(o.pend)]])+(o.sin?'<p class="meta" style="margin:10px 0 0;color:#9C5520">⚠ '+o.sin+(o.sin===1?" limpieza sin tarifa":" limpiezas sin tarifa")+": ingresa el valor del departamento en «Tarifas por departamento».</p>":""));
+setH($("lctar"),'<p class="meta" style="margin:0 0 8px">Valor fijo de cada limpieza y recargo cuando cae domingo o festivo.</p>'+Object.keys(st.units).sort().map(function(k){var u=st.units[k];return'<div class="tarrow"><b>'+esc(k)+'</b><input type="number" inputmode="numeric" placeholder="Valor" data-cu="'+esc(k)+'" data-f="t" value="'+(u.t||"")+'"><input type="number" inputmode="numeric" placeholder="Dom/fest." data-cu="'+esc(k)+'" data-f="e2" value="'+(u.e2||"")+'"></div>'}).join("")+'<div class="footer-buttons" style="margin-top:10px"><button type="button" class="btn btn-primary" data-action="cos_tar">Guardar tarifas</button></div>');
+setH($("lcdep"),rowsH(Object.keys(o.dep).sort().map(function(k){return["Depto "+esc(k),o.dep[k].n+(o.dep[k].n===1?" limpieza":" limpiezas"),money(o.dep[k].tot)]})));
+setH($("lccl"),rowsH(Object.keys(o.cl).sort().map(function(k){var q=o.cl[k],n=Math.round(q.n*10)/10;return[esc(k),n+(n===1?" limpieza":" limpiezas"),money(q.tot)]})));
+setH($("lcrows"),o.rows.map(function(x){var r=x.r,c=x.c,ed=cosX===r.id;return'<div class="cosd"><div class="cosrow"><b>'+esc(fdate(r.date))+" · "+esc(r.unit)+'</b><span>'+(c.fest?"festivo/dom. ":"")+(c.xtra?"extra "+money(c.xtra):"")+(c.sin?"sin tarifa":"")+'</span><em>'+money(c.tot)+'</em></div>'+
+(ed?'<div class="xed"><input id="cxv" type="number" inputmode="numeric" placeholder="Extra $" value="'+(r.xtra||"")+'"><input id="cxn" type="text" placeholder="Motivo (ej. depto muy sucio)" value="'+esc(r.xnt||"")+'"><button type="button" class="btn btn-primary" data-action="cos_xsave" data-id="'+esc(r.id)+'">Guardar</button><button type="button" class="btn" data-action="cos_xcancel">Cancelar</button></div>':'<button type="button" class="text-button" data-action="cos_xt" data-id="'+esc(r.id)+'">'+(r.xtra?"Editar extra":"+ Cobro extra (mayor trabajo)")+'</button>')+"</div>"}).join("")||'<p class="meta">No hay limpiezas este mes.</p>');
+setH($("lvmes"),navMes());
+setH($("lvsum"),cardsH([["Total del mes",money(v.tot)],["Lavado por prenda",money(v.lav)],["Tratamientos extra",money(v.ext)],["Guías",v.n]])+(v.sin?'<p class="meta" style="margin:10px 0 0;color:#9C5520">⚠ Hay prendas sin precio en el tarifario.</p>':""));
+setH($("lvtar"),'<p class="meta" style="margin:0 0 8px">Valor fijo por prenda lavada.</p>'+artList().filter(function(x){return x.t==="textil"}).map(function(x){return'<div class="tarrow"><b>'+esc(x.n)+'</b><input type="number" inputmode="numeric" placeholder="Valor" data-pa="'+esc(x.id)+'" value="'+(x.p||"")+'"></div>'}).join("")+'<div class="footer-buttons" style="margin-top:10px"><button type="button" class="btn btn-primary" data-action="cos_ptar">Guardar tarifario</button></div>');
+setH($("lvrows"),v.rows.map(function(x){var g=x.g,ed=lvX===g.id;return'<div class="cosd"><div class="cosrow"><b>'+esc(fdate(dkey(new Date(g.ts))))+(g.n?" · N° "+esc(g.n):"")+'</b><span>'+x.u+" prendas"+(x.rec?"":" (sin recibir)")+(x.e?" · extra "+money(x.e):"")+'</span><em>'+money(x.w+x.e)+'</em></div>'+
+(g.tx&&!ed?'<p class="meta" style="margin:0 0 4px">🧼 '+esc(g.tx)+"</p>":"")+
+(ed?'<div class="xed"><input id="lxv" type="number" inputmode="numeric" placeholder="Valor $" value="'+(g.tv||"")+'"><input id="lxn" type="text" placeholder="Tratamiento (ej. manchas)" value="'+esc(g.tx||"")+'"><button type="button" class="btn btn-primary" data-action="cos_lxsave" data-id="'+esc(g.id)+'">Guardar</button><button type="button" class="btn" data-action="cos_lxcancel">Cancelar</button></div>':'<button type="button" class="text-button" data-action="cos_lxt" data-id="'+esc(g.id)+'">'+(g.tv?"Editar tratamiento especial":"+ Tratamiento especial")+'</button>')+"</div>"}).join("")||'<p class="meta">No hay guías de envío este mes.</p>');
+setH($("finmes"),navMes());
+setH($("finsum"),cardsH([["Total del mes",money(f.tot)],["Ya realizado",money(f.real)],["Por hacer",money(f.pend)]])+'<div style="margin-top:12px">'+[["limp","Limpieza",f.l.tot,o.n+" limpiezas"],["lav","Lavandería",f.v.tot,v.n+" guías"],["man","Mantención",f.m.tot,"abiertos "+money(f.m.pend)]].map(function(c){return'<button type="button" class="cosrow cosgo" data-action="view" data-v="'+c[0]+'"><b>'+c[1]+'</b><span>'+c[3]+'</span><em>'+money(c[2])+"</em></button>"}).join("")+"</div>"+((o.sin||v.sin)?'<p class="meta" style="margin:10px 0 0;color:#9C5520">⚠ Faltan tarifas por cargar (limpieza o lavandería).</p>':""))}
+function cosAction(a,b){var id=b&&b.dataset?b.dataset.id:"";
+if(a==="cos_prev"){cosM=cosShift(cosMes(),-1);renderCos();return}
+if(a==="cos_next"){cosM=cosShift(cosMes(),1);renderCos();return}
+if(a==="cos_copy"){var m=cosMes();copy(finText(m,finCalc(m)),"Resumen copiado.");return}
+if(a==="cos_copyl"){var m2=cosMes();copy(cosText(m2,cosCalc(m2)),"Reporte copiado.");return}
+if(a==="cos_tar"){var ch={};Array.prototype.forEach.call(document.querySelectorAll("#lctar input[data-cu]"),function(i){var k=i.dataset.cu;(ch[k]=ch[k]||{})[i.dataset.f]=+i.value||0});
+Object.keys(ch).forEach(function(k){var u=st.units[k];if(!u)return;if((+u.t||0)===ch[k].t&&(+u.e2||0)===ch[k].e2)return;var d={};for(var q in u)d[q]=u[q];d.t=ch[k].t;d.e2=ch[k].e2;put("deptos",k,d)});toast("Tarifas guardadas.");return}
+if(a==="cos_ptar"){var pr={};Array.prototype.forEach.call(document.querySelectorAll("#lvtar input[data-pa]"),function(i){pr[i.dataset.pa]=+i.value||0});
+put("articulos","main",{items:artList().map(function(x){return{id:x.id,n:x.n,t:x.t,m:x.m||0,p:pr[x.id]!=null?pr[x.id]:(x.p||0)}})});toast("Tarifario guardado.");return}
+if(a==="cos_xt"){cosX=id;renderCos();return}
+if(a==="cos_xcancel"){cosX=null;renderCos();return}
+if(a==="cos_xsave"){var r=recById(id);if(!r)return;var d2={date:r.date,unit:r.unit,hora:r.hora};if(r.nota)d2.nota=r.nota;if(r.checkin)d2.checkin=true;if(r.res)d2.res=r.res;var v=+$("cxv").value||0,n2=$("cxn").value.trim();if(v>0){d2.xtra=v;if(n2)d2.xnt=n2}cosX=null;put("limpiezas",id,d2);toast("Cobro extra guardado.");return}
+if(a==="cos_lxt"){lvX=id;renderCos();return}
+if(a==="cos_lxcancel"){lvX=null;renderCos();return}
+if(a==="cos_lxsave"){var g=st.guias[id];if(!g)return;var c={};for(var k in g)c[k]=g[k];delete c.id;var v2=+$("lxv").value||0,t2=$("lxn").value.trim();if(v2>0){c.tv=v2;if(t2)c.tx=t2;else delete c.tx}else{delete c.tv;delete c.tx}lvX=null;put("guias",id,c);toast("Tratamiento guardado.");return}}
 function renderMan(){var box=$("msum");if(!box||!admin)return;
 var L=tixList(),ab=L.filter(function(x){return x.est!=="resuelto"}),ur=ab.filter(function(x){return x.prio==="urgente"}).length,bl=ab.filter(function(x){return x.bloq}).length,mes=dkey(new Date()).slice(0,7),cm=0;
 L.forEach(function(x){if(x.est==="resuelto"&&(x.res||"").slice(0,7)===mes)cm+=+x.costo||0});
@@ -724,12 +774,12 @@ if(a==="bd_grecok"){var g2=st.guias[id];if(!g2||g2.rec)return true;var q={},k;fo
 var c={};for(k in g2)c[k]=g2[k];delete c.id;c.rec={ts:iso(),l:q,por:myWho()};gRec=null;put("guias",id,c);toast("Recepción registrada.");return true}
 if(a==="bd_gdel"){if(armed==="bg"+id){armed=null;rm("guias",id);toast("Guía anulada.")}else{armed="bg"+id;renderBod(true)}return true}
 if(a==="bd_mdel"){if(armed==="bm"+id){armed=null;rm("movs",id);toast("Movimiento anulado.")}else{armed="bm"+id;renderBod(true)}return true}
-if(a==="bd_asave"){var nm=$("an").value.trim();if(!nm)return toast("Escribe el nombre del artículo."),true;var ty=$("at").value,mn=parseInt($("am").value,10),lst=artList().map(function(x){return{id:x.id,n:x.n,t:x.t,m:x.m||0}});
-if(editingA){lst.forEach(function(x){if(x.id===editingA){x.n=nm;x.t=ty;x.m=mn>0?mn:0}})}else lst.push({id:"a"+Date.now(),n:nm,t:ty,m:mn>0?mn:0});
+if(a==="bd_asave"){var nm=$("an").value.trim();if(!nm)return toast("Escribe el nombre del artículo."),true;var ty=$("at").value,mn=parseInt($("am").value,10),lst=artList().map(function(x){return{id:x.id,n:x.n,t:x.t,m:x.m||0,p:x.p||0}});
+if(editingA){lst.forEach(function(x){if(x.id===editingA){x.n=nm;x.t=ty;x.m=mn>0?mn:0}})}else lst.push({id:"a"+Date.now(),n:nm,t:ty,m:mn>0?mn:0,p:0});
 put("articulos","main",{items:lst});bodAction("bd_acancel");toast("Artículos guardados.");return true}
 if(a==="bd_aedit"){var x1=artList().filter(function(x){return x.id===id})[0];if(x1){editingA=id;$("an").value=x1.n;$("at").value=x1.t;$("am").value=x1.m||"";$("asave").textContent="Guardar cambios";$("acancel").style.display="inline-flex"}return true}
 if(a==="bd_acancel"){editingA=null;$("an").value="";$("am").value="";$("asave").textContent="Agregar artículo";$("acancel").style.display="none";return true}
-if(a==="bd_adel"){if(armed==="ba"+id){armed=null;put("articulos","main",{items:artList().filter(function(x){return x.id!==id}).map(function(x){return{id:x.id,n:x.n,t:x.t,m:x.m||0}})});toast("Artículo eliminado.")}else{armed="ba"+id;renderBod(true)}return true}
+if(a==="bd_adel"){if(armed==="ba"+id){armed=null;put("articulos","main",{items:artList().filter(function(x){return x.id!==id}).map(function(x){return{id:x.id,n:x.n,t:x.t,m:x.m||0,p:x.p||0}})});toast("Artículo eliminado.")}else{armed="ba"+id;renderBod(true)}return true}
 return false}
 /* ---- Protocolo y ejecución de la limpieza ---- */
 function invCount(k){var n=((st.inv[k]||[]).filter(function(x){return!isHead(x)})).length;return n===1?"1 elemento":n+" elementos"}
