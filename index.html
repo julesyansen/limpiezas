@@ -48,6 +48,12 @@ body.locked #login{display:flex}
 .inv-i{border:1px solid #e7e2db;border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff}.inv-i.s-ok{background:#f3faf5;border-color:#b9ddc4}.inv-i.s-mal,.inv-i.s-falta{background:#fff6ee;border-color:#f0c48a}.inv-n{font-weight:700;margin-bottom:8px;overflow-wrap:anywhere}
 .inv-b{display:grid;grid-template-columns:1.4fr 1.2fr .8fr;gap:6px}.inv-bt{min-height:44px;border:1px solid #d8d5ce;border-radius:10px;background:#fff;font-size:13px;font-weight:700;color:var(--ink);padding:0 6px}.inv-bt.b-ok.on{background:#2f7d4f;border-color:#2f7d4f;color:#fff}.inv-bt.b-mal.on,.inv-bt.b-falta.on{background:#c0392b;border-color:#c0392b;color:#fff}
 .inv-i textarea{width:100%;margin-top:8px;border:1px solid #d8d5ce;border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;background:#fff;resize:vertical;min-height:56px}.inv-r{font-size:13px;font-weight:800}.inv-r.r-ok{color:#1d6b3a}.inv-r.r-mal,.inv-r.r-falta{color:#a33a2a}
+.ro .adm{display:none!important}body:not(.bk) #bdet{display:none!important}.ob .intro,.ob #pendbox,.ob #cal,.ob #report,.ob #outbox,.ob #editor,.ob #cdet,.ob #udet,.ob #idet,.ob #pdet,.ob .extras{display:none!important}.lv #bmv,.lv #bhi{display:none!important}
+#bdet select,#bdet input:not([type=number]){width:100%;background:#fff;color:var(--ink);border:1px solid #d8d5ce;border-radius:10px;height:44px;padding:0 12px;font-size:16px}#bdet .field select{width:100%}
+.bt-w{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e7e2db;border-radius:12px;background:#fff}.bt{border-collapse:collapse;width:100%;font-size:13px}.bt th{font-size:11px;font-weight:800;color:var(--mute);text-align:center;padding:8px 6px;border-bottom:1px solid #ece8e1;white-space:nowrap}.bt th:first-child,.bt td:first-child{text-align:left;position:sticky;left:0;background:#fff;min-width:128px;padding-left:10px}.bt td{padding:8px 6px;text-align:center;border-bottom:1px solid #f3efe9;font-weight:700}.bt tr:last-child td{border-bottom:0}.bt td.z{color:#c4beb4;font-weight:400}.bt td.neg{color:#c0392b}
+.bwarn{background:#fff4e6;border:1px solid #f0c48a;color:#7a4a10;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;line-height:1.5}
+.qrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid #f1eee8}.qrow span{flex:1;min-width:0;font-size:15px}.qrow input{width:84px!important;flex:none;height:44px;text-align:center;border:1px solid #d8d5ce;border-radius:10px;font-size:16px;background:#fff}
+.g-i{border:1px solid #e7e2db;border-radius:12px;padding:10px 12px;margin-top:8px;background:#fff}.g-i.g-pend{border-color:#f0c48a;background:#fffaf1}.g-i.g-ok{border-color:#b9ddc4;background:#f6fbf7}.g-i.g-dif{border-color:#e3a79f;background:#fdf3f1}.g-h{display:flex;flex-direction:column;gap:2px}.g-l{margin-top:6px;font-size:14px}.g-s{margin-top:6px;font-size:13px;font-weight:800}.g-d{font-size:13px;color:#a33a2a;margin-top:3px}.g-rec{margin-top:6px}
 </style>
 </head>
 <body class="locked">
@@ -83,6 +89,35 @@ body.locked #login{display:flex}
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="saveBtn" data-action="save">+ Agregar al reporte</button><button type="button" class="btn" id="cancelEdit" data-action="cancel" style="display:none">Cancelar edición</button></div>
     <div class="notice" id="savedNotice" role="status"></div>
   </section>
+  <details class="surface" id="bdet"><summary id="bdsum">Bodega y kits</summary><div class="inner">
+    <div id="bsum"></div>
+    <details class="dd" id="bmv" style="margin-top:14px"><summary>Registrar movimiento</summary><div class="ddp" id="bmvf">
+      <div class="field"><label for="mt">Tipo de movimiento</label><select id="mt"></select></div>
+      <div class="field" id="mlocf" style="display:none;margin-top:10px"><label for="mloc">Lugar</label><select id="mloc"><option value="prep">Bodega de preparación</option><option value="cl">Bodega de cleaners</option><option value="dep">Departamentos</option><option value="suc">Sucio por enviar</option><option value="lav">Lavandería</option></select></div>
+      <div id="mlines"></div>
+      <div class="field" style="margin-top:12px"><label for="mn">Nota (opcional)</label><input id="mn" placeholder="Ej. compra Sodimac, factura 123"></div>
+      <div class="form-buttons"><button type="button" class="btn btn-primary" data-action="bd_msave">Registrar movimiento</button></div>
+    </div></details>
+    <details class="dd" id="bgn"><summary id="bgsum">Guías de lavandería</summary><div class="ddp">
+      <div id="bglist"></div>
+      <details class="dd" style="margin-top:12px"><summary>+ Nueva guía</summary><div class="ddp" id="bgform">
+        <div class="field"><label for="gdir">Tipo de guía</label><select id="gdir"></select></div>
+        <div class="field" id="gorf" style="margin-top:10px"><label for="gor">Sale desde</label><select id="gor"><option value="suc">Sucio por enviar</option><option value="cl">Bodega de cleaners</option><option value="prep">Bodega de preparación</option></select></div>
+        <div id="gl" style="margin-top:6px"></div>
+        <div class="field" style="margin-top:10px"><label for="gn">N° de guía (opcional)</label><input id="gn" placeholder="Ej. 1045"></div>
+        <div class="field" style="margin-top:10px"><label for="gnt">Nota (opcional)</label><input id="gnt"></div>
+        <div class="form-buttons"><button type="button" class="btn btn-primary" data-action="bd_gsave">Crear guía</button></div>
+      </div></details>
+    </div></details>
+    <details class="dd" id="bhi"><summary>Historial de movimientos</summary><div class="ddp"><div id="bhlist"></div></div></details>
+    <details class="dd adm" id="bart"><summary>Artículos (lista y mínimos)</summary><div class="ddp">
+      <div id="alist"></div>
+      <div class="field" style="margin-top:12px"><label for="an">Nombre</label><input id="an" placeholder="Ej. Kit amenities, Shampoo, Sábana bajera queen"></div>
+      <div class="formgrid" style="grid-template-columns:1fr 1fr;margin-top:10px"><div class="field"><label for="at">Tipo</label><select id="at"><option value="textil">Textil (vuelve de lavandería)</option><option value="consumible">Consumible (se gasta)</option><option value="kit">Kit armado</option></select></div><div class="field"><label for="am">Mínimo en preparación</label><input id="am" type="number" inputmode="numeric" min="0" placeholder="Opcional"></div></div>
+      <div class="form-buttons"><button type="button" class="btn btn-primary" id="asave" data-action="bd_asave">Agregar artículo</button><button type="button" class="btn" id="acancel" data-action="bd_acancel" style="display:none">Cancelar</button></div>
+      <p class="meta">Los textiles se cuentan por pieza. El mínimo avisa cuando la bodega de preparación queda bajo ese número.</p>
+    </div></details>
+  </div></details>
   <details class="surface" id="cdet" open><summary>Cleaners (nombres)</summary><div class="inner">
     <div id="clist"></div>
     <div class="field" style="margin-top:14px"><label for="cn">Nombre</label><input id="cn" placeholder="Ej. María González"></div>
@@ -124,7 +159,7 @@ body.locked #login{display:flex}
 (function(){"use strict";
 var APP=location.href.split("#")[0].split("?")[0].replace(/index\.html$/,"");
 var MES=["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
-var st={units:{},records:[],asg:{},est:{},ejec:{},proto:[],inv:{},cleaners:{},month:"",filt:""},editing=null,editingUnit=null,editingCl=null,armed=null,hl=null,db=null,sb=null,role="",admin=false,pend=false;
+var st={units:{},records:[],asg:{},est:{},ejec:{},proto:[],inv:{},art:[],movs:{},guias:{},cleaners:{},month:"",filt:""},editing=null,editingUnit=null,editingCl=null,armed=null,hl=null,db=null,sb=null,role="",admin=false,pend=false;
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function toast(s){var t=$("toast");t.textContent=s;t.classList.add("show");clearTimeout(toast.id);toast.id=setTimeout(function(){t.classList.remove("show")},2800)}
@@ -135,12 +170,15 @@ if(c==="deptos"){if(d)st.units[id]=d;else delete st.units[id]}
 else if(c==="cleaners"){if(d)st.cleaners[id]=d;else delete st.cleaners[id]}
 else if(c==="asignaciones"){if(d)st.asg[id]=d.names||"";else delete st.asg[id]}
 else if(c==="protocolo"){if(d)st.proto=d.pasos||[]}
+else if(c==="articulos"){if(d)st.art=d.items||[]}
+else if(c==="movs"){if(d)st.movs[id]=d;else delete st.movs[id]}
+else if(c==="guias"){if(d)st.guias[id]=d;else delete st.guias[id]}
 else if(c==="inventarios"){if(d)st.inv[id]=d.items||[];else delete st.inv[id]}
 else if(c==="estados"){if(d)st.est[id]=d.estado||"";else delete st.est[id]}
 else if(c==="limpiezas"){st.records=st.records.filter(function(r){return r.id!==id});if(d){var x={};for(var k in d)x[k]=d[k];x.id=id;st.records.push(x)}}
 again()}
 function reload(){
-return Promise.all([db.collection("deptos").get(),db.collection("limpiezas").get(),db.collection("asignaciones").get(),db.collection("cleaners").get(),db.collection("estados").get(),db.collection("ejecuciones").get(),db.collection("protocolo").get(),db.collection("inventarios").get()]).then(function(r){
+return Promise.all([db.collection("deptos").get(),db.collection("limpiezas").get(),db.collection("asignaciones").get(),db.collection("cleaners").get(),db.collection("estados").get(),db.collection("ejecuciones").get(),db.collection("protocolo").get(),db.collection("inventarios").get(),db.collection("articulos").get(),db.collection("movs").get(),db.collection("guias").get()]).then(function(r){
 st.cleaners={};r[3].docs.forEach(function(d){st.cleaners[d.id]=d.data()});
 st.units={};r[0].docs.forEach(function(d){st.units[d.id]=d.data()});
 st.records=r[1].docs.map(function(d){var x=d.data();x.id=d.id;return x});
@@ -149,6 +187,7 @@ st.est={};r[4].docs.forEach(function(d){st.est[d.id]=(d.data()||{}).estado||""})
 if(!ejBusy){st.ejec={};r[5].docs.forEach(function(d){st.ejec[d.id]=d.data()||{}})}
 st.proto=(r[6].docs[0]&&(r[6].docs[0].data()||{}).pasos)||[];
 st.inv={};r[7].docs.forEach(function(d){st.inv[d.id]=(d.data()||{}).items||[]});
+st.art=(r[8].docs[0]&&(r[8].docs[0].data()||{}).items)||[];st.movs={};r[9].docs.forEach(function(d){st.movs[d.id]=d.data()||{}});st.guias={};r[10].docs.forEach(function(d){st.guias[d.id]=d.data()||{}});
 again()}).catch(function(){})}
 function put(c,id,d){local(c,id,d);return db.collection(c).doc(id).set(d).then(reload).catch(function(e){fail(e);reload()})}
 function rm(c,id){local(c,id,null);return db.collection(c).doc(id).delete().then(reload).catch(function(e){fail(e);reload()})}
@@ -207,7 +246,7 @@ var TR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 var acts=admin?'<div class="iacts"><button type="button" class="ibtn" data-action="edit" data-id="'+esc(r.id)+'" aria-label="Editar limpieza" title="Editar">•••</button><button type="button" class="ibtn red'+(armed===r.id?" arm":"")+'" data-action="remove" data-id="'+esc(r.id)+'" aria-label="Eliminar limpieza" title="Eliminar">'+TR+(armed===r.id?"¿Seguro?":"")+"</button></div>":"";
 c.innerHTML='<div class="entry-top"><p class="entry-number">LIMPIEZA '+(i+1)+'</p>'+acts+'</div><header class="entry-head"><div class="entry-heading"><span class="entry-when">'+esc(fdate(r.date))+"</span> Depto "+esc(r.unit)+(r.checkin?'<span class="ci-tag">🔔 CHECK-IN 3 PM</span>':"")+'</div></header><div class="estado-row">'+estSel(r)+'</div>'+runStrip(r)+'<div class="entry-body">'+lines(r).slice(2).map(lineHTML).join("")+'</div><div class="assign" id="asgw-'+esc(r.id)+'"><div class="meta" style="margin-bottom:6px">Encargada(s)</div>'+chips(r)+'<div style="margin-top:6px"><button type="button" class="btn" data-action="asg" data-id="'+esc(r.id)+'">Guardar encargadas</button></div></div>';
 box.appendChild(c)});
-renderProto();renderInv();var rs=$("rsub");if(rs)rs.textContent=isCl()?"Tus limpiezas asignadas":"Reporte listo para enviar a las cleaners";
+renderProto();renderInv();renderBod();var rs=$("rsub");if(rs)rs.textContent=isCl()?"Tus limpiezas asignadas":"Reporte listo para enviar a las cleaners";
 var cl=cnames();Object.keys(st.asg).forEach(function(k){split(st.asg[k]).forEach(function(n){if(cl.indexOf(n)<0)cl.push(n)})});cl.sort();
 $("clist").innerHTML=Object.keys(st.cleaners).sort(function(a,b){return(st.cleaners[a].name||"")<(st.cleaners[b].name||"")?-1:1}).map(function(k){return'<div class="urow"><div class="grow"><b>'+esc(st.cleaners[k].name)+'</b></div><button type="button" class="text-button" data-action="cedit" data-id="'+esc(k)+'">Editar</button><button type="button" class="text-button red" data-action="cremove" data-id="'+esc(k)+'">'+(armed==="c"+k?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")||'<div class="empty">Aún no hay cleaners.</div>';
 $("flt").innerHTML='<option value="">Todas</option>'+cl.map(function(c){return'<option value="'+esc(c)+'"'+(c===st.filt?" selected":"")+">"+esc(c)+"</option>"}).join("");
@@ -218,7 +257,12 @@ var any=list.length>0;$("copyReport").disabled=!any;
 if(any){$("shareReport").setAttribute("href","https://wa.me/?text="+encodeURIComponent(reportText()));$("shareReport").setAttribute("aria-disabled","false")}else{$("shareReport").removeAttribute("href");$("shareReport").setAttribute("aria-disabled","true")}
 }
 function again(){if(runId)renderRun();var a=document.activeElement;if(a&&a.closest&&a.closest(".assign")){pend=true;return}render()}
+function subBod(){db.collection("articulos").onSnapshot(function(s){st.art=(s.docs[0]&&(s.docs[0].data()||{}).items)||[];again()},fail);
+db.collection("movs").onSnapshot(function(s){st.movs={};s.docs.forEach(function(d){st.movs[d.id]=d.data()||{}});again()},fail);
+db.collection("guias").onSnapshot(function(s){st.guias={};s.docs.forEach(function(d){st.guias[d.id]=d.data()||{}});again()},fail)}
 function sub(){
+if(role==="bodega"||role==="lavanderia"){subBod();return}
+subBod();
 db.collection("deptos").onSnapshot(function(s){st.units={};s.docs.forEach(function(d){st.units[d.id]=d.data()});again()},fail);
 db.collection("limpiezas").onSnapshot(function(s){st.records=s.docs.map(function(d){var x=d.data();x.id=d.id;return x});again()},fail);
 db.collection("cleaners").onSnapshot(function(s){st.cleaners={};s.docs.forEach(function(d){st.cleaners[d.id]=d.data()});again()},fail);
@@ -268,7 +312,7 @@ if(editingUnit&&k!==editingUnit){rm("deptos",editingUnit);st.records.forEach(fun
 resetUnit();toast("Departamento guardado.")}
 document.addEventListener("click",function(e){
 var t=e.target,b=t&&t.closest?t.closest("[data-action]"):null;if(!b)return;var a=b.dataset.action,id=b.dataset.id;
-if(["remove","uremove","cremove","pdel"].indexOf(a)<0)armed=null;
+if(["remove","uremove","cremove","pdel","bd_gdel","bd_mdel","bd_adel"].indexOf(a)<0)armed=null;
 if(a==="addother"){resetForm();$("savedNotice").classList.remove("show");go("editor")}
 if(a==="copy"){var x=reportText();if(x)copy(x,"Reporte completo copiado.")}
 if(a==="share"){var sx=reportText();if(sx&&navigator.share){navigator.share({text:sx}).catch(function(){})}}
@@ -320,6 +364,97 @@ doc:function(id){return{
 set:function(d){return c0.from("docs").upsert({coleccion:c,id:id,data:d,updated_at:new Date().toISOString()},{onConflict:"coleccion,id"}).then(chk)},
 delete:function(){return c0.from("docs").delete().eq("coleccion",c).eq("id",id).then(chk)}}},
 onSnapshot:function(next,error){(listeners[c]=listeners[c]||[]).push({next:next,error:error});refresh(c,true);ensure();return function(){}}}}}}
+/* ---- Bodega: artículos, movimientos y guías de lavandería ---- */
+var LOC={prep:"Bodega de preparación",cl:"Bodega de cleaners",dep:"Departamentos",suc:"Sucio por enviar",lav:"Lavandería",tran:"En tránsito"};
+var LSH={prep:"Prep.",cl:"Cleaners",dep:"Deptos",suc:"Sucio",lav:"Lavand.",tran:"Tránsito",por:"Por recibir"};
+var MT={compra:{t:"Compra o ingreso a preparación",a:"prep"},cl:{t:"Pasar de preparación a bodega de cleaners",de:"prep",a:"cl"},dep:{t:"Reponer en departamentos",de:"cl",a:"dep"},suc:{t:"Retirar sucios de departamentos",de:"dep",a:"suc"},armado:{t:"Armar kits (en preparación)"},baja:{t:"Baja (pérdida o daño)"},conteo:{t:"Conteo físico (ajustar a lo contado)"}};
+var gRec=null,editingA=null,bodSig="";
+function artDef(){return[{id:"a1",n:"Sábana bajera king",t:"textil"},{id:"a2",n:"Sábana superior king",t:"textil"},{id:"a3",n:"Funda de almohada",t:"textil"},{id:"a4",n:"Cubreplumón king",t:"textil"},{id:"a5",n:"Cubrecolchón",t:"textil"},{id:"a6",n:"Toalla de cuerpo",t:"textil"},{id:"a7",n:"Toalla de rostro",t:"textil"},{id:"a8",n:"Toalla de piso",t:"textil"},{id:"a9",n:"Paño de cocina",t:"textil"}]}
+function artList(){return st.art&&st.art.length?st.art:artDef()}
+function artName(id){var l=artList();for(var i=0;i<l.length;i++)if(l[i].id===id)return l[i].n;return"(artículo eliminado)"}
+function isBod(){return role==="bodega"}
+function isLav(){return role==="lavanderia"}
+function bodUI(){return admin||isBod()||isLav()}
+function myWho(){return myName||(admin?"Jules":role)}
+function fts(t){var d=new Date(t);return d.getDate()+" "+MES[d.getMonth()].slice(0,3).toLowerCase()+" "+hm(t)}
+function bodStock(){var bal={por:{}},ev=[],a;Object.keys(LOC).forEach(function(k){bal[k]={}});
+function add(l,x,q){if(!l||!bal[l])return;bal[l][x]=(bal[l][x]||0)+q}
+Object.keys(st.movs).forEach(function(id){ev.push({ts:st.movs[id].ts||"",k:"m",m:st.movs[id]})});
+Object.keys(st.guias).forEach(function(id){var g=st.guias[id];ev.push({ts:g.ts||"",k:"s",g:g});if(g.rec)ev.push({ts:g.rec.ts||"",k:"r",g:g});else if(g.dir==="ida")for(a in g.l)add("por",a,g.l[a])});
+ev.sort(function(x,y){return x.ts<y.ts?-1:x.ts>y.ts?1:0});
+ev.forEach(function(e){
+if(e.k==="m"){var m=e.m;if(m.tipo==="conteo"){if(bal[m.loc])for(a in m.l)bal[m.loc][a]=m.l[a]}else{for(a in m.l){add(m.de,a,-m.l[a]);add(m.a,a,m.l[a])}if(m.usa)for(a in m.usa)add("prep",a,-m.usa[a])}}
+else if(e.k==="s"){var o=e.g.dir==="ida"?(e.g.de||"suc"):"lav";for(a in e.g.l){add(o,a,-e.g.l[a]);add("tran",a,e.g.l[a])}}
+else{var d=e.g.dir==="ida"?"lav":"prep";for(a in e.g.l)add("tran",a,-e.g.l[a]);for(a in e.g.rec.l)add(d,a,e.g.rec.l[a])}});
+return bal}
+function gDiff(g){var r=[];if(!g.rec)return r;var seen={},a;for(a in g.l){seen[a]=1;if((g.rec.l[a]||0)!==g.l[a])r.push({a:a,e:g.l[a],r:g.rec.l[a]||0})}for(a in g.rec.l)if(!seen[a]&&g.rec.l[a])r.push({a:a,e:0,r:g.rec.l[a]});return r}
+function lineTxt(l){var o=[],a;for(a in l)if(l[a])o.push(l[a]+" × "+esc(artName(a)));return o.join(" · ")}
+function canRecv(g){return!g.rec&&(g.dir==="ida"?(admin||isLav()):(admin||isBod()))}
+function qrows(g,tipos,ph){return artList().filter(function(a){return tipos.indexOf(a.t)>=0}).map(function(a){return'<label class="qrow"><span>'+esc(a.n)+'</span><input type="number" inputmode="numeric" min="0" step="1" data-g="'+g+'" data-a="'+esc(a.id)+'" placeholder="'+(ph||"0")+'"></label>'}).join("")}
+function qget(box,g,zero){var o={};Array.prototype.forEach.call(box.querySelectorAll('input[data-g="'+g+'"]'),function(i){var v=parseInt(i.value,10);if(!isNaN(v)&&(v>0||(zero&&v===0)))o[i.getAttribute("data-a")]=v});return o}
+function qclear(box){Array.prototype.forEach.call(box.querySelectorAll("input[data-g]"),function(i){i.value=""})}
+function renderBodForm(){var mt=$("mt");if(!mt)return;var sig=role+"|"+artList().map(function(a){return a.id+a.n+a.t}).join(",");if(sig===bodSig)return;bodSig=sig;
+mt.innerHTML=Object.keys(MT).map(function(k){return'<option value="'+k+'">'+esc(MT[k].t)+"</option>"}).join("");mlinesBuild();
+$("gl").innerHTML=qrows("g",["textil","consumible","kit"]);
+var gd=$("gdir");gd.innerHTML=(admin||isBod()?'<option value="ida">Envío a lavandería</option>':"")+(admin||isLav()?'<option value="vuelta">Devolución desde la lavandería</option>':"");gdirChg()}
+function mlinesBuild(){var t=$("mt").value,h="",M=MT[t],box=$("mlines");
+$("mlocf").style.display=t==="baja"||t==="conteo"?"flex":"none";
+var hint=M.de||M.a?(M.de?LOC[M.de]+" → ":"Entra a ")+LOC[M.a]:t==="armado"?"Se descuenta de preparación lo que usas y entran los kits armados.":t==="baja"?"Sale del inventario.":"Escribe lo que contaste: el stock queda igual a ese número. Deja en blanco lo que no contaste.";
+if(t==="armado"){var kits=artList().filter(function(a){return a.t==="kit"});h='<p class="meta" style="margin:10px 0 4px">'+hint+'</p><h4 class="invh">Kits armados</h4>'+(kits.length?qrows("k",["kit"]):'<p class="meta">Primero agrega el artículo tipo «kit» en la sección Artículos.</p>')+'<h4 class="invh">Se usa de preparación</h4>'+qrows("u",["textil","consumible"])}
+else h='<p class="meta" style="margin:10px 0 4px">'+hint+'</p>'+qrows("l",["textil","consumible","kit"],t==="conteo"?"—":"0");
+box.innerHTML=h}
+function gdirChg(){var d=$("gdir").value;$("gorf").style.display=d==="ida"?"flex":"none"}
+function renderBod(force){
+if(!bodUI()||!$("bsum"))return;renderBodForm();var bal=bodStock(),al=artList(),h="",lv=isLav();
+var cols=lv?["lav","por"]:["prep","cl","dep","suc","lav","tran"];
+if(!lv){var warn=[];al.forEach(function(a){if(a.m>0&&(bal.prep[a.id]||0)<a.m)warn.push("⚠ "+esc(a.n)+": quedan "+(bal.prep[a.id]||0)+" en preparación (mínimo "+a.m+")")});
+Object.keys(LOC).forEach(function(l){al.forEach(function(a){if((bal[l][a.id]||0)<0)warn.push("❗ Revisa: "+esc(a.n)+" figura en negativo en «"+LOC[l]+"» ("+bal[l][a.id]+"). Falta registrar un movimiento.")})});
+var pend=Object.keys(st.guias).filter(function(k){return!st.guias[k].rec}).length,dif=Object.keys(st.guias).filter(function(k){return gDiff(st.guias[k]).length}).length;
+if(pend)warn.push("⏳ "+pend+(pend===1?" guía por recibir":" guías por recibir"));if(dif)warn.push("⚠ "+dif+(dif===1?" guía con diferencias":" guías con diferencias"));
+if(warn.length)h+='<div class="bwarn">'+warn.join("<br>")+"</div>"}
+h+='<div class="bt-w"><table class="bt"><thead><tr><th>Artículo</th>'+cols.map(function(c){return"<th>"+LSH[c]+"</th>"}).join("")+"</tr></thead><tbody>"+al.map(function(a){return"<tr><td>"+esc(a.n)+"</td>"+cols.map(function(c){var v=(bal[c]||{})[a.id]||0;return'<td class="'+(v<0?"neg":v===0?"z":"")+'">'+v+"</td>"}).join("")+"</tr>"}).join("")+"</tbody></table></div>";
+if(!lv)h+='<p class="meta" style="margin:6px 2px 0">Cada número sale de los movimientos registrados. «Tránsito» son guías enviadas que aún no se reciben.</p>';
+$("bsum").innerHTML=h;
+var gs=Object.keys(st.guias).map(function(k){var g=st.guias[k];g.id=k;return g}).sort(function(x,y){return x.ts<y.ts?1:-1});
+$("bgsum").textContent="Guías de lavandería"+(gs.filter(function(g){return!g.rec}).length?" ("+gs.filter(function(g){return!g.rec}).length+" por recibir)":"");
+var box=$("bglist"),act=document.activeElement;
+if(force||!(act&&box.contains(act)&&/INPUT|TEXTAREA/.test(act.tagName))){
+box.innerHTML=gs.length?gs.map(function(g){var df=gDiff(g),cls=!g.rec?"g-pend":df.length?"g-dif":"g-ok",i=esc(g.id);
+var s='<div class="g-i '+cls+'"><div class="g-h"><b>'+(g.dir==="ida"?"Envío a lavandería":"Devolución de lavandería")+'</b><span class="meta">'+fts(g.ts)+(g.n?" · N° "+esc(g.n):"")+(g.por?" · "+esc(g.por):"")+"</span></div><div class='g-l'>"+lineTxt(g.l)+"</div>"+(g.nota?'<p class="meta" style="margin:4px 0 0">📝 '+esc(g.nota)+"</p>":"");
+if(!g.rec){s+='<div class="g-s">⏳ Por recibir</div>';
+if(gRec&&gRec.id===g.id){s+='<div class="g-rec"><p class="meta" style="margin:6px 0">Cuenta lo que recibes y corrige si no coincide con lo enviado.</p>'+Object.keys(g.l).map(function(a){return'<label class="qrow"><span>'+esc(artName(a))+' <small>(enviado '+g.l[a]+')</small></span><input type="number" inputmode="numeric" min="0" step="1" data-rq="'+esc(a)+'" value="'+(gRec.q[a]==null?g.l[a]:gRec.q[a])+'"></label>'}).join("")+'<div class="tla"><button type="button" class="btn btn-primary" data-action="bd_grecok" data-id="'+i+'">Confirmar recepción</button><button type="button" class="btn" data-action="bd_grecx">Cancelar</button></div></div>'}
+else if(canRecv(g))s+='<div class="tla"><button type="button" class="btn btn-primary" data-action="bd_grec" data-id="'+i+'">Recibir y contar</button></div>'}
+else{s+='<div class="g-s">'+(df.length?"⚠ Recibida con diferencias":"✓ Recibida sin diferencias")+" · "+fts(g.rec.ts)+(g.rec.por?" · "+esc(g.rec.por):"")+"</div>";
+df.forEach(function(d){s+='<div class="g-d">'+esc(artName(d.a))+": enviadas "+d.e+", recibidas "+d.r+" ("+(d.e>d.r?"faltan "+(d.e-d.r):"sobran "+(d.r-d.e))+")</div>"})}
+if(admin)s+='<button type="button" class="text-button red" data-action="bd_gdel" data-id="'+i+'">'+(armed==="bg"+g.id?"¿Seguro? Se anula":"Anular guía")+"</button>";
+return s+"</div>"}).join(""):'<p class="meta">Todavía no hay guías.</p>'}
+var ms=Object.keys(st.movs).map(function(k){var m=st.movs[k];m.id=k;return m}).sort(function(x,y){return x.ts<y.ts?1:-1}).slice(0,25);
+$("bhlist").innerHTML=ms.length?ms.map(function(m){var l=m.tipo==="armado"?"Kits: "+lineTxt(m.l)+" · usó: "+lineTxt(m.usa||{}):lineTxt(m.l);
+return'<div class="g-i"><div class="g-h"><b>'+esc(MT[m.tipo]?MT[m.tipo].t:m.tipo)+(m.loc?" · "+esc(LOC[m.loc]):"")+(m.tipo==="baja"&&m.de?" · "+esc(LOC[m.de]):"")+'</b><span class="meta">'+fts(m.ts)+(m.por?" · "+esc(m.por):"")+"</span></div><div class='g-l'>"+l+"</div>"+(m.nota?'<p class="meta" style="margin:4px 0 0">📝 '+esc(m.nota)+"</p>":"")+(admin?'<button type="button" class="text-button red" data-action="bd_mdel" data-id="'+esc(m.id)+'">'+(armed==="bm"+m.id?"¿Seguro? Se anula":"Anular")+"</button>":"")+"</div>"}).join(""):'<p class="meta">Todavía no hay movimientos.</p>';
+if(admin){$("alist").innerHTML=artList().map(function(a){return'<div class="urow"><div class="grow"><b>'+esc(a.n)+'</b> <span class="ci-tag" style="margin:0 0 0 6px">'+esc(a.t)+"</span>"+(a.m?' <span class="meta">mín. '+a.m+"</span>":"")+'</div><button type="button" class="text-button" data-action="bd_aedit" data-id="'+esc(a.id)+'">Editar</button><button type="button" class="text-button red" data-action="bd_adel" data-id="'+esc(a.id)+'">'+(armed==="ba"+a.id?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")}}
+function bodAction(a,b){var id=b&&b.dataset?b.dataset.id:"",t;
+if(a==="bd_msave"){t=$("mt").value;var M=MT[t],mov={ts:iso(),tipo:t,por:myWho()},nt=$("mn").value.trim(),box=$("bmvf");if(nt)mov.nota=nt;
+if(t==="armado"){mov.usa=qget(box,"u");mov.l=qget(box,"k");mov.a="prep";if(!Object.keys(mov.l).length)return toast("Escribe cuántos kits armaste."),true}
+else if(t==="conteo"){mov.loc=$("mloc").value;mov.l=qget(box,"l",true)}
+else{mov.l=qget(box,"l");if(M.de)mov.de=M.de;if(M.a)mov.a=M.a;if(t==="baja")mov.de=$("mloc").value}
+if(!Object.keys(mov.l).length)return toast("Escribe al menos una cantidad."),true;
+put("movs","m"+Date.now()+Math.random().toString(36).slice(2,5),mov);qclear(box);$("mn").value="";toast("Movimiento registrado.");return true}
+if(a==="bd_gsave"){var dir=$("gdir").value;if(!dir)return true;var l=qget($("bgform"),"g");if(!Object.keys(l).length)return toast("Escribe al menos una cantidad."),true;
+var g={ts:iso(),dir:dir,l:l,por:myWho()},n=$("gn").value.trim(),nt2=$("gnt").value.trim();if(n)g.n=n;if(nt2)g.nota=nt2;if(dir==="ida")g.de=$("gor").value;
+put("guias","g"+Date.now()+Math.random().toString(36).slice(2,5),g);qclear($("bgform"));$("gn").value="";$("gnt").value="";toast(dir==="ida"?"Guía de envío creada.":"Guía de devolución creada.");return true}
+if(a==="bd_grec"){var g1=st.guias[id];if(g1){gRec={id:id,q:{}};renderBod(true)}return true}
+if(a==="bd_grecx"){gRec=null;renderBod(true);return true}
+if(a==="bd_grecok"){var g2=st.guias[id];if(!g2||g2.rec)return true;var q={},k;for(k in g2.l){var v=gRec&&gRec.id===id&&gRec.q[k]!=null?gRec.q[k]:g2.l[k];q[k]=v}
+var c={};for(k in g2)c[k]=g2[k];delete c.id;c.rec={ts:iso(),l:q,por:myWho()};gRec=null;put("guias",id,c);toast("Recepción registrada.");return true}
+if(a==="bd_gdel"){if(armed==="bg"+id){armed=null;rm("guias",id);toast("Guía anulada.")}else{armed="bg"+id;renderBod(true)}return true}
+if(a==="bd_mdel"){if(armed==="bm"+id){armed=null;rm("movs",id);toast("Movimiento anulado.")}else{armed="bm"+id;renderBod(true)}return true}
+if(a==="bd_asave"){var nm=$("an").value.trim();if(!nm)return toast("Escribe el nombre del artículo."),true;var ty=$("at").value,mn=parseInt($("am").value,10),lst=artList().map(function(x){return{id:x.id,n:x.n,t:x.t,m:x.m||0}});
+if(editingA){lst.forEach(function(x){if(x.id===editingA){x.n=nm;x.t=ty;x.m=mn>0?mn:0}})}else lst.push({id:"a"+Date.now(),n:nm,t:ty,m:mn>0?mn:0});
+put("articulos","main",{items:lst});bodAction("bd_acancel");toast("Artículos guardados.");return true}
+if(a==="bd_aedit"){var x1=artList().filter(function(x){return x.id===id})[0];if(x1){editingA=id;$("an").value=x1.n;$("at").value=x1.t;$("am").value=x1.m||"";$("asave").textContent="Guardar cambios";$("acancel").style.display="inline-flex"}return true}
+if(a==="bd_acancel"){editingA=null;$("an").value="";$("am").value="";$("asave").textContent="Agregar artículo";$("acancel").style.display="none";return true}
+if(a==="bd_adel"){if(armed==="ba"+id){armed=null;put("articulos","main",{items:artList().filter(function(x){return x.id!==id}).map(function(x){return{id:x.id,n:x.n,t:x.t,m:x.m||0}})});toast("Artículo eliminado.")}else{armed="ba"+id;renderBod(true)}return true}
+return false}
 /* ---- Protocolo y ejecución de la limpieza ---- */
 function invCount(k){var n=((st.inv[k]||[]).filter(function(x){return!isHead(x)})).length;return n===1?"1 elemento":n+" elementos"}
 var invUnit="";
@@ -524,27 +659,30 @@ return false}
 document.addEventListener("click",function(e){var im=e.target&&e.target.closest?e.target.closest("img[data-ph]"):null;if(im){var u=sgn[im.getAttribute("data-ph")];if(u)window.open(u,"_blank");return}
 var b=e.target&&e.target.closest?e.target.closest("[data-action]"):null;if(!b)return;var a=b.dataset.action;
 if(/^p(up|down|edit|del|cancel|save)$/.test(a)){protoAction(a,b.dataset.id);return}
+if(/^bd_/.test(a)){bodAction(a,b);return}
 if(a==="recgo"||a==="reccancel"){recAction(a);return}
 runAction(a,b.dataset.id,b)});
 document.addEventListener("change",function(e){var t=e.target;if(!t||!t.getAttribute)return;
 if(t.id==="icp"){var src=t.value;t.value="";if(src&&$("iu").value){$("it").value=(st.inv[src]||[]).join("\n");toast("Lista copiada. Revísala y toca Guardar inventario.")}else if(src)toast("Primero selecciona el departamento de destino.");return}
 if(t.id==="iu"){renderInv();return}
+if(t.id==="mt"){mlinesBuild();return}
+if(t.id==="gdir"){gdirChg();return}
 if(t.id==="phfile"){onPhoto(t);return}
 if(t.id==="vfile"){var vf=t.files&&t.files[0];t.value="";if(vf)upVideo(vf,vf.type||"video/mp4");return}
 if(t.hasAttribute("data-obs")||t.hasAttribute("data-obsg")||t.hasAttribute("data-obi")){flushObs();return}
 var tg=t.getAttribute("data-tag");if(tg&&runId&&db){saveEj(runId,function(d){var l=d.tags=d.tags||[],i=l.indexOf(tg);if(t.checked&&i<0)l.push(tg);if(!t.checked&&i>=0)l.splice(i,1)})}});
-document.addEventListener("input",function(e){var t=e.target;if(t&&t.hasAttribute&&(t.hasAttribute("data-obs")||t.hasAttribute("data-obsg")||t.hasAttribute("data-obi"))){clearTimeout(obsT);obsT=setTimeout(flushObs,1500)}});
+document.addEventListener("input",function(e){var t=e.target;if(t&&t.getAttribute&&t.hasAttribute("data-rq")&&gRec){var iv=parseInt(t.value,10);gRec.q[t.getAttribute("data-rq")]=isNaN(iv)?0:iv;return}if(t&&t.hasAttribute&&(t.hasAttribute("data-obs")||t.hasAttribute("data-obsg")||t.hasAttribute("data-obi"))){clearTimeout(obsT);obsT=setTimeout(flushObs,1500)}});
 document.addEventListener("toggle",function(e){var d=e.target;if(d&&d.getAttribute&&d.getAttribute("data-os"))openObs[d.getAttribute("data-os")]=d.open},true);
 /* ---- Acceso ---- */
 function lmsg(t){var m=$("lmsg");m.textContent=t||"";m.classList.toggle("show",!!t)}
 function lock(){document.body.classList.add("locked")}
 function enter(){
 sb.from("perfiles").select("rol,nombre").maybeSingle().then(function(r){
-if(r.error||!r.data||["admin","coord","lector","cleaner"].indexOf(r.data.rol)<0||(r.data.rol==="cleaner"&&!r.data.nombre)){
+if(r.error||!r.data||["admin","coord","lector","cleaner","bodega","lavanderia"].indexOf(r.data.rol)<0||(r.data.rol==="cleaner"&&!r.data.nombre)){
 sb.auth.signOut();lock();lmsg("Tu usuario todavía no tiene permisos en la app. Pídele a Jules que te los asigne.");return}
-role=r.data.rol;admin=role==="admin";myName=(r.data.nombre||"").trim();document.body.classList.toggle("cl",role==="cleaner");
+role=r.data.rol;admin=role==="admin";myName=(r.data.nombre||"").trim();document.body.classList.toggle("cl",role==="cleaner");document.body.classList.toggle("ob",role==="bodega"||role==="lavanderia");document.body.classList.toggle("lv",role==="lavanderia");document.body.classList.toggle("bk",admin||role==="bodega"||role==="lavanderia");
 document.body.classList.toggle("ro",!admin);document.body.classList.toggle("rd",role==="lector");
-db=makeDb(sb);document.body.classList.remove("locked");lmsg("");sub()
+if(bodUI()){$("bdet").open=role!=="coord"&&(role==="bodega"||role==="lavanderia");$("bdsum").textContent=role==="lavanderia"?"Guías de la lavandería":"Bodega y kits";if(role==="lavanderia")$("bgn").open=true}db=makeDb(sb);document.body.classList.remove("locked");lmsg("");sub()
 },function(){lock();lmsg("No se pudo conectar. Revisa tu internet e intenta de nuevo.")})}
 function doLogin(){
 var e=$("le").value.trim(),p=$("lp").value;if(!e||!p)return lmsg("Escribe tu correo y tu clave.");
