@@ -755,6 +755,7 @@ functions:{invoke:function(){var d=new Date(),f=function(k){return dkey(new Date
 storage:{from:function(){return{upload:function(){return Promise.resolve({data:{},error:null})},createSignedUrl:function(){return Promise.resolve({data:{signedUrl:"data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="},error:null})},remove:function(l){return Promise.resolve({data:l,error:null})}}}},
 channel:function(){var ch={on:function(){return ch},subscribe:function(){return ch}};return ch}}}
 function startDemo(){DEMO=true;sb=demoClient();document.body.classList.add("demo");enter()}
+function repoList(){var bal=bodStock(),o=[];artList().forEach(function(x){var h=bal.prep[x.id]||0;if(x.m>0&&h<x.m)o.push({n:x.n,h:h,m:x.m,q:x.m-h})});return o}
 function renderMan(){var box=$("msum");if(!box||!admin)return;
 var L=tixList(),ab=L.filter(function(x){return x.est!=="resuelto"}),ur=ab.filter(function(x){return x.prio==="urgente"}).length,bl=ab.filter(function(x){return x.bloq}).length,mes=dkey(new Date()).slice(0,7),cm=0;
 L.forEach(function(x){if(x.est==="resuelto"&&(x.res||"").slice(0,7)===mes)cm+=+x.costo||0});
@@ -785,6 +786,8 @@ al.forEach(function(a){if(a.m>0&&(bal.prep[a.id]||0)<a.m)warn.push("⚠ "+esc(a.
 ["prep","cl","dep","suc"].forEach(function(l){al.forEach(function(a){if((bal[l][a.id]||0)<0)warn.push("❗ Revisa: "+esc(a.n)+" figura en negativo en «"+LOC[l]+"» ("+bal[l][a.id]+"). Falta registrar un movimiento.")})});
 hubN.bod=warn.length;
 if(warn.length)h+='<div class="bwarn">'+warn.join("<br>")+"</div>";
+var rp=repoList();
+if(rp.length)h+='<details class="dd" open style="margin:10px 0"><summary>Lista de reposición ('+rp.length+')</summary><div class="ddp">'+rp.map(function(x){return'<div class="cosrow"><b>'+esc(x.n)+'</b><span>hay '+x.h+' · mínimo '+x.m+'</span><em>reponer '+x.q+'</em></div>'}).join("")+'<div class="footer-buttons" style="margin-top:10px"><button type="button" class="btn btn-primary" data-action="bd_copyrep">Copiar lista</button></div></div></details>';
 var bc=["prep","cl","dep","suc"];
 h+='<div class="bt-w"><table class="bt"><thead><tr><th>Artículo</th>'+bc.map(function(c){return"<th>"+LSH[c]+"</th>"}).join("")+"</tr></thead><tbody>"+al.map(function(a){return"<tr><td>"+esc(a.n)+"</td>"+bc.map(function(c){var v=(bal[c]||{})[a.id]||0;return'<td class="'+(v<0?"neg":v===0?"z":"")+'">'+v+"</td>"}).join("")+"</tr>"}).join("")+"</tbody></table></div>";
 h+='<p class="meta" style="margin:6px 2px 0">Cada número sale de los movimientos registrados. Lo que está en la lavandería se ve en el apartado Lavandería.</p>';
@@ -825,6 +828,7 @@ else if(t==="conteo"){mov.loc=$("mloc").value;mov.l=qget(box,"l",true)}
 else{mov.l=qget(box,"l");if(M.de)mov.de=M.de;if(M.a)mov.a=M.a;if(t==="baja")mov.de=$("mloc").value}
 if(!Object.keys(mov.l).length)return toast("Escribe al menos una cantidad."),true;
 put("movs","m"+Date.now()+Math.random().toString(36).slice(2,5),mov);qclear(box);$("mn").value="";toast("Movimiento registrado.");return true}
+if(a==="bd_copyrep"){var rl=repoList();copy("Lista de reposición — "+fdate(dkey(new Date()))+"\n\n"+rl.map(function(x){return"• "+x.n+": reponer "+x.q+" (hay "+x.h+", mínimo "+x.m+")"}).join("\n"),"Lista copiada.");return true}
 if(a==="bd_gsave"){var dir=$("gdir").value;if(!dir)return true;var l=qget($("bgform"),"g");if(!Object.keys(l).length)return toast("Escribe al menos una cantidad."),true;
 var g={ts:iso(),dir:dir,l:l,por:myWho()},n=$("gn").value.trim(),nt2=$("gnt").value.trim();if(n)g.n=n;if(nt2)g.nota=nt2;if(dir==="ida")g.de=$("gor").value;
 put("guias","g"+Date.now()+Math.random().toString(36).slice(2,5),g);qclear($("bgform"));$("gn").value="";$("gnt").value="";toast(dir==="ida"?"Guía de envío creada.":"Guía de devolución creada.");return true}
