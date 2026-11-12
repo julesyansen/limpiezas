@@ -105,6 +105,14 @@ a.btn{text-decoration:none}
 .ibtn{color:var(--copper);border-color:#E3C3A6;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s}.ibtn:active{background:#111;border-color:#111;color:#fff}.ibtn.red{color:#a33a2a;border-color:#ecc9c2}
 /* Autocompletar de Safari: sin amarillo */
 input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active,textarea:-webkit-autofill,select:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #fff inset!important;box-shadow:0 0 0 1000px #fff inset!important;-webkit-text-fill-color:#111!important;caret-color:#111;border-color:var(--line);transition:background-color 99999s ease-out 0s}
+/* Evita que la página se ensanche más que la pantalla */
+html,body{max-width:100%;overflow-x:hidden}
+.hoy,.hubhome,.hubgrid,.hals,.hlist{min-width:0;max-width:100%}
+.hcards{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.hcards .lcard{min-width:0;padding:10px 4px}.hcards .lcard span{font-size:10.5px;line-height:1.2;white-space:normal;overflow-wrap:anywhere;letter-spacing:0}
+.hoyh{flex-wrap:wrap;gap:2px 10px}.hoyh .meta{white-space:normal}
+.hubgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-width:0}.tile b,.tile small{overflow-wrap:anywhere}
+.hal,.hrow{min-width:0;overflow-wrap:anywhere}.hrow b{min-width:0}
 </style>
 </head>
 <body class="locked">
