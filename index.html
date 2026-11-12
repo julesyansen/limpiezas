@@ -123,6 +123,10 @@ body{background:linear-gradient(135deg,#FCFAF6 0%,#F1EADF 45%,#E4D4BC 100%) fixe
 .tix{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}.tix.tp-urgente{border-left-color:#B3402F}.tix.tp-alta{border-left-color:var(--copper)}.tix.tp-media{border-left-color:#C9B08F}.tix.done{opacity:.6}
 .tixh{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.tixh b{font-weight:500;font-size:15px;min-width:0;overflow-wrap:anywhere}.tpr{font-size:12px;color:var(--mute);white-space:nowrap}.tp-urgente .tpr{color:#B3402F}
 .tixa{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.tixa .btn{min-height:38px;padding:6px 14px;font-size:13px}
+/* Fondo fijo que cubre toda la pantalla (también bajo la barra de estado y al rebotar el scroll) */
+html{background:#EFE6D8!important}
+body{background:transparent!important;min-height:100vh}
+body::before{content:"";position:fixed;left:0;right:0;top:-120px;bottom:-120px;z-index:-1;background:linear-gradient(160deg,#FCFAF6 0%,#F1EADF 45%,#E4D4BC 100%);pointer-events:none}
 </style>
 </head>
 <body class="locked">
