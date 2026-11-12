@@ -621,7 +621,7 @@ $("mfl").innerHTML=[["act","Activos"],["curso","En curso"],["resuelto","Resuelto
 $("mlist").innerHTML=l.length?l.map(function(x){var pr=PRIO[x.prio]||PRIO.media,ar=armed==="mt"+x.id;
 return'<div class="tix tp-'+(x.prio||"media")+(x.est==="resuelto"?" done":"")+'"><div class="tixh"><b>'+esc(x.unit||"")+' · '+esc(x.t||"")+'</b><span class="tpr">'+pr[0]+"</span></div>"+
 (x.d?'<div class="meta">'+esc(x.d)+"</div>":"")+
-'<div class="meta">'+MEST[x.est||"abierto"]+(x.bloq&&x.est!=="resuelto"?" · ⛔ bloquea el depto":"")+(x.resp?" · "+esc(x.resp):"")+(x.costo?" · $"+(+x.costo).toLocaleString("es-CL"):"")+" · "+fdt(x.ts)+(x.por?" · "+esc(x.por):"")+"</div>"+
+'<div class="meta">'+MEST[x.est||"abierto"]+(x.bloq&&x.est!=="resuelto"?" · ⛔ bloquea el depto":"")+(x.resp?" · "+esc(x.resp):"")+(x.costo?" · $"+(+x.costo).toLocaleString("es-CL"):"")+" · "+fdt(x.ts)+(x.por?" · "+esc(x.por):"")+(x.origen==="limpieza"?" · reportado en limpieza":"")+"</div>"+
 '<div class="tixa">'+(x.est==="resuelto"?'<button type="button" class="btn" data-action="man_st" data-id="'+x.id+'" data-v="abierto">Reabrir</button>':(x.est==="curso"?"":'<button type="button" class="btn" data-action="man_st" data-id="'+x.id+'" data-v="curso">Iniciar</button>')+'<button type="button" class="btn btn-primary" data-action="man_st" data-id="'+x.id+'" data-v="resuelto">Resolver</button>')+
 '<button type="button" class="btn" data-action="man_edit" data-id="'+x.id+'">Editar</button><button type="button" class="btn" data-action="man_del" data-id="'+x.id+'">'+(ar?"¿Seguro?":"Eliminar")+"</button></div></div>"}).join(""):'<p class="meta">No hay tickets en esta lista.</p>'}
 function manAction(a,b){var id=b&&b.dataset?b.dataset.id:"";
@@ -830,6 +830,10 @@ ii.forEach(function(x){L.push("🔧 "+x.n+" — "+invLbl(x.s)+(x.o?": "+x.o:"")+
 var ng=(e.fotos||[]).filter(function(f){return f.s==="general"}).length;
 if((e.tags||[]).length||e.og||ng){L.push("");L.push("⚠ OBSERVACIONES GENERALES");if((e.tags||[]).length)L.push("Tipo: "+e.tags.join(", "));if(e.og)L.push(e.og);if(ng)L.push("📷 "+ng+(ng===1?" foto":" fotos"))}
 L.push("");L.push("Ver detalle y fotos en la app: "+APP);return L.join("\n")}
+function autoTix(id,e){var r=recById(id);if(!r||!db)return;var u=r.unit,by=myWho(),inc=[];try{inc=invInc(e)}catch(x){}
+if(inc.length&&!st.tix[id+"~inv"]){put("tickets",id+"~inv",{unit:u,t:("Inventario: "+inc.map(function(x){return x.n}).join(", ")).slice(0,90),d:inc.map(function(x){return x.n+" — "+(x.s==="falta"?"falta":"no funciona")+(x.o?": "+x.o:"")}).join("\n"),prio:"media",est:"abierto",bloq:false,ts:iso(),por:by,origen:"limpieza",rid:id,fecha:r.date})}
+var og=(e.og||"").trim(),tg=e.tags||[];
+if((og||tg.length)&&!st.tix[id+"~obs"]){put("tickets",id+"~obs",{unit:u,t:"Observación de limpieza"+(tg.length?": "+tg.join(", "):""),d:og,prio:"media",est:"abierto",bloq:false,ts:iso(),por:by,origen:"limpieza",rid:id,fecha:r.date})}}
 function runAction(a,id,b){
 if(a==="runopen"){runId=id;incArm=false;document.body.style.overflow="hidden";$("run").classList.add("show");$("run").scrollTop=0;renderRun(true);clearInterval(runTick);runTick=setInterval(tickRun,1000);return true}
 if(a==="runback"){flushObs();runId=null;incArm=false;clearInterval(runTick);$("run").classList.remove("show");document.body.style.overflow="";return true}
@@ -844,10 +848,10 @@ if(a==="runinvall"&&db&&!e.fin){saveEj(id,function(d){d.invRes=d.invRes||{};invC
 if(a==="runundo"&&db){var s3=b.dataset.step;saveEj(id,function(d){var p=(d.pasos||{})[s3];if(p){p.ok=false;delete p.t}})}
 if(a==="runphoto"){phStep=b.dataset.step;$("phfile").click();return true}
 if(a==="runvideo"){phStep=b.dataset.step;recOpen();return true}
-if(a==="runfinish"&&db&&allDone(e)){var t3=iso();saveEj(id,function(d){d.fin=t3;d.res="realizada"});setEstado(id,"realizada");toast("Limpieza finalizada. ¡Gracias!")}
+if(a==="runfinish"&&db&&allDone(e)){var t3=iso();saveEj(id,function(d){d.fin=t3;d.res="realizada"});setEstado(id,"realizada");autoTix(id,ej(id)||e);toast("Limpieza finalizada. ¡Gracias!")}
 if(a==="runfinishinc"&&db){if(!incArm){incArm=true;if(!(e.og||"").trim())toast("Antes de cerrar, explica en observaciones generales por qué quedó incompleta.");renderRun(true);return true}
 if(!(e.og||"").trim()){toast("Escribe en observaciones generales por qué quedó incompleta.");incArm=false;renderRun(true);return true}
-var t4=iso();incArm=false;saveEj(id,function(d){d.fin=t4;d.res="incompleta"});setEstado(id,"incompleta");toast("Limpieza cerrada como incompleta.")}
+var t4=iso();incArm=false;saveEj(id,function(d){d.fin=t4;d.res="incompleta"});setEstado(id,"incompleta");autoTix(id,ej(id)||e);toast("Limpieza cerrada como incompleta.")}
 if(a==="runcopy"){var x=repText(id);if(x)copy(x,"Informe copiado.")}
 if(a==="runwa"){var x2=repText(id);if(x2)window.open("https://wa.me/?text="+encodeURIComponent(x2),"_blank")}
 renderRun(true);return true}
