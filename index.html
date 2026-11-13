@@ -283,6 +283,10 @@ body::before{background:linear-gradient(180deg,#F6F0E6 0%,#F6F0E6 8%,#EEE3D1 55%
   <details class="surface vw-limp" id="cdet" open><summary>Cleaners (nombres)</summary><div class="inner">
     <div id="clist"></div>
     <div class="field" style="margin-top:14px"><label for="cn">Nombre</label><input id="cn" placeholder="Ej. María González"></div>
+    <div class="field"><label>Días libres (no trabaja)</label><div id="clib" class="run-tags"></div></div>
+    <details class="dd"><summary>Vacaciones o ausencias</summary><div class="ddp"><div id="claus"></div>
+      <div class="formgrid" style="grid-template-columns:1fr 1fr"><div class="field"><label for="cla">Desde</label><input id="cla" type="date"></div><div class="field"><label for="clb">Hasta</label><input id="clb" type="date"></div><div class="field" style="grid-column:1/-1"><label for="clm">Motivo</label><input id="clm" placeholder="vacaciones, licencia…"></div></div>
+      <button type="button" class="btn" data-action="cl_ausadd">Agregar ausencia</button></div></details>
     <div class="form-buttons"><button type="button" class="btn btn-primary" id="csave" data-action="csave">Agregar cleaner</button><button type="button" class="btn" id="ccancel" data-action="ccancel" style="display:none">Cancelar</button></div>
     <p class="meta">Los nombres quedan guardados en la base de datos compartida y aparecen para asignar en cada limpieza.</p>
   </div></details>
@@ -478,10 +482,21 @@ function fillCl(sel){var all=cnames();sel.forEach(function(n){if(all.indexOf(n)<
 $("cleaner").innerHTML=all.length?all.map(function(n){return'<label class="opt"><input type="checkbox" data-n="'+esc(n)+'"'+(sel.indexOf(n)>=0?" checked":"")+"> "+esc(n)+"</label>"}).join(""):'<div class="meta">Primero agrega cleaners en la sección Cleaners.</div>';cdSum()}
 function weekKey(d){var x=new Date(d+"T12:00:00"),w=(x.getDay()+6)%7;return dkey(new Date(x.getTime()-w*864e5))}
 function cleanerLoad(date){var wk=weekKey(date),L={};cnames().forEach(function(n){L[n]={w:0,d:0}});st.records.forEach(function(r){if(r.id===editing||!r.date||estOf(r)==="cancelada"||weekKey(r.date)!==wk)return;split(names(r)).forEach(function(n){if(!L[n])return;L[n].w++;if(r.date===date)L[n].d++})});return L}
+var DSEM=["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+function clByName(n){var k=Object.keys(st.cleaners).filter(function(k){return(st.cleaners[k].name||"").trim()===n})[0];return k?st.cleaners[k]:null}
+function noDisp(n,d){var c=clByName(n);if(!c||!d)return"";var w=new Date(d+"T12:00:00").getDay();if((c.lib||[]).indexOf(w)>=0)return"día libre";var a=(c.aus||[]).filter(function(x){return d>=x.a&&d<=x.b})[0];return a?(a.m||"ausente"):""}
+function supFor(r){var L=cleanerLoad(r.date),cur=split(names(r));return Object.keys(L).filter(function(n){return cur.indexOf(n)<0&&!noDisp(n,r.date)}).sort(function(a,b){return L[a].d-L[b].d||L[a].w-L[b].w||(a<b?-1:1)})[0]||""}
+function dispAlerts(){if(!admin)return[];var t0=dkey(new Date()),t1=addDays(t0,14),o=[];st.records.forEach(function(r){if(r.date<t0||r.date>t1||["realizada","cancelada"].indexOf(estOf(r))>=0)return;split(names(r)).forEach(function(n){var w=noDisp(n,r.date);if(w)o.push({r:r,n:n,w:w,s:supFor(r)})})});o.sort(function(a,b){return a.r.date<b.r.date?-1:1});return o}
+function bkey(u){return String((st.units[u]||{}).address||u).split(",")[0].trim().toLowerCase()}
+function rutas(d){var R={};st.records.forEach(function(r){if(r.date!==d||estOf(r)==="cancelada")return;split(names(r)).forEach(function(n){(R[n]=R[n]||[]).push(r)})});
+Object.keys(R).forEach(function(n){var L=R[n].slice().sort(function(a,b){var ha=a.hora||(st.units[a.unit]||{}).hora||"",hb=b.hora||(st.units[b.unit]||{}).hora||"";return ha<hb?-1:ha>hb?1:0}),o=[];
+while(L.length){var x=L.shift();o.push(x);var k=bkey(x.unit);for(var i=0;i<L.length;i++)if(bkey(L[i].unit)===k){o.push(L.splice(i,1)[0]);i--}}R[n]=o});return R}
+function rutaTxt(L){var out=[],prev="";L.forEach(function(r){var k=bkey(r.unit);out.push(r.unit+(k!==prev?" ("+((st.units[r.unit]||{}).address||"")+")":" (mismo edificio)"));prev=k});return out.join(" → ")}
 function sugCl(){var e=$("csug");if(!e)return;var dv=$("date")&&$("date").value;if(!/^\d{4}-\d{2}-\d{2}$/.test(dv||"")||!cnames().length||isCl()){e.innerHTML="";return}
-var L=cleanerLoad(dv),ns=Object.keys(L).sort(function(a,b){return L[a].d-L[b].d||L[a].w-L[b].w||(a<b?-1:1)}),t=ns[0],sel=selCl(),h="";
-if(sel.indexOf(t)<0)h+='<button type="button" class="sugchip" data-action="sug_pick" data-n="'+esc(t)+'">✨ Sugerida: '+esc(t)+" · "+L[t].w+(L[t].w===1?" limpieza":" limpiezas")+" esa semana"+(L[t].d?", "+L[t].d+" ese día":", ninguna ese día")+"</button>";
-h+='<div class="meta" style="margin-top:6px">Carga de la semana: '+ns.map(function(n){return esc(n)+" "+L[n].w}).join(" · ")+"</div>";e.innerHTML=h}
+var L=cleanerLoad(dv),nd=Object.keys(L).filter(function(n){return noDisp(n,dv)}),ns=Object.keys(L).filter(function(n){return!noDisp(n,dv)}).sort(function(a,b){return L[a].d-L[b].d||L[a].w-L[b].w||(a<b?-1:1)}),t=ns[0],sel=selCl(),h="";
+sel.forEach(function(n){var w=noDisp(n,dv);if(w)h+='<div class="hal" style="margin:6px 0">⚠ '+esc(n)+" no está disponible ese día ("+esc(w)+")</div>"});
+if(t&&sel.indexOf(t)<0)h+='<button type="button" class="sugchip" data-action="sug_pick" data-n="'+esc(t)+'">✨ Sugerida: '+esc(t)+" · "+L[t].w+(L[t].w===1?" limpieza":" limpiezas")+" esa semana"+(L[t].d?", "+L[t].d+" ese día":", ninguna ese día")+"</button>";
+h+='<div class="meta" style="margin-top:6px">Carga de la semana: '+ns.map(function(n){return esc(n)+" "+L[n].w}).join(" · ")+(nd.length?" · No disponibles: "+nd.map(function(n){return esc(n)+" ("+esc(noDisp(n,dv))+")"}).join(", "):"")+"</div>";e.innerHTML=h}
 function cdSum(){sugCl();var s=selCl(),e=$("cdsum");e.textContent=s.length?s.join(", "):"Selecciona una o más cleaners";e.className=s.length?"":"ph"}
 function renderPend(){var b=$("pendbox");if(!b)return;var t=new Date(),pad=function(n){return("0"+n).slice(-2)},f=function(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())},t0=f(t),e=new Date(t.getTime()+7*864e5),t1=f(e);
 var p=st.records.filter(function(r){return r.date>=t0&&r.date<=t1&&!names(r)&&["realizada","cancelada"].indexOf(estOf(r))<0}).sort(function(x,y){return x.date<y.date?-1:x.date>y.date?1:0});
@@ -498,7 +513,7 @@ c.innerHTML='<div class="entry-top"><p class="entry-number">LIMPIEZA '+(i+1)+'</
 box.appendChild(c)});
 renderProto();renderInv();renderBod();renderOwn();renderTipos();renderRq();clCard();renderRef();renderQc();renderMan();renderPv();renderDmg();renderFoot();renderRes();renderCos();renderHub();renderSetup();var rs=$("rsub");if(rs)rs.textContent=isCl()?"Tus limpiezas asignadas":"Reporte listo para enviar a las cleaners";
 var cl=cnames();Object.keys(st.asg).forEach(function(k){split(st.asg[k]).forEach(function(n){if(cl.indexOf(n)<0)cl.push(n)})});cl.sort();
-$("clist").innerHTML=Object.keys(st.cleaners).sort(function(a,b){return(st.cleaners[a].name||"")<(st.cleaners[b].name||"")?-1:1}).map(function(k){return'<div class="urow"><div class="grow"><b>'+esc(st.cleaners[k].name)+'</b></div><button type="button" class="text-button" data-action="cedit" data-id="'+esc(k)+'">Editar</button><button type="button" class="text-button red" data-action="cremove" data-id="'+esc(k)+'">'+(armed==="c"+k?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")||'<div class="empty">Aún no hay cleaners.</div>';
+$("clist").innerHTML=Object.keys(st.cleaners).sort(function(a,b){return(st.cleaners[a].name||"")<(st.cleaners[b].name||"")?-1:1}).map(function(k){var c0=st.cleaners[k],t0=dkey(new Date()),au=(c0.aus||[]).filter(function(x){return x.b>=t0});return'<div class="urow"><div class="grow"><b>'+esc(c0.name)+'</b>'+((c0.lib||[]).length||au.length?'<br><span class="meta">'+((c0.lib||[]).length?"Libre: "+(c0.lib||[]).map(function(w){return DSEM[w]}).join(", "):"")+(au.length?((c0.lib||[]).length?" · ":"")+au.map(function(x){return esc(x.m||"ausente")+" "+fdt(x.a+"T12:00:00")+"–"+fdt(x.b+"T12:00:00")}).join(", "):"")+"</span>":"")+'</div><button type="button" class="text-button" data-action="cedit" data-id="'+esc(k)+'">Editar</button><button type="button" class="text-button red" data-action="cremove" data-id="'+esc(k)+'">'+(armed==="c"+k?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")||'<div class="empty">Aún no hay cleaners.</div>';
 $("flt").innerHTML='<option value="">Todas</option>'+cl.map(function(c){return'<option value="'+esc(c)+'"'+(c===st.filt?" selected":"")+">"+esc(c)+"</option>"}).join("");
 fillCl(selCl());
 var cur=$("unit").value;$("unit").innerHTML='<option value="">Selecciona el departamento a limpiar</option>'+unitKeys().map(function(k){return'<option value="'+esc(k)+'">'+esc(k)+" · "+esc(st.units[k].address)+"</option>"}).join("");$("unit").value=cur;
@@ -552,7 +567,13 @@ var id=editing||"l"+Date.now()+Math.floor(Math.random()*1000),was=!!editing,n=se
 var doc={date:date,unit:unit,hora:$("hora").value||st.units[unit].hora};var nt=$("nota").value.trim();if(nt)doc.nota=nt;if($("ci").checked)doc.checkin=true;var o0=editing&&recById(editing);if(o0&&o0.xtra){doc.xtra=o0.xtra;if(o0.xnt)doc.xnt=o0.xnt}reqRead(doc);put("limpiezas",id,doc);
 if(n)put("asignaciones",id,{names:n});else if(was&&st.asg[id])rm("asignaciones",id);
 hl=id;resetForm();$("savedNotice").textContent="✓ "+(was?"Limpieza actualizada.":"Limpieza agregada.")+" Ya aparece en el reporte.";$("savedNotice").classList.add("show");go("report");toast("Limpieza guardada.")}
-function resetCl(){editingCl=null;$("cn").value="";$("csave").textContent="Agregar cleaner";$("ccancel").style.display="none"}
+function resetCl(){editingCl=null;clAus=[];renderClDisp();$("cn").value="";$("csave").textContent="Agregar cleaner";$("ccancel").style.display="none"}
+var clAus=[];
+function renderClDisp(lib){var b=$("clib");if(!b)return;if(lib)b.innerHTML=[1,2,3,4,5,6,0].map(function(w){return'<label class="chip"><input type="checkbox" data-w="'+w+'"'+(lib.indexOf(w)>=0?" checked":"")+"> "+DSEM[w]+"</label>"}).join("");else if(!b.innerHTML||!editingCl)b.innerHTML=[1,2,3,4,5,6,0].map(function(w){return'<label class="chip"><input type="checkbox" data-w="'+w+'"> '+DSEM[w]+"</label>"}).join("");
+var t0=dkey(new Date());$("claus").innerHTML=clAus.filter(function(x){return x.b>=t0}).map(function(x,i){return'<div class="cosrow"><b>'+esc(fdt(x.a+"T12:00:00"))+" → "+esc(fdt(x.b+"T12:00:00"))+'</b><span>'+esc(x.m||"")+'</span><em><button type="button" class="text-button red" data-action="cl_ausdel" data-a="'+esc(x.a)+'" data-b="'+esc(x.b)+'">Quitar</button></em></div>'}).join("")}
+function clAction(a,b){if(a==="cl_ausadd"){var x=$("cla").value,y=$("clb").value||x,m=$("clm").value.trim()||"vacaciones";if(!/^\d{4}-\d{2}-\d{2}$/.test(x))return toast("Elige la fecha de inicio.");if(y<x)return toast("La fecha final no puede ser antes del inicio.");clAus.push({a:x,b:y,m:m});$("cla").value="";$("clb").value="";$("clm").value="";renderClDisp();toast("Ausencia agregada. Recuerda tocar «Guardar cambios».")}
+if(a==="cl_ausdel"){clAus=clAus.filter(function(x){return!(x.a===b.dataset.a&&x.b===b.dataset.b)});renderClDisp()}
+if(a==="sup_do"){var r=recById(b.dataset.id);if(!r)return;var l=split(names(r)).map(function(n){return n===b.dataset.from?b.dataset.to:n});put("asignaciones",r.id,{names:l.join(", ")});toast("Reasignada a "+b.dataset.to+".")}}
 function saveCleaner(){
 if(!db)return toast("Sin conexión con los datos compartidos.");
 var n=$("cn").value.trim();if(!n)return toast("Escribe el nombre.");
@@ -560,7 +581,7 @@ var dup=Object.keys(st.cleaners).some(function(k){return k!==editingCl&&(st.clea
 if(dup)return toast("Ya existe una cleaner con ese nombre.");
 var id=editingCl||"c"+Date.now()+Math.floor(Math.random()*1000);
 if(editingCl){var old=st.cleaners[editingCl].name;if(old!==n)Object.keys(st.asg).forEach(function(k){var l=split(st.asg[k]);if(l.indexOf(old)>=0){put("asignaciones",k,{names:l.map(function(x){return x===old?n:x}).join(", ")})}})}
-put("cleaners",id,{name:n});resetCl();toast("Cleaner guardada.")}
+var cd=editingCl&&st.cleaners[editingCl]?JSON.parse(JSON.stringify(st.cleaners[editingCl])):{};cd.name=n;cd.lib=Array.prototype.map.call(document.querySelectorAll("#clib input:checked"),function(i){return+i.dataset.w});cd.aus=clAus.slice();put("cleaners",id,cd);resetCl();toast("Cleaner guardada.")}
 function saveUnit(){
 var k=$("ud").value.trim(),a=$("ua").value.trim();if(!k||!a)return toast("Completa depto y dirección.");
 if(!/^[A-Za-z0-9_-]+$/.test(k))return toast("El depto solo puede tener letras y números.");
@@ -585,7 +606,7 @@ if(a==="goentry"){var ce=document.getElementById("e-"+id);if(ce){try{ce.scrollIn
 if(a==="calday"&&admin){resetForm();$("date").value=id;prevKit();go("editor")}
 if(a==="csave")saveCleaner();
 if(a==="ccancel")resetCl();
-if(a==="cedit"&&st.cleaners[id]){editingCl=id;$("cn").value=st.cleaners[id].name;$("csave").textContent="Guardar cambios";$("ccancel").style.display="inline-flex";$("cn").focus()}
+if(a==="cedit"&&st.cleaners[id]){editingCl=id;clAus=(st.cleaners[id].aus||[]).slice();renderClDisp(st.cleaners[id].lib||[]);$("cn").value=st.cleaners[id].name;$("csave").textContent="Guardar cambios";$("ccancel").style.display="inline-flex";$("cn").focus()}
 if(a==="cremove"){if(armed==="c"+id){armed=null;rm("cleaners",id);toast("Cleaner eliminada de la lista.")}else{armed="c"+id;render()}}
 if(a==="newunit"){setView("prop");resetUnit();$("udet").open=true;go("udet");setTimeout(function(){$("ud").focus()},300)}
 if(a==="usave")saveUnit();
@@ -697,7 +718,7 @@ function waText(){var now=new Date(),t0=dkey(now),t1=addDays(t0,1),dias=["doming
 function dia(t,tit){var L=st.records.filter(function(r){return r.date===t&&estOf(r)!=="cancelada"}).sort(function(a,b){return(a.hora||"")<(b.hora||"")?-1:1}),ci=resItems().filter(function(x){return x.a===t&&st.units[x.unit]}).map(function(x){return x.unit});
 o.push("");o.push("*"+tit+"*");if(!L.length)o.push("Sin limpiezas.");L.forEach(function(r){o.push("• "+r.unit+" · "+fhora(r.hora||(st.units[r.unit]||{}).hora)+" · "+(names(r)||"SIN ASIGNAR")+(estOf(r)==="realizada"?" ✓":"")+(ci.indexOf(r.unit)>=0?" (llegan huéspedes)":"")+(reqTxt(r)?" — "+reqTxt(r):""))});
 var so=ci.filter(function(u){return!L.some(function(r){return r.unit===u})});if(so.length)o.push("Llegadas sin limpieza ese día: "+so.join(", "))}
-dia(t0,"Hoy");dia(t1,"Mañana");
+dia(t0,"Hoy");var RR=rutas(t0),rk=Object.keys(RR).filter(function(n){return RR[n].length>1}).sort();if(rk.length){o.push("");o.push("*Rutas de hoy*");rk.forEach(function(n){o.push("• "+n+": "+rutaTxt(RR[n]))})}dia(t1,"Mañana");
 var a=[],H=hoyData();if(H.sinAsg.length)a.push(H.sinAsg.length+" limpieza(s) sin cleaner en 7 días");
 var tb=H.tixAb.filter(function(x){return x.bloq});if(tb.length)a.push("Deptos bloqueados: "+tb.map(function(x){return x.unit}).join(", "));
 if(H.tixAb.length)a.push(H.tixAb.length+" ticket(s) de mantención abiertos");
@@ -711,6 +732,7 @@ H.inc.forEach(function(x){al.push('<button type="button" class="hal" data-action
 var tu=H.tixAb.filter(function(x){return x.prio==='urgente'}).length;if(H.tixAb.length&&admin)al.push('<button type="button" class="hal" data-action="view" data-v="man">🔧 '+H.tixAb.length+(H.tixAb.length===1?' ticket de mantención abierto':' tickets de mantención abiertos')+(tu?' ('+tu+' urgente'+(tu>1?'s':'')+')':'')+'</button>');
 H.tixAb.filter(function(x){return x.bloq}).forEach(function(x){al.push('<button type="button" class="hal" data-action="view" data-v="man">⛔ Depto '+esc(x.unit)+' bloqueado: '+esc(x.t||'mantención')+'</button>')});
 if(admin&&Object.keys(st.units).length&&bkOld())al.push('<button type="button" class="hal" data-action="bk_do">💾 Descarga un respaldo de tus datos (hace más de un mes)</button>');
+dispAlerts().slice(0,4).forEach(function(x){al.push('<div class="hal">⚠ '+esc(x.n)+" no está disponible el "+esc(fdt(x.r.date+"T12:00:00"))+" ("+esc(x.w)+") · Depto "+esc(x.r.unit)+(x.s?' <button type="button" class="pvb" data-action="sup_do" data-id="'+esc(x.r.id)+'" data-from="'+esc(x.n)+'" data-to="'+esc(x.s)+'">Reemplazar por '+esc(x.s)+"</button>":" · sin suplente libre")+"</div>")});
 if(admin&&qcPend().length)al.push('<button type="button" class="hal" data-action="view" data-v="limp">⭐ '+qcPend().length+(qcPend().length===1?" limpieza por revisar":" limpiezas por revisar")+"</button>");
 if(admin&&dmgUrg().length)al.push('<button type="button" class="hal" data-action="view" data-v="man">⚠ '+dmgUrg().length+(dmgUrg().length===1?" daño por reclamar a Airbnb (plazo cerca)":" daños por reclamar a Airbnb (plazo cerca)")+"</button>");
 if(admin&&pvDue().length)al.push('<button type="button" class="hal" data-action="view" data-v="man">🛠 '+pvDue().length+(pvDue().length===1?" mantención preventiva por hacer":" mantenciones preventivas por hacer")+"</button>");
@@ -719,12 +741,13 @@ if(pend&&!isLav())al.push('<button type="button" class="hal" data-action="view" 
 var lg=lgList();lg.filter(function(x){return x.hoy&&(x.s[0]==="pe"||x.s[0]==="bl"||x.s[0]==="na")&&x.s[0]!=="na"}).forEach(function(x){al.push('<button type="button" class="hal" data-action="view" data-v="limp">🚪 Hoy llegan huéspedes al '+esc(x.unit)+' y no está listo ('+esc(x.s[1].replace(/^[^\wÁ-ú]+/,""))+")</button>")});
 var cards=[["Limpiezas hoy",H.hoy.length],["Terminadas",done],["En curso",cur],["Check-ins hoy",H.checkins]];
 var rows=H.hoy.map(function(r){var e=estOf(r),n=names(r);return'<div class="hrow"><b>'+esc(r.unit)+'</b><span class="hh">'+esc(fhora(r.hora||(st.units[r.unit]||{}).hora))+(r.checkin?" · 🔔 check-in":"")+'</span><span class="hc '+(n?"":"un")+'">'+(n?esc(n):"sin asignar")+'</span><span class="he he-'+e+'">'+esc((ESTADOS.filter(function(x){return x[0]===e})[0]||[0,e])[1])+"</span></div>"}).join("");
-var urg=al.filter(function(x){return/^<button[^>]*>(🚪|⛔|⚠)/.test(x)}),oth=al.filter(function(x){return urg.indexOf(x)<0});
+var urg=al.filter(function(x){return/^<(button|div)[^>]*>(🚪|⛔|⚠)/.test(x)}),oth=al.filter(function(x){return urg.indexOf(x)<0});
 b.innerHTML='<div class="hoyh"><h2>Hoy</h2><span class="meta">'+dias[now.getDay()]+" "+now.getDate()+" de "+MES[now.getMonth()].toLowerCase()+"</span></div>"+
 (isLav()?"":'<div class="lcards hcards">'+cards.map(function(c){return'<div class="lcard"><b>'+c[1]+"</b><span>"+c[0]+"</span></div>"}).join("")+"</div>")+
 (urg.length?'<div class="hals">'+urg.join("")+"</div>":"")+
 (lg.length?'<div class="lgbox"><div class="lgh">Llegadas de hoy y mañana</div>'+lg.map(function(x){return'<div class="lgr lg-'+x.s[0]+'"><b>'+esc(x.unit)+'</b><span class="lgd">'+(x.hoy?"hoy":"mañana")+'</span><span class="lgs">'+esc(x.s[1])+"</span></div>"}).join("")+"</div>":"")+
 (isLav()?"":(rows?'<div class="hlist">'+rows+"</div>":'<p class="meta" style="margin:4px 2px 12px">No hay limpiezas programadas para hoy.</p>'))+
+(function(){if(isLav()||!admin)return"";var R=rutas(dkey(now)),ks=Object.keys(R).filter(function(n){return R[n].length>1}).sort();return ks.length?'<div class="lgbox"><div class="lgh">Rutas de hoy</div>'+ks.map(function(n){return'<div class="lgr"><b>'+esc(n)+'</b><span class="lgs" style="text-align:left;margin-left:0">'+esc(rutaTxt(R[n]))+"</span></div>"}).join("")+"</div>":""})()+
 (oth.length?'<details class="hoth"'+(isLav()||oth.length<=2&&!urg.length?" open":"")+'><summary>Otros avisos ('+oth.length+')</summary><div class="hals">'+oth.join("")+"</div></details>":"")+
 (admin&&!isLav()&&Object.keys(st.units).length?'<div class="hwa"><button type="button" class="text-button" data-action="wa_send">📲 Enviar resumen por WhatsApp</button> · <button type="button" class="text-button" data-action="wa_copy">Copiar</button></div>':"")}
 function initView(){document.body.classList.add("hub");renderHub();setView(isLav()?"lav":"home")}
@@ -979,7 +1002,7 @@ if(a==="pv_done"){var y=st.pv[id];if(!y)return;var c=JSON.parse(JSON.stringify(y
 if(a==="pv_tix"){var z=st.pv[id];if(!z)return;var u=z.u||"General";put("tickets","pvt"+Date.now()+Math.random().toString(36).slice(2,4),{unit:u,t:"Preventiva: "+z.t,d:z.u?"":"Aplica a todos los departamentos",prio:"media",est:"abierto",bloq:false,ts:iso(),por:myWho(),origen:"preventiva"});toast("Ticket creado en Mantención.");return}
 if(a==="pv_del"){if(armed==="pv"+id){armed=null;rm("preventivas",id);toast("Tarea eliminada.")}else{armed="pv"+id;renderPv()}return}}
 /* ---------- Respaldo ---------- */
-var VERSION="58",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones"];
+var VERSION="59",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones"];
 function bkOld(){var l=lsGet("mooria_backup_last",0);return!l||Date.now()-l>30*864e5}
 function bkDl(txt,name){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},800)}
 function doBackup(){if(!db||!admin)return;toast("Preparando respaldo…");
@@ -1437,6 +1460,7 @@ if(/^tp_/.test(a)){tpAction(a,b);return}
 if(/^qc_/.test(a)){qcAction(a,b);return}
 if(/^rf_/.test(a)){rfAction(a,b);return}
 if(/^rq_/.test(a)){rqAction(a,b);return}
+if(/^(cl_|sup_)/.test(a)){clAction(a,b);return}
 if(a==="log_tog"){logOpen=!logOpen;if(logOpen){logRows=null;loadLog()}renderFoot();return}
 if(a==="log_who"){logWho=b.dataset.n||"";renderFoot();return}
 if(/^dm_/.test(a)){dmAction(a,b);return}
