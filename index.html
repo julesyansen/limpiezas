@@ -297,7 +297,7 @@ if(navigator.webdriver){s.parentNode.removeChild(s);return}var rm=window.matchMe
   <details class="surface vw-bod" id="bdet"><summary id="bdsum">Bodegas</summary><div class="inner">
     <p class="meta" style="margin:0 0 10px">Inventario de compras, kits y reposición. Aquí se cargan las compras y se arman los kits de respaldo.</p>
     <div id="bsum"></div>
-    <details class="dd adm" id="bplan" style="margin-top:14px"><summary>Plan de armado de kits</summary><div class="ddp" id="kpbox"></div></details>
+    <details class="dd" id="bplan" style="margin-top:14px"><summary>Plan de armado de kits</summary><div class="ddp" id="kpbox"></div></details>
     <details class="dd adm" id="bfor"><summary>Pronóstico de ropa blanca</summary><div class="ddp" id="kfbox"></div></details>
     <details class="dd adm" id="bins"><summary>Insumos: cuánto alcanza</summary><div class="ddp" id="kibox"></div></details>
     <details class="dd adm" id="bprc"><summary>Historial de precios</summary><div class="ddp" id="prcbox"></div></details>
@@ -452,7 +452,7 @@ if(navigator.webdriver){s.parentNode.removeChild(s);return}var rm=window.matchMe
 (function(){"use strict";
 var APP=location.href.split("#")[0].split("?")[0].replace(/index\.html$/,"");
 var MES=["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
-var st={units:{},records:[],asg:{},est:{},ejec:{},proto:[],inv:{},art:[],movs:{},guias:{},tix:{},pv:{},dmg:{},cie:{},own:{},tp:{},insp:{},hue:{},olv:{},inc:{},llv:{},resv:{},ical:{},cleaners:{},month:"",filt:""},editing=null,editingUnit=null,editingCl=null,armed=null,hl=null,db=null,sb=null,role="",admin=false,pend=false;
+var st={units:{},records:[],asg:{},est:{},ejec:{},proto:[],inv:{},art:[],movs:{},guias:{},tix:{},pv:{},dmg:{},cie:{},own:{},tp:{},insp:{},hue:{},olv:{},inc:{},llv:{},plan:{},resv:{},ical:{},cleaners:{},month:"",filt:""},editing=null,editingUnit=null,editingCl=null,armed=null,hl=null,db=null,sb=null,role="",admin=false,pend=false;
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function toast(s){var t=$("toast");t.textContent=s;t.classList.add("show");clearTimeout(toast.id);toast.id=setTimeout(function(){t.classList.remove("show")},2800)}
@@ -636,7 +636,8 @@ if(any){$("shareReport").setAttribute("href","https://wa.me/?text="+encodeURICom
 function again(){cacheSave();if(runId)renderRun();var a=document.activeElement;if(a&&a.closest&&a.closest(".assign")){pend=true;return}render()}
 function subBod(){db.collection("articulos").onSnapshot(function(s){st.art=(s.docs[0]&&(s.docs[0].data()||{}).items)||[];again()},fail);
 db.collection("movs").onSnapshot(function(s){st.movs={};s.docs.forEach(function(d){st.movs[d.id]=d.data()||{}});again()},fail);
-db.collection("guias").onSnapshot(function(s){st.guias={};s.docs.forEach(function(d){st.guias[d.id]=d.data()||{}});again()},fail)}
+db.collection("guias").onSnapshot(function(s){st.guias={};s.docs.forEach(function(d){st.guias[d.id]=d.data()||{}});again()},fail);
+if(role==="admin"||role==="bodega")db.collection("planes").onSnapshot(function(s){st.plan={};s.docs.forEach(function(d){st.plan[d.id]=d.data()||{}});again()},fail)}
 function sub(){
 if(role==="bodega"||role==="lavanderia"){subBod();return}
 subBod();
@@ -1202,7 +1203,7 @@ if(a==="pv_done"){var y=st.pv[id];if(!y)return;var c=JSON.parse(JSON.stringify(y
 if(a==="pv_tix"){var z=st.pv[id];if(!z)return;var u=z.u||"General";put("tickets","pvt"+Date.now()+Math.random().toString(36).slice(2,4),{unit:u,t:"Preventiva: "+z.t,d:z.u?"":"Aplica a todos los departamentos",prio:"media",est:"abierto",bloq:false,ts:iso(),por:myWho(),origen:"preventiva"});toast("Ticket creado en Mantención.");return}
 if(a==="pv_del"){if(armed==="pv"+id){armed=null;rm("preventivas",id);toast("Tarea eliminada.")}else{armed="pv"+id;renderPv()}return}}
 /* ---------- Respaldo ---------- */
-var VERSION="89",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones","beneficiarios","olvidados","incidentes","llaves"];
+var VERSION="90",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones","beneficiarios","olvidados","incidentes","llaves"];
 function bkOld(){var l=lsGet("mooria_backup_last",0);return!l||Date.now()-l>30*864e5}
 function bkDl(txt,name){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},800)}
 function doBackup(){if(!db||!admin)return;toast("Preparando respaldo…");
@@ -1401,7 +1402,7 @@ function kWin(p){var t0=dkey(new Date()),d=new Date();if(p==="mes")return[dkey(n
 function kRecs(a,b){return st.records.filter(function(r){return r.date>=a&&r.date<=b&&["cancelada","realizada"].indexOf(estOf(r))<0}).sort(function(x,y){return x.date!==y.date?(x.date<y.date?-1:1):(x.unit<y.unit?-1:1)})}
 function kUse(r){var t=tipoOf(r.unit)||{},m={};[t.ropa||{},t.cons||{}].forEach(function(o){Object.keys(o).forEach(function(id){m[id]=(m[id]||0)+(+o[id]||0)})});(r.rx||[]).forEach(function(x){m[x.id]=(m[x.id]||0)+(+x.q||0)});return m}
 function kAdd(m,o,f){Object.keys(o).forEach(function(id){m[id]=(m[id]||0)+o[id]*(f||1)})}
-function kitPlan(p){var w=kWin(p),R=kRecs(w[0],w[1]),c=kCfg(),T={},need={},last=c.last&&c.last.per===p&&c.last.a===w[0]?c.last:null,nuevos=[];
+function kitPlan(p){var w=kWin(p),R=kRecs(w[0],w[1]),c=kCfg(),T={},need={},lk=st.plan.armado||c.last,last=lk&&lk.per===p&&lk.a===w[0]?lk:null,nuevos=[];
 R.forEach(function(r){var u=st.units[r.unit]||{},tk=u.tp&&st.tp[u.tp]?u.tp:"_",t=T[tk]=T[tk]||{n:0,name:tk==="_"?"Sin tipo asignado":st.tp[tk].name,buf:+((c.buf||{})[tk])||0,rx:0};t.n++;if(r.rx&&r.rx.length)t.rx++;kAdd(need,kUse(r));if(last&&(last.ids||[]).indexOf(r.id)<0)nuevos.push(r)});
 Object.keys(T).forEach(function(tk){var t=T[tk];if(tk!=="_"&&t.buf){var tp=st.tp[tk]||{};kAdd(need,tp.ropa||{},t.buf);kAdd(need,tp.cons||{},t.buf)}});
 var bal=bodStock(),A=artList(),tx=[],cs=[];A.forEach(function(x){var q=need[x.id]||0;if(!q)return;var hay=(bal.prep[x.id]||0)+(bal.cl[x.id]||0),o={id:x.id,n:x.n,q:q,hay:hay,lav:(bal.lav[x.id]||0)+(bal.tran[x.id]||0)+(bal.suc[x.id]||0),f:Math.max(0,q-hay)};(x.t==="textil"?tx:cs).push(o)});
@@ -1414,8 +1415,17 @@ function kpText(P){var o=["🧺 PLAN DE ARMADO DE KITS","📅 "+P.w[2]+" ("+fdat
 Object.keys(P.T).forEach(function(k){var t=P.T[k];o.push("▪ "+t.name+": "+t.n+" kits"+(t.buf?" + "+t.buf+" de respaldo = "+(t.n+t.buf):""))});
 o.push("");var d="";P.R.forEach(function(r){if(r.date!==d){d=r.date;o.push("📅 "+fdate(d))}o.push("  • Depto "+r.unit+" · kit "+kit(r)+(rxTxt(r)?" · ➕ "+rxTxt(r):""))});
 o.push("","TOTAL A PREPARAR");P.tx.concat(P.cs).forEach(function(x){o.push("  • "+x.q+" "+x.n+(x.f?" (faltan "+x.f+")":""))});return o.join("\n")}
-function renderPlan(){var b1=$("kpbox"),b2=$("kfbox"),b3=$("kibox");if(!b1||!admin)return;
-var p=kPer(),P=kitPlan(p),c=kCfg(),tks=Object.keys(st.tp);
+function kpPub(P,p){var o={per:p,label:P.w[2],a:P.w[0],b:P.w[1],T:Object.keys(P.T).map(function(k){var t=P.T[k];return{n:t.name,k:t.n,b:t.buf,rx:t.rx}}),it:P.tx.concat(P.cs).map(function(x){return{n:x.n,q:x.q,hay:x.hay,f:x.f}}),dias:P.R.map(function(r){return{d:r.date,u:r.unit,k:kit(r),x:rxTxt(r)}}),ids:P.R.map(function(r){return r.id}),nuevos:P.nuevos.map(function(r){return r.unit+" "+fdt(r.date+"T12:00:00")}),bu:P.bufUsed,bt:P.bufTot,txt:kpText(P)},old=JSON.parse(JSON.stringify(st.plan.kits||{}));delete old.ts;delete old.id;if(JSON.stringify(old)===JSON.stringify(o))return;o.ts=iso();st.plan.kits=o;put("planes","kits",o)}
+function kpBod(){var b1=$("kpbox");if(!b1)return;var k=st.plan.kits,am=st.plan.armado;if(!k||!k.T){setH(b1,'<p class="meta">Todavía no hay un plan publicado. Aparece aquí apenas la administración tenga limpiezas cargadas.</p>');return}
+var done=am&&am.per===k.per&&am.a===k.a,h='<p class="meta"><b>'+esc(k.label)+"</b> · "+fdate(k.a)+(k.a!==k.b?" al "+fdate(k.b):"")+"</p>";
+h+='<div class="kpgrid">'+k.T.map(function(t){return'<div class="kpcard"><b>'+(t.k+t.b)+'</b><span>'+esc(t.n)+"</span><small>"+t.k+" por reservas"+(t.b?" + "+t.b+" respaldo":"")+(t.rx?" · "+t.rx+" con extras":"")+"</small></div>"}).join("")+"</div>";
+if(done)h+='<div class="kpbuf'+(k.bu>k.bt?" over":"")+'">Armado el '+fts(am.ts)+(am.por?" por "+esc(am.por):"")+". "+(k.nuevos&&k.nuevos.length?"Entraron "+k.nuevos.length+" limpiezas nuevas ("+esc(k.nuevos.join(", "))+"). "+(k.bu<=k.bt?"Las cubre el respaldo.":"Arma "+(k.bu-k.bt)+" kit(s) más."):"Sin limpiezas nuevas desde el armado.")+"</div>";
+h+='<details class="dd"><summary>Detalle por día ('+k.dias.length+')</summary><div class="ddp">'+k.dias.map(function(x){return'<div class="cosrow"><b>'+esc(fdate(x.d))+" · "+esc(x.u)+"</b><span>kit "+x.k+(x.x?" · ➕ "+esc(x.x):"")+"</span></div>"}).join("")+"</div></details>";
+h+='<p class="sgl" style="margin:12px 0 4px">Total a preparar</p>'+k.it.map(function(x){return kpRow(x,"cs")}).join("");
+h+='<div class="form-buttons">'+(done?"":'<button type="button" class="btn btn-primary" data-action="kp_done">Marcar como armado</button>')+'<button type="button" class="btn" data-action="kp_copy">Copiar plan</button></div>';
+setH(b1,h)}
+function renderPlan(){var b1=$("kpbox"),b2=$("kfbox"),b3=$("kibox");if(!b1)return;if(!admin){if(isBod())kpBod();return}
+var p=kPer(),P=kitPlan(p),c=kCfg(),tks=Object.keys(st.tp);if(dataReady&&tks.length)kpPub(P,p);
 var h=kpPerChips(p,"kp_per")+'<p class="meta">'+esc(P.w[2])+(P.w[0]!==P.w[1]?" · "+fdate(P.w[0])+" al "+fdate(P.w[1]):" · "+fdate(P.w[0]))+"</p>";
 if(!tks.length)h+='<p class="meta">Para calcular los kits, crea los tipos de departamento (Propiedades → Tipos) con sus prendas e insumos por recambio.</p>';
 if(!P.R.length)h+='<p class="meta">No hay limpiezas cargadas en este periodo.</p>';
@@ -1434,8 +1444,8 @@ function insAlert(){if(!admin)return[];return insRun().filter(function(x){return
 function kpAction(a,b){var c=JSON.parse(JSON.stringify(kCfg()));delete c.id;
 if(a==="kp_per"){c.per=b.dataset.p;put("cierres","_kits",c);st.cie["_kits"]=c;renderPlan();return}
 if(a==="kp_buf"){var bf={};Array.prototype.forEach.call(document.querySelectorAll("#kpbox input[data-kb]"),function(i){var v=+i.value||0;if(v)bf[i.dataset.kb]=v});c.buf=bf;put("cierres","_kits",c);toast("Respaldo guardado.");return}
-if(a==="kp_done"){var p=kPer(),P=kitPlan(p);c.last={ts:iso(),per:p,a:P.w[0],b:P.w[1],ids:P.R.map(function(r){return r.id})};put("cierres","_kits",c);toast("Plan marcado como armado. Las limpiezas nuevas se descontarán del respaldo.");return}
-if(a==="kp_copy"){var t=kpText(kitPlan(kPer()));if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){toast("Plan copiado.")},function(){toast("No se pudo copiar.")});else toast("No se pudo copiar.");return}}
+if(a==="kp_done"){var pb=st.plan.kits||{},mk;if(admin){var p=kPer(),P=kitPlan(p);mk={ts:iso(),per:p,a:P.w[0],b:P.w[1],ids:P.R.map(function(r){return r.id}),por:myWho()}}else{if(!pb.ids)return toast("Aún no hay un plan publicado.");mk={ts:iso(),per:pb.per,a:pb.a,b:pb.b,ids:pb.ids.slice(),por:myWho()}}put("planes","armado",mk);st.plan.armado=mk;if(!admin)notify({roles:["admin"]},"Kits armados",myWho()+" armó los kits de "+(pb.label||"").toLowerCase());toast("Plan marcado como armado. Las limpiezas nuevas se descontarán del respaldo.");return}
+if(a==="kp_copy"){var t=admin?kpText(kitPlan(kPer())):(st.plan.kits||{}).txt||"";if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){toast("Plan copiado.")},function(){toast("No se pudo copiar.")});else toast("No se pudo copiar.");return}}
 /* ---------- Llaves y tarjetas ---------- */
 var LLT=["Control de estacionamiento","Tarjeta de estacionamiento","Llave de bodega","Llave de emergencia (chapa digital)","Otra"],LLQ=[["oficina","En oficina"],["caja","Caja de seguridad"],["conserjeria","Conserjería"],["depto","Dentro del depto"],["cleaner","Cleaner"],["huesped","Huésped"],["propietario","Propietario"],["proveedor","Proveedor"],["perdida","Perdida"]],editingLlv=null;
 function llvQ(k){var x=LLQ.filter(function(q){return q[0]===k})[0];return x?x[1]:k}
@@ -1679,7 +1689,7 @@ if(a==="man_st"){var y=st.tix[id];if(!y)return;var c=JSON.parse(JSON.stringify(y
 if(a==="man_cal"){var y2=st.tix[id];if(!y2)return;var c2=JSON.parse(JSON.stringify(y2));c2.cal=+b.dataset.n;delete c2.id;put("tickets",id,c2);toast("Calificación guardada.");return}
 if(a==="man_del"){if(armed==="mt"+id){armed=null;rm("tickets",id);toast("Ticket eliminado.")}else{armed="mt"+id;renderMan()}return}}
 function renderBod(force){
-if(!bodUI()||!$("bsum"))return;renderBodForm();var bal=bodStock(),al=artList(),lv=isLav(),h="",warn=[];
+if(!bodUI()||!$("bsum"))return;if(isBod())renderPlan();renderBodForm();var bal=bodStock(),al=artList(),lv=isLav(),h="",warn=[];
 /* ---- Bodegas ---- */
 al.forEach(function(a){if(a.m>0&&(bal.prep[a.id]||0)<a.m)warn.push("⚠ "+esc(a.n)+": quedan "+(bal.prep[a.id]||0)+" en preparación (mínimo "+a.m+")")});
 ["prep","cl","dep","suc"].forEach(function(l){al.forEach(function(a){if((bal[l][a.id]||0)<0)warn.push("❗ Revisa: "+esc(a.n)+" figura en negativo en «"+LOC[l]+"» ("+bal[l][a.id]+"). Falta registrar un movimiento.")})});

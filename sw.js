@@ -1,7 +1,7 @@
 // MOORIA: service worker. Permite abrir la app SIN señal.
 // Con internet: siempre intenta primero la red (las actualizaciones llegan al tiro).
 // Sin internet: abre la última versión guardada en el teléfono.
-var CACHE = "mooria-v2";
+var CACHE = "mooria-v3";
 var LIB = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js";
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) {
@@ -33,5 +33,19 @@ self.addEventListener("fetch", function (e) {
     return res;
   }).catch(function () {
     return caches.match(r, { ignoreSearch: true }).then(function (m) { return m || caches.match("./"); });
+  }));
+});
+
+// Notificaciones
+self.addEventListener("push", function (e) {
+  var d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (x) { d = { title: "MOORIA", body: e.data ? e.data.text() : "" }; }
+  e.waitUntil(self.registration.showNotification(d.title || "MOORIA", { body: d.body || "", data: { url: d.url || "./" } }));
+});
+self.addEventListener("notificationclick", function (e) {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (cs) {
+    for (var i = 0; i < cs.length; i++) { if ("focus" in cs[i]) return cs[i].focus(); }
+    return self.clients.openWindow((e.notification.data && e.notification.data.url) || "./");
   }));
 });
