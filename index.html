@@ -393,6 +393,15 @@ if(navigator.webdriver){s.parentNode.removeChild(s);return}var rm=window.matchMe
     <div id="hvbox" style="margin-top:10px"></div>
   </div></details>
   <details class="surface vw-prop" id="altadet"><summary id="altasum">Alta de departamentos</summary><div class="inner"><div id="altabox"></div></div></details>
+  <details class="surface vw-prop" id="blqdet"><summary>Bloqueos y calendario para Airbnb</summary><div class="inner">
+    <div id="blqbox"></div>
+    <details class="dd" style="margin-top:12px"><summary>Bloquear fechas</summary><div class="ddp">
+      <div class="formgrid" style="grid-template-columns:1fr 1fr"><div class="field"><label for="blqu">Departamento</label><select id="blqu"></select></div><div class="field"><label for="blqm">Motivo</label><select id="blqm"><option>Mantención</option><option>Uso del propietario</option><option>Limpieza profunda</option><option>Pintura o reparación</option><option>Otro</option></select></div>
+      <div class="field"><label for="blqa">Desde (primera noche)</label><input id="blqa" type="date"></div><div class="field"><label for="blqb">Hasta (última noche)</label><input id="blqb" type="date"></div>
+      <div class="field" style="grid-column:1/-1"><label for="blqn">Nota (opcional)</label><input id="blqn" placeholder="Ej. cambio de calefont"></div></div>
+      <div class="form-buttons" style="margin-top:12px"><button type="button" class="btn btn-primary" data-action="blq_save">Bloquear</button></div>
+    </div></details>
+  </div></details>
   <details class="surface vw-prop" id="llvdet"><summary id="llvsum">Llaves y controles</summary><div class="inner">
     <div id="llvbox"></div>
     <details class="dd" id="llvform" style="margin-top:12px"><summary>Agregar llave o control</summary><div class="ddp">
@@ -452,7 +461,7 @@ if(navigator.webdriver){s.parentNode.removeChild(s);return}var rm=window.matchMe
 (function(){"use strict";
 var APP=location.href.split("#")[0].split("?")[0].replace(/index\.html$/,"");
 var MES=["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
-var st={units:{},records:[],asg:{},est:{},ejec:{},proto:[],inv:{},art:[],movs:{},guias:{},tix:{},pv:{},dmg:{},cie:{},own:{},tp:{},insp:{},hue:{},olv:{},inc:{},llv:{},plan:{},resv:{},ical:{},cleaners:{},month:"",filt:""},editing=null,editingUnit=null,editingCl=null,armed=null,hl=null,db=null,sb=null,role="",admin=false,pend=false;
+var st={units:{},records:[],asg:{},est:{},ejec:{},proto:[],inv:{},art:[],movs:{},guias:{},tix:{},pv:{},dmg:{},cie:{},own:{},tp:{},insp:{},hue:{},olv:{},inc:{},llv:{},plan:{},blq:{},resv:{},ical:{},cleaners:{},month:"",filt:""},editing=null,editingUnit=null,editingCl=null,armed=null,hl=null,db=null,sb=null,role="",admin=false,pend=false;
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function toast(s,ms){var t=$("toast");t.textContent=s;t.classList.add("show");clearTimeout(toast.id);toast.id=setTimeout(function(){t.classList.remove("show")},ms||2800)}
@@ -475,7 +484,7 @@ else if(c==="preventivas"){if(d)st.pv[id]=d;else delete st.pv[id]}
 else if(c==="inspecciones"){if(d)st.insp[id]=d;else delete st.insp[id]}
 else if(c==="huespedes"){if(d)st.hue[id]=d;else delete st.hue[id]}
 else if(c==="olvidados"){if(d)st.olv[id]=d;else delete st.olv[id]}
-else if(c==="incidentes"){if(d)st.inc[id]=d;else delete st.inc[id]}   else if(c==="llaves"){if(d)st.llv[id]=d;else delete st.llv[id]}
+else if(c==="incidentes"){if(d)st.inc[id]=d;else delete st.inc[id]}   else if(c==="llaves"){if(d)st.llv[id]=d;else delete st.llv[id]}   else if(c==="bloqueos"){if(d)st.blq[id]=d;else delete st.blq[id]}
 else if(c==="beneficiarios"){st.ben=st.ben||{};if(d)st.ben[id]=d;else delete st.ben[id]}
 else if(c==="tipos"){if(d)st.tp[id]=d;else delete st.tp[id]}
 else if(c==="propietarios"){if(d)st.own[id]=d;else delete st.own[id]}
@@ -623,7 +632,7 @@ var TR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 var acts=admin?'<div class="iacts"><button type="button" class="ibtn" data-action="edit" data-id="'+esc(r.id)+'" aria-label="Editar limpieza" title="Editar">•••</button><button type="button" class="ibtn red'+(armed===r.id?" arm":"")+'" data-action="remove" data-id="'+esc(r.id)+'" aria-label="Eliminar limpieza" title="Eliminar">'+TR+(armed===r.id?"¿Seguro?":"")+"</button></div>":"";
 c.innerHTML='<div class="entry-top"><p class="entry-number">LIMPIEZA '+(i+1)+'</p>'+acts+'</div><header class="entry-head"><div class="entry-heading"><span class="entry-when">'+esc(fdate(r.date))+"</span> Depto "+esc(r.unit)+(r.checkin?'<span class="ci-tag">🔔 CHECK-IN 3 PM</span>':"")+'</div></header><div class="estado-row">'+estSel(r)+'</div>'+runStrip(r)+'<div class="entry-body">'+lines(r).slice(2).map(lineHTML).join("")+'</div><div class="assign" id="asgw-'+esc(r.id)+'"><div class="meta" style="margin-bottom:6px">Encargada(s)</div>'+chips(r)+'<div style="margin-top:6px"><button type="button" class="btn" data-action="asg" data-id="'+esc(r.id)+'">Guardar encargadas</button></div></div>';
 box.appendChild(c)});
-renderProto();renderInv();renderBod();renderOwn();renderTipos();renderRq();renderPr();renderHv();renderCj();renderCier();renderAlta();renderQr();renderOlv();renderInc();renderPlan();renderLlv();renderPrc();renderTm();renderCap();renderKpi();renderXls();qrOpen();clCard();renderRef();renderQc();renderMan();renderPv();renderDmg();renderFoot();renderRes();renderCos();renderHub();renderSetup();var rs=$("rsub");if(rs)rs.textContent=isCl()?"Tus limpiezas asignadas":"Reporte listo para enviar a las cleaners";
+renderProto();renderInv();renderBod();renderOwn();renderTipos();renderRq();renderPr();renderHv();renderCj();renderCier();renderAlta();renderQr();renderOlv();renderInc();renderPlan();renderLlv();renderBlq();renderPrc();renderTm();renderCap();renderKpi();renderXls();qrOpen();clCard();renderRef();renderQc();renderMan();renderPv();renderDmg();renderFoot();renderRes();renderCos();renderHub();renderSetup();var rs=$("rsub");if(rs)rs.textContent=isCl()?"Tus limpiezas asignadas":"Reporte listo para enviar a las cleaners";
 var cl=cnames();Object.keys(st.asg).forEach(function(k){split(st.asg[k]).forEach(function(n){if(cl.indexOf(n)<0)cl.push(n)})});cl.sort();
 $("clist").innerHTML=Object.keys(st.cleaners).sort(function(a,b){return(st.cleaners[a].name||"")<(st.cleaners[b].name||"")?-1:1}).map(function(k){var c0=st.cleaners[k],t0=dkey(new Date()),au=(c0.aus||[]).filter(function(x){return x.b>=t0});return'<div class="urow"><div class="grow"><b>'+esc(c0.name)+'</b>'+((c0.lib||[]).length||au.length?'<br><span class="meta">'+((c0.lib||[]).length?"Libre: "+(c0.lib||[]).map(function(w){return DSEM[w]}).join(", "):"")+(au.length?((c0.lib||[]).length?" · ":"")+au.map(function(x){return esc(x.m||"ausente")+" "+fdt(x.a+"T12:00:00")+"–"+fdt(x.b+"T12:00:00")}).join(", "):"")+"</span>":"")+'</div><button type="button" class="text-button" data-action="cedit" data-id="'+esc(k)+'">Editar</button><button type="button" class="text-button red" data-action="cremove" data-id="'+esc(k)+'">'+(armed==="c"+k?"¿Seguro?":"Eliminar")+"</button></div>"}).join("")||'<div class="empty">Aún no hay cleaners.</div>';
 $("flt").innerHTML='<option value="">Todas</option>'+cl.map(function(c){return'<option value="'+esc(c)+'"'+(c===st.filt?" selected":"")+">"+esc(c)+"</option>"}).join("");
@@ -648,7 +657,7 @@ db.collection("danos").onSnapshot(function(s){st.dmg={};s.docs.forEach(function(
 db.collection("cierres").onSnapshot(function(s){st.cie={};s.docs.forEach(function(d){st.cie[d.id]=d.data()||{}});again()},fail);
 db.collection("propietarios").onSnapshot(function(s){st.own={};s.docs.forEach(function(d){st.own[d.id]=d.data()||{}});again()},fail);
 db.collection("tipos").onSnapshot(function(s){st.tp={};s.docs.forEach(function(d){st.tp[d.id]=d.data()||{}});again()},fail);
-if(admin){db.collection("olvidados").onSnapshot(function(s){st.olv={};s.docs.forEach(function(d){st.olv[d.id]=d.data()||{}});again()},fail);db.collection("incidentes").onSnapshot(function(s){st.inc={};s.docs.forEach(function(d){st.inc[d.id]=d.data()||{}});again()},fail);db.collection("llaves").onSnapshot(function(s){st.llv={};s.docs.forEach(function(d){st.llv[d.id]=d.data()||{}});again()},fail)}
+if(admin){db.collection("olvidados").onSnapshot(function(s){st.olv={};s.docs.forEach(function(d){st.olv[d.id]=d.data()||{}});again()},fail);db.collection("incidentes").onSnapshot(function(s){st.inc={};s.docs.forEach(function(d){st.inc[d.id]=d.data()||{}});again()},fail);db.collection("llaves").onSnapshot(function(s){st.llv={};s.docs.forEach(function(d){st.llv[d.id]=d.data()||{}});again()},fail);db.collection("bloqueos").onSnapshot(function(s){st.blq={};s.docs.forEach(function(d){st.blq[d.id]=d.data()||{}});again()},fail)}
 if(admin)db.collection("huespedes").onSnapshot(function(s){st.hue={};s.docs.forEach(function(d){st.hue[d.id]=d.data()||{}});again()},fail);
 db.collection("inspecciones").onSnapshot(function(s){st.insp={};s.docs.forEach(function(d){st.insp[d.id]=d.data()||{}});again()},fail);
 db.collection("tickets").onSnapshot(function(s){st.tix={};s.docs.forEach(function(d){st.tix[d.id]=d.data()||{}});again()},fail);
@@ -707,7 +716,7 @@ if(editingUnit&&k!==editingUnit){rm("deptos",editingUnit);st.records.forEach(fun
 resetUnit();toast("Departamento guardado.")}
 document.addEventListener("click",function(e){
 var t=e.target,b=t&&t.closest?t.closest("[data-action]"):null;if(!b)return;var a=b.dataset.action,id=b.dataset.id;
-if(["remove","uremove","cremove","pdel","bd_gdel","bd_mdel","bd_adel","man_del","res_rm","pv_del","own_del","tp_del","rf_del","pr_del","alta_open","cie_ok","cie_open","cie_paid","llv_del","llv_back","llv_give","cap_del"].indexOf(a)<0)armed=null;
+if(["remove","uremove","cremove","pdel","bd_gdel","bd_mdel","bd_adel","man_del","res_rm","pv_del","own_del","tp_del","rf_del","pr_del","alta_open","cie_ok","cie_open","cie_paid","llv_del","llv_back","llv_give","cap_del","blq_del"].indexOf(a)<0)armed=null;
 if(a==="addother"){resetForm();$("savedNotice").classList.remove("show");go("editor")}
 if(a==="copy"){var x=reportText();if(x)copy(x,"Reporte completo copiado.")}
 if(a==="share"){var sx=reportText();if(sx&&navigator.share){navigator.share({text:sx}).catch(function(){})}}
@@ -845,7 +854,7 @@ scale:gS('<rect x="3" y="9" width="17" height="5" rx="2.5" fill="'+GK+'"/><rect 
 drum:gS('<circle cx="16" cy="17" r="11" fill="none" stroke="'+GK+'" stroke-width="2.8"/><path d="M6 18c3-2.5 5-2.5 8 0s5 2.5 8 0 4-2 5-1v8H6z" fill="'+GK+'"/><rect x="11" y="1.5" width="10" height="3" rx="1.5" fill="'+GC+'"/>')
 };
 var SECS=[
-["prop","Día a día",[["udet","dep","Departamentos","Agregar y editar"],["idet","inv","Inventario por departamento","Lo que debe haber en cada depto"],["refdet","fot","Fotos de referencia","Cómo debe quedar cada espacio"],["hvdet","hv","Hoja de vida","Tickets, daños y mantenciones"],["altadet","steps","Alta de departamentos","Lo que le falta a cada depto para operar"],["qrdet","inv","Códigos QR","Para pegar en cada depto"],["llvdet","key","Llaves y controles","Controles de estacionamiento, bodegas y llaves de emergencia"]]],
+["prop","Día a día",[["udet","dep","Departamentos","Agregar y editar"],["idet","inv","Inventario por departamento","Lo que debe haber en cada depto"],["refdet","fot","Fotos de referencia","Cómo debe quedar cada espacio"],["hvdet","hv","Hoja de vida","Tickets, daños y mantenciones"],["altadet","steps","Alta de departamentos","Lo que le falta a cada depto para operar"],["qrdet","inv","Códigos QR","Para pegar en cada depto"],["blqdet","cal","Bloqueos y calendario para Airbnb","Cierra fechas en Airbnb desde MOORIA"],["llvdet","key","Llaves y controles","Controles de estacionamiento, bodegas y llaves de emergencia"]]],
 ["prop","Configuración",[["tdet","tip","Tipos de departamento","Tarifas y prendas por recambio"],["rqdet","plus","Requerimientos especiales","Qué agrega una cuna, sofá cama…"],["odet","own","Propietarios","Clientes, comisión y estado de cuenta"]]],
 ["man","Día a día",[["mdet","nut","Tickets de mantención","Reportes, reparaciones y nuevo ticket"],["dmdet","warn","Daños y reclamos a Airbnb","Plazos y montos por reclamar"],["incdet","bell","Incidentes del condominio","Quejas y multas de conserjería"],["pvdet","clock","Mantención preventiva","Tareas periódicas y huecos libres"]]],
 ["man","Configuración",[["prdet","ppl","Proveedores","Gásfiter, electricista, cerrajero…"]]],
@@ -1203,7 +1212,7 @@ if(a==="pv_done"){var y=st.pv[id];if(!y)return;var c=JSON.parse(JSON.stringify(y
 if(a==="pv_tix"){var z=st.pv[id];if(!z)return;var u=z.u||"General";put("tickets","pvt"+Date.now()+Math.random().toString(36).slice(2,4),{unit:u,t:"Preventiva: "+z.t,d:z.u?"":"Aplica a todos los departamentos",prio:"media",est:"abierto",bloq:false,ts:iso(),por:myWho(),origen:"preventiva"});toast("Ticket creado en Mantención.");return}
 if(a==="pv_del"){if(armed==="pv"+id){armed=null;rm("preventivas",id);toast("Tarea eliminada.")}else{armed="pv"+id;renderPv()}return}}
 /* ---------- Respaldo ---------- */
-var VERSION="91",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones","beneficiarios","olvidados","incidentes","llaves"];
+var VERSION="92",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones","beneficiarios","olvidados","incidentes","llaves","bloqueos"];
 function bkOld(){var l=lsGet("mooria_backup_last",0);return!l||Date.now()-l>30*864e5}
 function bkDl(txt,name){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},800)}
 function doBackup(){if(!db||!admin)return;toast("Preparando respaldo…");
@@ -1446,6 +1455,25 @@ if(a==="kp_per"){c.per=b.dataset.p;put("cierres","_kits",c);st.cie["_kits"]=c;re
 if(a==="kp_buf"){var bf={};Array.prototype.forEach.call(document.querySelectorAll("#kpbox input[data-kb]"),function(i){var v=+i.value||0;if(v)bf[i.dataset.kb]=v});c.buf=bf;put("cierres","_kits",c);toast("Respaldo guardado.");return}
 if(a==="kp_done"){var pb=st.plan.kits||{},mk;if(admin){var p=kPer(),P=kitPlan(p);mk={ts:iso(),per:p,a:P.w[0],b:P.w[1],ids:P.R.map(function(r){return r.id}),por:myWho()}}else{if(!pb.ids)return toast("Aún no hay un plan publicado.");mk={ts:iso(),per:pb.per,a:pb.a,b:pb.b,ids:pb.ids.slice(),por:myWho()}}put("planes","armado",mk);st.plan.armado=mk;if(!admin)notify({roles:["admin"]},"Kits armados",myWho()+" armó los kits de "+(pb.label||"").toLowerCase());toast("Plan marcado como armado. Las limpiezas nuevas se descontarán del respaldo.");return}
 if(a==="kp_copy"){var t=admin?kpText(kitPlan(kPer())):(st.plan.kits||{}).txt||"";if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){toast("Plan copiado.")},function(){toast("No se pudo copiar.")});else toast("No se pudo copiar.");return}}
+/* ---------- Bloqueos y calendario hacia Airbnb ---------- */
+var BLM=["Mantención","Uso del propietario","Limpieza profunda","Pintura o reparación","Otro"],blqTokBusy=false;
+function blqList(){var t0=dkey(new Date());return Object.keys(st.blq).map(function(k){var x=st.blq[k];x.id=k;return x}).filter(function(x){return x.b>t0}).sort(function(a,b){return a.a<b.a?-1:1})}
+function calTok(){return(st.cie["_calout"]||{}).tok||{}}
+function calUrl(u){var base=((window.APP_CONFIG||{}).SUPABASE_URL||"").replace(/\/$/,"");return base+"/functions/v1/calendario?u="+encodeURIComponent(u)+"&t="+(calTok()[u]||"")}
+function blqEnsureTok(){if(blqTokBusy||!dataReady)return;var T=JSON.parse(JSON.stringify(calTok())),ch=false;Object.keys(st.units).forEach(function(u){if(!T[u]){var a=new Uint8Array(12);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach(function(_,i){a[i]=Math.random()*256});T[u]=Array.prototype.map.call(a,function(x){return("0"+x.toString(16)).slice(-2)}).join("");ch=true}});if(ch){blqTokBusy=true;put("cierres","_calout",{tok:T});st.cie["_calout"]={tok:T};setTimeout(function(){blqTokBusy=false},3000)}}
+function renderBlq(){var box=$("blqbox");if(!box||!admin)return;blqEnsureTok();var L=blqList(),us=Object.keys(st.units).sort(),sel=$("blqu");
+if(sel&&sel.options.length!==us.length){var cv=sel.value;sel.innerHTML=us.map(function(n){return"<option>"+esc(n)+"</option>"}).join("");if(cv)sel.value=cv}
+var tb=tixList().filter(function(x){return x.bloq&&x.est!=="resuelto"});
+var h='<p class="meta">Lo que bloquees aquí se cierra solo en Airbnb (y en Booking, si lo conectas). Airbnb revisa el calendario cada pocas horas, así que bloquea con algo de anticipación.</p>';
+h+=L.length?L.map(function(x){var ar=armed==="bq"+x.id;return'<div class="cosrow"><b>Depto '+esc(x.unit)+" · "+esc(x.motivo||"Bloqueado")+"</b><span>"+fdate(x.a)+" al "+fdate(addDays(x.b,-1))+(x.nota?" · "+esc(x.nota):"")+'</span><em><button type="button" class="text-button red" data-action="blq_del" data-id="'+esc(x.id)+'">'+(ar?"¿Quitar?":"Quitar")+"</button></em></div>"}).join(""):'<p class="meta">No hay bloqueos activos.</p>';
+if(tb.length)h+='<p class="meta" style="margin-top:8px">🔧 También se bloquean automáticamente mientras sigan abiertos los tickets marcados «bloquea el depto»: '+tb.map(function(x){return esc(x.unit)}).join(", ")+" (se cierran los próximos 3 días y se van renovando).</p>";
+h+='<details class="dd" style="margin-top:12px"><summary>Enlaces para Airbnb (una vez por depto)</summary><div class="ddp"><p class="meta">En Airbnb: Calendario › el depto › Disponibilidad › Conectar calendarios › Importar calendario. Pega el enlace del depto y ponle de nombre «MOORIA».</p>'+us.map(function(u){return'<div class="cosrow"><b>Depto '+esc(u)+'</b><span></span><em><button type="button" class="chip" data-action="blq_copy" data-u="'+esc(u)+'">Copiar enlace</button></em></div>'}).join("")+"</div></details>";
+setH(box,h)}
+function blqAction(a,b){var id=b&&b.dataset?b.dataset.id:"";
+if(a==="blq_save"){var u=$("blqu").value,da=$("blqa").value,db2=$("blqb").value;if(!u||!/^\d{4}-\d{2}-\d{2}$/.test(da)||!/^\d{4}-\d{2}-\d{2}$/.test(db2))return toast("Elige el depto y las dos fechas.");if(db2<da)return toast("La fecha final debe ser igual o posterior a la inicial.");
+var R=resItems().filter(function(r){return r.unit===u&&r.a<addDays(db2,1)&&r.b>da});put("bloqueos","b"+Date.now().toString(36),{unit:u,a:da,b:addDays(db2,1),motivo:$("blqm").value,nota:$("blqn").value.trim(),ts:iso()});$("blqa").value="";$("blqb").value="";$("blqn").value="";toast(R.length?"Bloqueado. Ojo: ya hay una reserva en esas fechas; Airbnb no la cancela.":"Bloqueado. Airbnb lo tomará en unas horas.",5000);return}
+if(a==="blq_del"){if(armed==="bq"+id){armed=null;db.collection("bloqueos").doc(id).delete();toast("Bloqueo quitado. Airbnb liberará las fechas en unas horas.")}else{armed="bq"+id;renderBlq()}return}
+if(a==="blq_copy"){var url=calUrl(b.dataset.u);if(navigator.clipboard)navigator.clipboard.writeText(url).then(function(){toast("Enlace del depto "+b.dataset.u+" copiado. Pégalo en Airbnb.",4000)},function(){prompt("Copia este enlace:",url)});else prompt("Copia este enlace:",url);return}}
 /* ---------- Llaves y tarjetas ---------- */
 var LLT=["Control de estacionamiento","Tarjeta de estacionamiento","Llave de bodega","Llave de emergencia (chapa digital)","Otra"],LLQ=[["oficina","En oficina"],["caja","Caja de seguridad"],["conserjeria","Conserjería"],["depto","Dentro del depto"],["cleaner","Cleaner"],["huesped","Huésped"],["propietario","Propietario"],["proveedor","Proveedor"],["perdida","Perdida"]],editingLlv=null;
 function llvQ(k){var x=LLQ.filter(function(q){return q[0]===k})[0];return x?x[1]:k}
@@ -1987,6 +2015,7 @@ if(/^olv_/.test(a)){olvAction(a,b);return}
 if(/^inc_/.test(a)){incAction(a,b);return}
 if(/^kp_/.test(a)){kpAction(a,b);return}
 if(/^llv_/.test(a)){llvAction(a,b);return}
+if(/^blq_/.test(a)){blqAction(a,b);return}
 if(/^cap_/.test(a)){capAction(a,b);return}
 if(/^xls_/.test(a)){xlsAction(a,b);return}
 if(/^kpi_/.test(a)){kpiM=cosShift(kpiMes(),a==="kpi_prev"?-1:1);renderKpi();return}
