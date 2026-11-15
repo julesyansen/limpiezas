@@ -455,7 +455,7 @@ var MES=["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPT
 var st={units:{},records:[],asg:{},est:{},ejec:{},proto:[],inv:{},art:[],movs:{},guias:{},tix:{},pv:{},dmg:{},cie:{},own:{},tp:{},insp:{},hue:{},olv:{},inc:{},llv:{},plan:{},resv:{},ical:{},cleaners:{},month:"",filt:""},editing=null,editingUnit=null,editingCl=null,armed=null,hl=null,db=null,sb=null,role="",admin=false,pend=false;
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function toast(s){var t=$("toast");t.textContent=s;t.classList.add("show");clearTimeout(toast.id);toast.id=setTimeout(function(){t.classList.remove("show")},2800)}
+function toast(s,ms){var t=$("toast");t.textContent=s;t.classList.add("show");clearTimeout(toast.id);toast.id=setTimeout(function(){t.classList.remove("show")},ms||2800)}
 function err(s){$("warning").textContent=s;$("warning").classList.add("show");toast(s)}
 function isNet(e){return navigator.onLine===false||/fetch|network|load failed|internet|timeout|conexi/i.test((e&&e.message)||"")}
 function fail(e){if(isNet(e))return;toast("No se pudo guardar: "+((e&&e.message)||"sin permiso"))}
@@ -1203,7 +1203,7 @@ if(a==="pv_done"){var y=st.pv[id];if(!y)return;var c=JSON.parse(JSON.stringify(y
 if(a==="pv_tix"){var z=st.pv[id];if(!z)return;var u=z.u||"General";put("tickets","pvt"+Date.now()+Math.random().toString(36).slice(2,4),{unit:u,t:"Preventiva: "+z.t,d:z.u?"":"Aplica a todos los departamentos",prio:"media",est:"abierto",bloq:false,ts:iso(),por:myWho(),origen:"preventiva"});toast("Ticket creado en Mantención.");return}
 if(a==="pv_del"){if(armed==="pv"+id){armed=null;rm("preventivas",id);toast("Tarea eliminada.")}else{armed="pv"+id;renderPv()}return}}
 /* ---------- Respaldo ---------- */
-var VERSION="90",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones","beneficiarios","olvidados","incidentes","llaves"];
+var VERSION="91",BKCOLS=["deptos","limpiezas","asignaciones","cleaners","estados","ejecuciones","protocolo","inventarios","articulos","movs","guias","tickets","reservas","ical","preventivas","danos","cierres","propietarios","tipos","inspecciones","beneficiarios","olvidados","incidentes","llaves"];
 function bkOld(){var l=lsGet("mooria_backup_last",0);return!l||Date.now()-l>30*864e5}
 function bkDl(txt,name){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"application/json"}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},800)}
 function doBackup(){if(!db||!admin)return;toast("Preparando respaldo…");
@@ -1994,7 +1994,7 @@ if(a==="qr_print"){document.body.classList.add("printqr");setTimeout(function(){
 if(a==="ped_send"){var pl=pedPick(),p=pl.filter(function(q){return q.id===b.dataset.p})[0];window.open("https://wa.me/"+(p?prTel(p.tel):"")+"?text="+encodeURIComponent(pedTxt()),"_blank");return}
 if(/^cj_/.test(a)){cjAction(a,b);return}
 if(a==="push_on"){pushOn();return}
-if(a==="push_test"){sb.functions.invoke("push",{body:{to:{roles:[role],names:[myName]},title:"MOORIA",body:"¡Las notificaciones funcionan! 🎉"}}).then(function(r){var d=r&&r.data;toast(d&&d.ok?(d.sent?"Enviada. Debería llegar en segundos.":"No se encontró este teléfono. Vuelve a activar."):"No se pudo enviar: "+((r&&r.error&&r.error.message)||(d&&d.err)||"revisa la función push en Supabase"))}).catch(function(e){toast("No se pudo enviar: "+((e&&e.message)||""))});return}
+if(a==="push_test"){sb.functions.invoke("push",{body:{to:{roles:[role],names:[myName]},title:"MOORIA",body:"¡Las notificaciones funcionan! 🎉"}}).then(function(r){var d=r&&r.data;if(d&&d.ok)return toast(d.sent?"Enviada. Debería llegar en segundos.":"No se encontró este teléfono. Vuelve a activar.");var cx=r&&r.error&&r.error.context,stt=cx&&cx.status;var fin=function(t){var M={401:"la función rechazó tu sesión (revisa Verify JWT)",404:"no existe una función llamada «push» en Supabase",500:"la función falló",503:"la función no arrancó (revisa que el código esté completo)"};toast("No se pudo enviar ("+(stt||"?")+"): "+(M[stt]||"error")+(t?" · "+String(t).slice(0,140):""),9000)};if(cx&&cx.text)cx.text().then(fin,function(){fin("")});else fin((d&&d.err)||(r&&r.error&&r.error.message)||"")}).catch(function(e){toast("No se pudo enviar: "+((e&&e.message)||""))});return}
 if(a==="hv_open"){$("hvu").value=b.dataset.id;$("hvdet").open=true;renderHv();go("hvdet");return}
 if(a==="log_tog"){logOpen=!logOpen;if(logOpen){logRows=null;loadLog()}renderFoot();return}
 if(a==="log_who"){logWho=b.dataset.n||"";renderFoot();return}
